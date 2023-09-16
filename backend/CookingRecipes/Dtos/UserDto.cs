@@ -1,6 +1,6 @@
 ﻿using CookingRecipes.Models;
 
-namespace CookingRecipes.Dto
+namespace CookingRecipes.Dtos
 {
     public class UserDto
     {
@@ -8,6 +8,5 @@ namespace CookingRecipes.Dto
         public string? UserName { get; set; }
         public string? Password { get; set; }
         public string? Email { get; set; }
-        public Role? Role { get; set; }
     }
 }

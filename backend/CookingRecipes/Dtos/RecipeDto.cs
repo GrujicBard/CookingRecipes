@@ -1,4 +1,4 @@
-﻿namespace CookingRecipes.Dto
+﻿namespace CookingRecipes.Dtos
 {
     public class RecipeDto
     {

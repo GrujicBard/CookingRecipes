@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CookingRecipes.Dto;
+using CookingRecipes.Dtos;
 using CookingRecipes.Models;
 
 namespace CookingRecipes.Helper
@@ -13,6 +13,8 @@ namespace CookingRecipes.Helper
             CreateMap<Role, RoleDto>();
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            CreateMap<Review, ReviewDto>();
+
         }
     }
 }

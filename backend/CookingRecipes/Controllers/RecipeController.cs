@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CookingRecipes.Dto;
+using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
 using Microsoft.AspNetCore.Http;
