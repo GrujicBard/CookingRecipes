@@ -1,0 +1,9 @@
+﻿CREATE TABLE recipes(
+	RecipeID INT NOT NULL PRIMARY KEY IDENTITY,
+	Title VARCHAR(50) NOT NULL,
+	Instructions TEXT NOT NULL,
+	ImagePath VARCHAR(100) NULL,
+	Ingredients TEXT NOT NULL,
+	Difficulty INT NULL,
+	RecipeType VARCHAR(10) NULL,
+);
