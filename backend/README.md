@@ -2,5 +2,8 @@
 
 ## Seed
 ### Package Manager Console
-```Add-Migration InitialCreate``` 
-```Update-Database``` 
+```
+Add-Migration InitialCreate
+Update-Database
+``` 
+
