@@ -5,7 +5,6 @@ namespace CookingRecipes.Seed
 {
     public class RecipeSeed
     {
-        private DishType recipeType;
         [Name("Title")]
         public string? Title { get; set; }
         [Name("Cleaned_Ingredients")]

@@ -1,4 +1,6 @@
-﻿namespace CookingRecipes.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace CookingRecipes.Models
 {
     public class Category
     {

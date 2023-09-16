@@ -4,7 +4,7 @@
     {
         private DishType recipeType;
 
-        public string? Id { get; set; }
+        public int? Id { get; set; }
         public string? Title { get; set; }
         public string? Instructions { get; set; } = null;
         public string? ImagePath { get; set;}
@@ -23,18 +23,19 @@
             Dinner = 2,
             Snack = 3,
         }
-
-        //public enum CategoryTypes
-        //{
-        //    Soups = 0,
-        //    Salads = 1,
-        //    Burgers = 2,
-        //    Pizza = 3,
-        //    Rice = 4,
-        //    Seafood = 5,
-        //    Beef = 6,
-        //    Chicken = 7,
-        //    Pork = 8,
-        //}
+        public enum CategoryTypes
+        {
+            Soups = 0,
+            Salads = 1,
+            Burgers = 2,
+            Pizza = 3,
+            Rice = 4,
+            Seafood = 5,
+            Beef = 6,
+            Chicken = 7,
+            Pork = 8,
+            Pasta = 9,
+            Desserts = 10,
+        }
     }
 }
