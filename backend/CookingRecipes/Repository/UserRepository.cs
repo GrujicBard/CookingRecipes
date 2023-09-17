@@ -12,6 +12,12 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
+        public bool CreateUser(User user)
+        {
+            _context.Add(user);
+            return Save();
+        }
+
         public ICollection<Recipe> GetFavoriteRecipesByUser(int userId)
         {
             return _context.UserFavoriteRecipes.Where(u => u.UserId == userId).Select(r => r.Recipe).ToList();
@@ -30,6 +36,11 @@ namespace CookingRecipes.Repository
         public ICollection<User> GetUsers()
         {
             return _context.Users.OrderBy(u => u.UserName).ToList();
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
         }
 
         public bool UserExists(int userId)

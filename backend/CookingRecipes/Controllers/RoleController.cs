@@ -83,5 +83,38 @@ namespace CookingRecipes.Controllers
             return Ok(role);
         }
 
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateRole([FromBody] RoleDto roleCreate)
+        {
+            if (roleCreate == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var role = _roleRepository.GetRoles()
+                .Where( r => r.Name.Trim().ToUpper() == roleCreate.Name.Trim().ToUpper())
+                .FirstOrDefault();
+
+            if (role != null)
+            {
+                ModelState.AddModelError("", "Role already exists.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            var roleMap = _mapper.Map<Role>(roleCreate);
+
+            if (!_roleRepository.CreateRole(roleMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfuly created.");
+        }
+
     }
 }

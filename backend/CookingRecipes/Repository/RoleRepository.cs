@@ -13,6 +13,12 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
+        public bool CreateRole(Role role)
+        {
+            _context.Roles.Add(role);
+            return Save();
+        }
+
         public Role GetRole(int id)
         {
             return _context.Roles.Where(r => r.Id == id).FirstOrDefault();
@@ -36,6 +42,11 @@ namespace CookingRecipes.Repository
         public bool RoleExists(int id)
         {
             return _context.Roles.Any(r => r.Id == id);
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
         }
     }
 }

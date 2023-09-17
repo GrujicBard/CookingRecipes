@@ -18,6 +18,12 @@ namespace CookingRecipes.Repository
             return _context.Categories.Any(c => c.Id == id);
         }
 
+        public bool CreateCategory(Category category)
+        {
+            _context.Add(category);
+            return Save();
+        }
+
         public ICollection<Category> GetCategories()
         {
             return _context.Categories.OrderBy(c => c.Name).ToList();
@@ -31,6 +37,11 @@ namespace CookingRecipes.Repository
         public ICollection<Recipe> GetRecipeByCategory(int categoryId)
         {
             return _context.RecipeCategories.Where(rc  => rc.CategoryId == categoryId).Select(c => c.Recipe).ToList();
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
         }
     }
 }

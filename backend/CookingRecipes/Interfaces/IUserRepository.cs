@@ -9,6 +9,8 @@ namespace CookingRecipes.Interfaces
         ICollection<Review> GetReviewsByUser(int userId);
         ICollection<Recipe> GetFavoriteRecipesByUser(int userId);
         bool UserExists(int userId);
+        bool CreateUser(User user);
+        bool Save();
 
     }
 }
