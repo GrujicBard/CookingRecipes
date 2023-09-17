@@ -80,5 +80,11 @@ namespace CookingRecipes.Repository
         {
             return _context.SaveChanges() > 0;
         }
+
+        public bool UpdateRecipe(Recipe recipe)
+        {
+            _context.Update(recipe);
+            return Save();
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace CookingRecipes.Interfaces
         decimal GetRecipeRating(int id);
         bool RecipeExists(int id);
         bool CreateRecipe(int categoryId, Recipe recipe);
+        bool UpdateRecipe(Recipe recipe);
         bool CreateUserFavoriteRecipe(int userId, int recipeId);
         bool Save();
     }

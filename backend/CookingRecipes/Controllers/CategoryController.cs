@@ -104,7 +104,7 @@ namespace CookingRecipes.Controllers
             return Ok("Successfuly created.");
         }
 
-        [HttpPut]
+        [HttpPut("{categoryId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

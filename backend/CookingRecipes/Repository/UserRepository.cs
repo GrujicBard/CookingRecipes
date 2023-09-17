@@ -43,6 +43,12 @@ namespace CookingRecipes.Repository
             return _context.SaveChanges() > 0;
         }
 
+        public bool UpdateUser(User user)
+        {
+            _context.Update(user);
+            return Save();
+        }
+
         public bool UserExists(int userId)
         {
             return _context.Users.Any(u => u.Id == userId);

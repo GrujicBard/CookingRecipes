@@ -123,5 +123,43 @@ namespace CookingRecipes.Controllers
 
             return Ok("Successfuly created.");
         }
+
+        [HttpPut("{userId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateUser(int userId, [FromBody] UserDto updatedUser)
+        {
+            if (updatedUser == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (userId != updatedUser.Id)
+                if (userId != updatedUser.Id)
+                {
+                    return BadRequest(ModelState);
+                }
+
+            if (!_userRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userMap = _mapper.Map<User>(updatedUser);
+
+            if (!_userRepository.UpdateUser(userMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating user.");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

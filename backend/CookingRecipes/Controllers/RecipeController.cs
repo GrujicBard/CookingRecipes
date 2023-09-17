@@ -13,11 +13,13 @@ namespace ContosoRecipes.Controllers
     public class RecipeController : Controller
     {
         private readonly IRecipeRepository _recipeRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public RecipeController(IRecipeRepository recipeRepository, IMapper mapper)
+        public RecipeController(IRecipeRepository recipeRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _recipeRepository = recipeRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -102,6 +104,44 @@ namespace ContosoRecipes.Controllers
             }
 
             return Ok("Successfuly created.");
+        }
+
+        [HttpPut("{recipeId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateRole(int recipeId, [FromBody] RecipeDto updatedRecipe)
+        {
+            if (updatedRecipe == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (recipeId != updatedRecipe.Id)
+                if (recipeId != updatedRecipe.Id)
+                {
+                    return BadRequest(ModelState);
+                }
+
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var recipeMap = _mapper.Map<Recipe>(updatedRecipe);
+  
+            if (!_recipeRepository.UpdateRecipe(recipeMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating recipe.");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
 
     }

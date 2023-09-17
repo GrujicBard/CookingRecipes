@@ -10,6 +10,7 @@ namespace CookingRecipes.Interfaces
         ICollection<Recipe> GetFavoriteRecipesByUser(int userId);
         bool UserExists(int userId);
         bool CreateUser(User user);
+        bool UpdateUser(User user);
         bool Save();
 
     }
