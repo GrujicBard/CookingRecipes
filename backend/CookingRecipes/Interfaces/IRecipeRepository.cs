@@ -11,6 +11,7 @@ namespace CookingRecipes.Interfaces
         bool RecipeExists(int id);
         bool CreateRecipe(int categoryId, Recipe recipe);
         bool UpdateRecipe(Recipe recipe);
+        bool DeleteRecipe(Recipe recipe);
         bool CreateUserFavoriteRecipe(int userId, int recipeId);
         bool Save();
     }

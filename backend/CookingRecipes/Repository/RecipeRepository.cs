@@ -44,6 +44,12 @@ namespace CookingRecipes.Repository
             return Save();
         }
 
+        public bool DeleteRecipe(Recipe recipe)
+        {
+            _context.Remove(recipe);
+            return Save();
+        }
+
         public Recipe GetRecipe(int id)
         {
             return _context.Recipes.Where(r => r.Id == id).FirstOrDefault();

@@ -18,6 +18,12 @@ namespace CookingRecipes.Repository
             return Save();
         }
 
+        public bool DeleteUser(User user)
+        {
+            _context.Remove(user);
+            return Save();
+        }
+
         public ICollection<Recipe> GetFavoriteRecipesByUser(int userId)
         {
             return _context.UserFavoriteRecipes.Where(u => u.UserId == userId).Select(r => r.Recipe).ToList();

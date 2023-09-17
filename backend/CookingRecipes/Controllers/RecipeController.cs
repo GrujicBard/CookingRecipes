@@ -13,13 +13,13 @@ namespace ContosoRecipes.Controllers
     public class RecipeController : Controller
     {
         private readonly IRecipeRepository _recipeRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
-        public RecipeController(IRecipeRepository recipeRepository, ICategoryRepository categoryRepository, IMapper mapper)
+        public RecipeController(IRecipeRepository recipeRepository, IReviewRepository reviewRepository, IMapper mapper)
         {
             _recipeRepository = recipeRepository;
-            _categoryRepository = categoryRepository;
+            _reviewRepository = reviewRepository;
             _mapper = mapper;
         }
 
@@ -134,7 +134,7 @@ namespace ContosoRecipes.Controllers
             }
 
             var recipeMap = _mapper.Map<Recipe>(updatedRecipe);
-  
+
             if (!_recipeRepository.UpdateRecipe(recipeMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating recipe.");
@@ -142,6 +142,38 @@ namespace ContosoRecipes.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpDelete("{recipeId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteRecipe(int recipeId)
+        {
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                return NotFound();
+            }
+            var reviewsToDelete = _reviewRepository.GetReviewsOfARecipe(recipeId);
+            var recipeToDelete = _recipeRepository.GetRecipe(recipeId);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_reviewRepository.DeleteReviews(reviewsToDelete.ToList()))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting reviews");
+            }
+
+            if (!_recipeRepository.DeleteRecipe(recipeToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting recipe.");
+            }
+
+            return NoContent();
+
         }
 
     }

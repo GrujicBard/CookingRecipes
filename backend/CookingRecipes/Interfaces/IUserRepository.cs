@@ -11,6 +11,7 @@ namespace CookingRecipes.Interfaces
         bool UserExists(int userId);
         bool CreateUser(User user);
         bool UpdateUser(User user);
+        bool DeleteUser(User user);
         bool Save();
 
     }
