@@ -2,6 +2,7 @@
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
+using CookingRecipes.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,23 +71,38 @@ namespace ContosoRecipes.Controllers
             return Ok(recipe);
         }
 
-
         [HttpPost]
-        public ActionResult CreateRecipe()
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateRecipe([FromQuery] int categoryId, [FromBody] RecipeDto recipeCreate)
         {
-            return Ok();
+            if (recipeCreate == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var recipe = _recipeRepository.GetRecipes()
+                .Where(r => r.Title.Trim().ToUpper() == recipeCreate.Title.Trim().ToUpper())
+                .FirstOrDefault();
+
+            if (recipe != null)
+            {
+                ModelState.AddModelError("", "Recipe already exists.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            var recipeMap = _mapper.Map<Recipe>(recipeCreate);
+
+            if (!_recipeRepository.CreateRecipe(categoryId, recipeMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfuly created.");
         }
 
-        [HttpPut]
-        public ActionResult UpdateRecipe()
-        {
-            return Ok();
-        }
-
-        [HttpDelete]
-        public ActionResult DeleteRecipe()
-        {
-            return Ok();
-        }
     }
 }

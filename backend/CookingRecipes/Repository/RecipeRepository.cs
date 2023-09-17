@@ -12,6 +12,38 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
+        public bool CreateRecipe(int categoryId, Recipe recipe)
+        {
+            var category = _context.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
+
+            var recipeCategory = new RecipeCategory()
+            {
+                Category = category,
+                Recipe = recipe,
+            };
+
+            _context.Add(recipeCategory);
+            _context.Add(recipe);
+
+            return Save();
+        }
+
+        public bool CreateUserFavoriteRecipe(int userId, int recipeId)
+        {
+            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+            var recipe = _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefault();
+
+            var userFavoriteRecipe = new UserFavoriteRecipe()
+            {
+                User = user,
+                Recipe = recipe,
+            };
+
+            _context.Add(userFavoriteRecipe);
+
+            return Save();
+        }
+
         public Recipe GetRecipe(int id)
         {
             return _context.Recipes.Where(r => r.Id == id).FirstOrDefault();
@@ -42,6 +74,11 @@ namespace CookingRecipes.Repository
         public bool RecipeExists(int id)
         {
             return _context.Recipes.Any(r => r.Id == id);
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
         }
     }
 }

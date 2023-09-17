@@ -79,8 +79,9 @@ namespace CookingRecipes.Seed
                             RecipeType = recipeTypes[rnd.Next(recipeTypes.Count)],
                             Reviews = new List<Review>()
                             {
-                                new Review() {PostedDate= DateTime.Now, Comment="Very good recipe!", Rating = 5.0M,
-                                User = new User(){UserName = "jack", Password = "1234", Email = "jack@gmail.com",Role = new Role(){Name = "User"}}}
+                                new Review() {Comment="Very good recipe!", Rating = 5.0M,
+                                    User = new User(){UserName = "jack", Password = "1234", Email = "jack@gmail.com",
+                                        Role = new Role(){Name = "User"}}}
                             }
                         },
                         User = new User()

@@ -9,5 +9,8 @@ namespace CookingRecipes.Interfaces
         Recipe GetRecipe(string title);
         decimal GetRecipeRating(int id);
         bool RecipeExists(int id);
+        bool CreateRecipe(int categoryId, Recipe recipe);
+        bool CreateUserFavoriteRecipe(int userId, int recipeId);
+        bool Save();
     }
 }

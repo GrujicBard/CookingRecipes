@@ -8,6 +8,8 @@ namespace CookingRecipes.Interfaces
         Review GetReview(int id);
         ICollection<Review> GetReviewsOfARecipe(int recipeId);
         bool ReviewExists(int Id);
+        bool CreateReview(Review review);
+        bool Save();
 
     }
 }

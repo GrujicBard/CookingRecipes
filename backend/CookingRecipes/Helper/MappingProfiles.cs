@@ -8,17 +8,12 @@ namespace CookingRecipes.Helper
     {
         public MappingProfiles()
         {
-            CreateMap<Recipe, RecipeDto>();
-            CreateMap<RecipeDto, Recipe>();
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryDto, Category>();
-            CreateMap<Role, RoleDto>();
-            CreateMap<RoleDto, Role>();
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
-            CreateMap<Review, ReviewDto>();
-            CreateMap<ReviewDto, Review>();
-
+            CreateMap<Recipe, RecipeDto>().ReverseMap();
+            CreateMap<Category, CategoryDto>().ReverseMap(); ;
+            CreateMap<Role, RoleDto>().ReverseMap(); ;
+            CreateMap<User, UserDto>().ReverseMap(); ;
+            CreateMap<Review, ReviewDto>().ReverseMap(); ;
+            CreateMap<Review, ReviewPostDto>().ReverseMap(); ;
         }
     }
 }

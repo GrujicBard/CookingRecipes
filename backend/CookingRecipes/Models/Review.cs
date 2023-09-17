@@ -11,7 +11,7 @@ namespace CookingRecipes.Models
         public string? Comment { get; set;}
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Rating { get; set;}
-        public DateTime? PostedDate { get; set; }
+        public DateTime? PostedDate { get; set; } = DateTime.Now;
         public User? User { get; set; }
         public Recipe? Recipe { get; set; }
     }

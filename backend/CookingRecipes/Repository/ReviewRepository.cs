@@ -12,6 +12,12 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
+        public bool CreateReview(Review review)
+        {
+            _context.Reviews.Add(review);
+            return Save();
+        }
+
         public Review GetReview(int id)
         {
             return _context.Reviews.Where(r => r.Id == id).FirstOrDefault();
@@ -30,6 +36,11 @@ namespace CookingRecipes.Repository
         public bool ReviewExists(int Id)
         {
             return _context.Reviews.Any(r => r.Id == Id);
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
         }
     }
 }

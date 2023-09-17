@@ -12,11 +12,15 @@ namespace CookingRecipes.Controllers
     public class ReviewController : Controller
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IRecipeRepository _recipeRepository;
         private readonly IMapper _mapper;
 
-        public ReviewController(IReviewRepository reviewRepository, IMapper mapper)
+        public ReviewController(IReviewRepository reviewRepository, IUserRepository userRepository, IRecipeRepository recipeRepository, IMapper mapper)
         {
             _reviewRepository = reviewRepository;
+            _userRepository = userRepository;
+            _recipeRepository = recipeRepository;
             _mapper = mapper;
         }
 
@@ -62,6 +66,41 @@ namespace CookingRecipes.Controllers
             { return BadRequest(ModelState); }
 
             return Ok(reviews);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateReview([FromQuery] int userId, [FromQuery]int recipeId, [FromBody] ReviewPostDto reviewCreate)
+        {
+            if (reviewCreate == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var review = _reviewRepository.GetReviews()
+                .Where(r => r.UserId == userId && r.RecipeId == recipeId)
+                .FirstOrDefault();
+
+            if (review != null)
+            {
+                ModelState.AddModelError("", "Review already exists.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            var reviewMap = _mapper.Map<Review>(reviewCreate);
+            reviewMap.Recipe = _recipeRepository.GetRecipe(recipeId);
+            reviewMap.User = _userRepository.GetUser(userId);
+
+            if (!_reviewRepository.CreateReview(reviewMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfuly created.");
         }
     }
 }
