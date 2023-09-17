@@ -9,6 +9,7 @@ namespace CookingRecipes.Interfaces
         ICollection<Recipe> GetRecipeByCategory(int categoryId);
         bool CategoryExists(int id);
         bool CreateCategory(Category category);
+        bool UpdateCategory(Category category);
         bool Save();
 
     }

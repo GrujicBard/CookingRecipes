@@ -116,5 +116,43 @@ namespace CookingRecipes.Controllers
             return Ok("Successfuly created.");
         }
 
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateRole(int roleId, [FromBody] RoleDto updatedRole)
+        {
+            if (updatedRole == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (roleId != updatedRole.Id)
+            if (roleId != updatedRole.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_roleRepository.RoleExists(roleId))
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roleMap = _mapper.Map<Role>(updatedRole);
+
+            if (!_roleRepository.UpdateRole(roleMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating role.");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
     }
 }

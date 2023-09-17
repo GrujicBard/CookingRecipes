@@ -10,6 +10,7 @@ namespace CookingRecipes.Interfaces
         ICollection<User> GetUsersByRoleId(int roleId);
         bool RoleExists(int id);
         bool CreateRole(Role role);
+        bool UpdateRole(Role role);
         bool Save();
 
     }

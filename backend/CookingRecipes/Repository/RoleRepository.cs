@@ -48,5 +48,11 @@ namespace CookingRecipes.Repository
         {
             return _context.SaveChanges() > 0;
         }
+
+        public bool UpdateRole(Role role)
+        {
+            _context.Update(role);
+            return Save();
+        }
     }
 }
