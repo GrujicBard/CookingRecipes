@@ -12,12 +12,14 @@ namespace CookingRecipes.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRecipeRepository _recipeRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, IRoleRepository roleRepository, IMapper mapper)
+        public UserController(IUserRepository userRepository, IRecipeRepository recipeRepository, IRoleRepository roleRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _recipeRepository = recipeRepository;
             _roleRepository = roleRepository;
             _mapper = mapper;
         }
@@ -124,6 +126,30 @@ namespace CookingRecipes.Controllers
             return Ok("Successfuly created.");
         }
 
+        [HttpPost("recipes/{userId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateFavoriteRecipe(int userId, [FromQuery] int recipeId)
+        {
+            if (!_userRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                return NotFound();
+            }
+
+            if (!_userRepository.AddFavoriteRecipe(userId, recipeId))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfuly favorited recipe.");
+        }
+
         [HttpPut("{userId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
@@ -172,12 +198,16 @@ namespace CookingRecipes.Controllers
             {
                 return NotFound();
             }
-
             var userToDelete = _userRepository.GetUser(userId);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (!_userRepository.RemoveFavoriteRecipes(userId))
+            {
+                ModelState.AddModelError("", "Something went wrong favorite recipes.");
             }
 
             if (!_userRepository.DeleteUser(userToDelete))
@@ -186,7 +216,30 @@ namespace CookingRecipes.Controllers
             }
 
             return NoContent();
+        }
 
+        [HttpDelete("recipes/{userId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteFavoriteRecipe(int userId, [FromQuery] int recipeId)
+        {
+            if (!_userRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                return NotFound();
+            }
+
+            if (!_userRepository.RemoveFavoriteRecipe(userId, recipeId))
+            {
+                ModelState.AddModelError("", "Something went wrong removing favorite recipe.");
+            }
+
+            return NoContent();
         }
     }
 }

@@ -28,22 +28,6 @@ namespace CookingRecipes.Repository
             return Save();
         }
 
-        public bool CreateUserFavoriteRecipe(int userId, int recipeId)
-        {
-            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
-            var recipe = _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefault();
-
-            var userFavoriteRecipe = new UserFavoriteRecipe()
-            {
-                User = user,
-                Recipe = recipe,
-            };
-
-            _context.Add(userFavoriteRecipe);
-
-            return Save();
-        }
-
         public bool DeleteRecipe(Recipe recipe)
         {
             _context.Remove(recipe);

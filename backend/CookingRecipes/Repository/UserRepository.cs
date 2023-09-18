@@ -12,6 +12,22 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
+        public bool AddFavoriteRecipe(int userId, int recipeId)
+        {
+
+            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+            var recipe = _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefault();
+
+            var userFavoriteRecipe = new UserFavoriteRecipe()
+            {
+                User = user,
+                Recipe = recipe,
+            };
+
+            _context.Add(userFavoriteRecipe);
+            return Save();
+        }
+
         public bool CreateUser(User user)
         {
             _context.Add(user);
@@ -31,7 +47,7 @@ namespace CookingRecipes.Repository
 
         public ICollection<Review> GetReviewsByUser(int userId)
         {
-            return _context.Reviews.Where(u => u.UserId == userId).ToList();        
+            return _context.Reviews.Where(u => u.UserId == userId).ToList();
         }
 
         public User GetUser(int id)
@@ -42,6 +58,24 @@ namespace CookingRecipes.Repository
         public ICollection<User> GetUsers()
         {
             return _context.Users.OrderBy(u => u.UserName).ToList();
+        }
+
+        public bool RemoveFavoriteRecipe(int userId, int recipeId)
+        {
+            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+            var recipe = _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefault();
+
+            var favoriteRecipe = _context.UserFavoriteRecipes.Where(f => f.UserId == userId && f.RecipeId == recipeId).FirstOrDefault();
+
+            _context.Remove(favoriteRecipe);
+            return Save();
+        }
+
+        public bool RemoveFavoriteRecipes(int userId)
+        {
+            var favoriteRecipes = _context.UserFavoriteRecipes.Where(f => f.UserId == userId).ToList();
+            _context.RemoveRange(favoriteRecipes);
+            return Save();
         }
 
         public bool Save()
