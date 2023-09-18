@@ -12,7 +12,7 @@ Type the following commands into Package Manager Console to create tables in dat
 `Add-Migration InitialCreate`
 
 `Update-Database`
-### Seeding Database
+### Seed Database
 Recipes data is from [Kaggle: Food Ingredients and Recipes Dataset with Images](https://pages.github.com/](https://www.kaggle.com/datasets/pes12017000148/food-ingredients-and-recipe-dataset-with-images)https://www.kaggle.com/datasets/pes12017000148/food-ingredients-and-recipe-dataset-with-images/).
 
 Rename the .csv file to "recipes.csv". Create an "\Assets" folder and place it inside.
