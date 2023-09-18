@@ -82,7 +82,7 @@ namespace CookingRecipes.Controllers
             }
 
             var category = _categoryRepository.GetCategories().Where(
-                c => c.Name.Trim().ToUpper() == categoryCreate.Name.Trim().ToUpper())
+                c => c.RecipeType.ToString().Trim().ToUpper() == categoryCreate.RecipeType.ToString().Trim().ToUpper())
                 .FirstOrDefault();
 
             if (category != null)

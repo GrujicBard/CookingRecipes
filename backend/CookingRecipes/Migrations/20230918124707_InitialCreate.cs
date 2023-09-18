@@ -17,7 +17,7 @@ namespace CookingRecipes.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RecipeType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,10 +32,10 @@ namespace CookingRecipes.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Instructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Ingredients = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Difficulty = table.Column<int>(type: "int", nullable: true),
-                    RecipeType = table.Column<int>(type: "int", nullable: false)
+                    DishType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

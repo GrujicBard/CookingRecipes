@@ -32,7 +32,7 @@ namespace CookingRecipes.Repository
 
         public ICollection<Category> GetCategories()
         {
-            return _context.Categories.OrderBy(c => c.Name).ToList();
+            return _context.Categories.OrderBy(c => c.Id).ToList();
         }
 
         public Category GetCategory(int id)

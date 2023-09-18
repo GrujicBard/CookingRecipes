@@ -2,7 +2,7 @@ using CookingRecipes.Data;
 using CookingRecipes.Helper;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Repository;
-using CookingRecipes.Seed;
+using CookingRecipes.Data.Seed;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -28,7 +28,9 @@ builder.Services.AddDbContext<DataContext>(options =>
 var app = builder.Build();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
+{
     SeedData(app);
+}   
 
 void SeedData(IHost app)
 {

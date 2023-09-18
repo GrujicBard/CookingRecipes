@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CookingRecipes.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230916121846_InitialCreate")]
+    [Migration("20230918124707_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,8 +33,8 @@ namespace CookingRecipes.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RecipeType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -52,7 +52,10 @@ namespace CookingRecipes.Migrations
                     b.Property<int?>("Difficulty")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<int>("DishType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ingredients")
@@ -60,9 +63,6 @@ namespace CookingRecipes.Migrations
 
                     b.Property<string>("Instructions")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RecipeType")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");

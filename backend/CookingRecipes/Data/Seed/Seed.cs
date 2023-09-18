@@ -9,9 +9,11 @@ using CookingRecipes.Models;
 using CookingRecipes.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
-using static CookingRecipes.Models.Recipe;
+using System.Collections;
+using CookingRecipes.Dtos;
+using CookingRecipes.Data.Enums;
 
-namespace CookingRecipes.Seed
+namespace CookingRecipes.Data.Seed
 {
     public class Seed
     {
@@ -28,15 +30,14 @@ namespace CookingRecipes.Seed
         {
             var csvRecipes = ReadCsv(_csv_file_path);
             Random rnd = new();
-            List<DishType> recipeTypes = Enum.GetValues(typeof(DishType))
-                .Cast<DishType>()
-                .ToList();
+            List<DishType> dishTypes = Enum.GetValues(typeof(DishType)).Cast<DishType>().ToList();
+            List<RecipeType> recipeTypes = Enum.GetValues(typeof(RecipeType)).Cast<RecipeType>().ToList();
 
-            int counter = 0;
-
+            // Recipes
             if (!dataContext.Recipes.Any())
             {
                 var recipes = new List<Recipe>();
+                int counter = 0;
 
                 foreach (var recipe in csvRecipes)
                 {
@@ -45,14 +46,31 @@ namespace CookingRecipes.Seed
                         {
                             Title = recipe.Title,
                             Instructions = recipe.Instructions,
-                            ImagePath = recipe.ImageName,
+                            ImageName = recipe.ImageName,
                             Ingredients = recipe.Ingredients,
                             Difficulty = rnd.Next(4),
-                            RecipeType = recipeTypes[rnd.Next(recipeTypes.Count)]
+                            DishType = dishTypes[rnd.Next(dishTypes.Count)]
                         });
                     if (++counter > _numberOfRecipes) break;
                 }
                 dataContext.Recipes.AddRange(recipes);
+                dataContext.SaveChanges();
+            }
+
+            // Categories
+            if (!dataContext.Categories.Any())
+            {
+                var categories = new List<Category>();
+
+                foreach (var type in recipeTypes)
+                {
+                    categories.Add(
+                        new Category()
+                        {
+                            RecipeType = type
+                        });
+                }
+                dataContext.Categories.AddRange(categories);
                 dataContext.SaveChanges();
             }
         }

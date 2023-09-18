@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using static CookingRecipes.Models.Recipe;
 
-namespace CookingRecipes.Seed
+namespace CookingRecipes.Data.Seed
 {
     public class RecipeSeed
     {
