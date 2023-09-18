@@ -23,3 +23,5 @@ Type the following command into terminal to seed the database:
 
 `dotnet run seeddata`
 
+This will add the recipes from the recipes.csv file to the database.
+
