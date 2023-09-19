@@ -47,17 +47,19 @@ namespace CookingRecipes.Tests.Controller
             #endregion
         }
 
-        [Fact]
-        public void RecipeController_CreateRecipe_ReturnOk()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(12)]
+        [InlineData(300)]
+        public void RecipeController_CreateRecipe_ReturnOk(int categoryId)
         {
             #region Arrange
-            int categoryId = 1;
             var recipe = A.Fake<Recipe>();
             var recipeMap = A.Fake<Recipe>();
             var recipeCreate = A.Fake<RecipeDto>();
             var recipes = A.Fake<ICollection<Recipe>>();
             var recipesList = A.Fake<IList<RecipeDto>>();
-            A.CallTo(() => _recipeRepository.GetRecipeTrimToUpper(recipeCreate)).Returns(recipe);
+            A.CallTo(() => _recipeRepository.GetRecipeTrimToUpper(recipeCreate)).Returns(null);
             A.CallTo(() => _mapper.Map<Recipe>(recipeCreate)).Returns(recipe);
             A.CallTo(() => _recipeRepository.CreateRecipe(categoryId, recipe)).Returns(true);
             var controller = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
@@ -69,6 +71,7 @@ namespace CookingRecipes.Tests.Controller
 
             #region Act
             result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
             #endregion
         }
     }
