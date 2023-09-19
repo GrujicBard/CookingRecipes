@@ -7,6 +7,7 @@ namespace CookingRecipes.Models
 {
     public class Review
     {
+        [Key]
         public int Id { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
