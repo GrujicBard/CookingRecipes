@@ -65,12 +65,12 @@ namespace ContosoRecipes.Controllers
                 return NotFound();
             }
 
-            var recipe = _recipeRepository.GetRecipeRating(id);
+            var avgRating = _recipeRepository.GetRecipeRating(id);
 
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
 
-            return Ok(recipe);
+            return Ok(avgRating);
         }
 
         [HttpPost]
@@ -108,18 +108,12 @@ namespace ContosoRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateRole(int recipeId, [FromBody] RecipeDto updatedRecipe)
+        public IActionResult UpdateRecipe(int recipeId, [FromBody] RecipeDto updatedRecipe)
         {
             if (updatedRecipe == null)
             {
                 return BadRequest(ModelState);
             }
-
-            if (recipeId != updatedRecipe.Id)
-                if (recipeId != updatedRecipe.Id)
-                {
-                    return BadRequest(ModelState);
-                }
 
             if (!_recipeRepository.RecipeExists(recipeId))
             {
