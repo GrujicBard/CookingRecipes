@@ -1,8 +1,10 @@
-﻿namespace CookingRecipes.Dtos
+﻿using CookingRecipes.Data.Enums;
+
+namespace CookingRecipes.Dtos
 {
     public class RoleDto
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public RoleType? RoleType { get; set; }
     }
 }

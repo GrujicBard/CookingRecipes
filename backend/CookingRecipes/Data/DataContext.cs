@@ -42,6 +42,18 @@ namespace CookingRecipes.Data
                 .HasOne(ufr => ufr.User)
                 .WithMany(u => u.UserFavoriteRecipes)
                 .HasForeignKey(ufr => ufr.UserId);
+
+            modelBuilder.Entity<Review>()
+                .HasKey(r => r.Id);
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Recipe)
+                .WithMany(re => re.Reviews)
+                .HasForeignKey(r => r.RecipeId);
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reviews)
+                .HasForeignKey(r => r.UserId);
+
         }
     }
 }

@@ -7,11 +7,8 @@ namespace CookingRecipes.Models
 {
     public class Review
     {
-        [Key]
         public int Id { get; set; }
-        [ForeignKey("User")]
         public int UserId { get; set; }
-        [ForeignKey("Recipe")]
         public int RecipeId { get; set; }
         public string? Comment { get; set; }
         [Column(TypeName = "decimal(18, 2)")]

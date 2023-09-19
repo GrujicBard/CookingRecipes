@@ -94,7 +94,7 @@ namespace CookingRecipes.Controllers
             }
 
             var role = _roleRepository.GetRoles()
-                .Where( r => r.Name.Trim().ToUpper() == roleCreate.Name.Trim().ToUpper())
+                .Where( r => r.RoleType == roleCreate.RoleType)
                 .FirstOrDefault();
 
             if (role != null)

@@ -1,4 +1,5 @@
 ﻿using CookingRecipes.Data;
+using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
 
@@ -59,6 +60,11 @@ namespace CookingRecipes.Repository
         public ICollection<Recipe> GetRecipes()
         {
             return _context.Recipes.OrderBy(r => r.Id).ToList();
+        }
+
+        public Recipe GetRecipeTrimToUpper(RecipeDto recipeCreate)
+        {
+            return GetRecipes().Where(c => c.Title.Trim().ToUpper() == recipeCreate.Title.TrimEnd().ToUpper()).FirstOrDefault();
         }
 
         public bool RecipeExists(int id)

@@ -83,9 +83,7 @@ namespace ContosoRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var recipe = _recipeRepository.GetRecipes()
-                .Where(r => r.Title.Trim().ToUpper() == recipeCreate.Title.Trim().ToUpper())
-                .FirstOrDefault();
+            var recipe = _recipeRepository.GetRecipeTrimToUpper(recipeCreate);
 
             if (recipe != null)
             {

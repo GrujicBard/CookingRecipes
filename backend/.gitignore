@@ -479,4 +479,5 @@ $RECYCLE.BIN/
 
 *.drawio
 
-/Assets/*
+Assets/
+Migrations/

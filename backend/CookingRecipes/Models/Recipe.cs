@@ -6,7 +6,6 @@ namespace CookingRecipes.Models
 {
     public class Recipe
     {
-        [Key]
         public int? Id { get; set; }
         [Required]
         public string? Title { get; set; }

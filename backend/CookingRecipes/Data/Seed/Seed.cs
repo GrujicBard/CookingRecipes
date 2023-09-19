@@ -17,13 +17,13 @@ namespace CookingRecipes.Data.Seed
 {
     public class Seed
     {
-        private readonly DataContext dataContext;
+        private readonly DataContext _dataContext;
         readonly string _csv_file_path = Path.Combine(AppContext.BaseDirectory, "Assets", "recipes.csv");
         readonly int _numberOfRecipes = 50; // How many recipes to add to database
 
         public Seed(DataContext dataContext)
         {
-            this.dataContext = dataContext;
+            this._dataContext = dataContext;
         }
 
         public void SeedDataContext()
@@ -32,9 +32,10 @@ namespace CookingRecipes.Data.Seed
             Random rnd = new();
             List<DishType> dishTypes = Enum.GetValues(typeof(DishType)).Cast<DishType>().ToList();
             List<RecipeType> recipeTypes = Enum.GetValues(typeof(RecipeType)).Cast<RecipeType>().ToList();
+            List<RoleType> roleTypes = Enum.GetValues(typeof(RoleType)).Cast<RoleType>().ToList();
 
             // Recipes
-            if (!dataContext.Recipes.Any())
+            if (!_dataContext.Recipes.Any())
             {
                 var recipes = new List<Recipe>();
                 int counter = 0;
@@ -53,12 +54,12 @@ namespace CookingRecipes.Data.Seed
                         });
                     if (++counter > _numberOfRecipes) break;
                 }
-                dataContext.Recipes.AddRange(recipes);
-                dataContext.SaveChanges();
+                _dataContext.Recipes.AddRange(recipes);
+                _dataContext.SaveChanges();
             }
 
             // Categories
-            if (!dataContext.Categories.Any())
+            if (!_dataContext.Categories.Any())
             {
                 var categories = new List<Category>();
 
@@ -70,8 +71,128 @@ namespace CookingRecipes.Data.Seed
                             RecipeType = type
                         });
                 }
-                dataContext.Categories.AddRange(categories);
-                dataContext.SaveChanges();
+                _dataContext.Categories.AddRange(categories);
+                _dataContext.SaveChanges();
+            }
+
+            // RecipeCategories
+            if (!_dataContext.RecipeCategories.Any())
+            {
+                var recipeCategores = new List<RecipeCategory>();
+
+                for (int i = 1; i < _numberOfRecipes + 1; i++)
+                {
+                    recipeCategores.Add(
+                        new RecipeCategory()
+                        {
+                            RecipeId = i,
+                            CategoryId = rnd.Next(1, recipeTypes.Count() + 1),
+
+                        });
+                }
+                _dataContext.RecipeCategories.AddRange(recipeCategores);
+                _dataContext.SaveChanges();
+            }
+
+            // Users
+            if (!_dataContext.Users.Any())
+            {
+                var users = new List<User>()
+                {
+                    new User()
+                    {
+                        UserName = "Janez",
+                        Email = "janez@gmail.com",
+                        Role = new Role()
+                        {
+                            RoleType = RoleType.User,
+                        }
+
+                    },
+                    new User()
+                    {
+                        UserName = "Bard",
+                        Email = "bard@gmail.com",
+                        Role = new Role()
+                        {
+                            RoleType = RoleType.Admin,
+                        }
+
+                    }
+                };
+                _dataContext.Users.AddRange(users);
+                _dataContext.SaveChanges();
+            }
+
+            if (!_dataContext.Reviews.Any())
+            {
+                // Reviews
+                var reviews = new List<Review>()
+                    {
+                        new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 1,
+                            Rating = 4,
+                            Comment = "Not Bad!",
+                        },
+                         new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 2,
+                            Rating = 5,
+                            Comment = "Excellent recipe!",
+                        },
+                        new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 3,
+                            Rating = 2,
+                            Comment = "I didn't really like the taste.",
+                        },
+                        new Review()
+                        {
+                            UserId = 2,
+                            RecipeId = 1,
+                            Rating = 3,
+                            Comment = "It was okay.",
+                        },
+                        new Review()
+                        {
+                            UserId = 2,
+                            RecipeId = 2,
+                            Rating = 4.5M,
+                            Comment = "It came out wonderfully!",
+                        },
+                        new Review()
+                        {
+                            UserId = 2,
+                            RecipeId = 3,
+                            Rating = 1,
+                            Comment = "I hated it.",
+                        },
+                    };
+                _dataContext.Reviews.AddRange(reviews);
+                _dataContext.SaveChanges();
+            }
+
+            // UserFavoriteRecipes
+            if (!_dataContext.UserFavoriteRecipes.Any())
+            {
+                var userFavoriteRecipes = new List<UserFavoriteRecipe>();
+
+                for (int i = 1; i < _numberOfRecipes/2 + 1; i++)
+                {
+                    userFavoriteRecipes.Add(
+                        new UserFavoriteRecipe()
+                        {
+                            RecipeId = i,
+                            UserId = rnd.Next(1, 3),
+
+                        });
+                }
+                _dataContext.UserFavoriteRecipes.AddRange(userFavoriteRecipes);
+                _dataContext.SaveChanges();
             }
         }
 
