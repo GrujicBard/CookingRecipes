@@ -60,6 +60,11 @@ namespace CookingRecipes.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
         public IActionResult GetReviewsOfARecipe(int recipeId)
         {
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                return NotFound();
+            }
+
             var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviewsOfARecipe(recipeId)).ToList();
 
             if (!ModelState.IsValid)
@@ -71,16 +76,14 @@ namespace CookingRecipes.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateReview([FromQuery] int userId, [FromQuery]int recipeId, [FromBody] ReviewPostDto reviewCreate)
+        public IActionResult CreateReview([FromQuery] int userId, [FromQuery] int recipeId, [FromBody] ReviewPostDto reviewCreate)
         {
             if (reviewCreate == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var review = _reviewRepository.GetReviews()
-                .Where(r => r.UserId == userId && r.RecipeId == recipeId)
-                .FirstOrDefault();
+            var review = _reviewRepository.GetUserReviewOfARecipe(userId, recipeId);
 
             if (review != null)
             {
@@ -110,17 +113,18 @@ namespace CookingRecipes.Controllers
         public IActionResult UpdateReview(int reviewId, [FromBody] ReviewDto updatedReview)
         {
             if (updatedReview == null)
-                return BadRequest(ModelState);
-
-            if (reviewId != updatedReview.Id)
-                return BadRequest(ModelState);
+            { return BadRequest(ModelState); }
 
             if (!_reviewRepository.ReviewExists(reviewId))
+            {
                 return NotFound();
+            }         
 
             if (!ModelState.IsValid)
+            {
                 return BadRequest();
-
+            }
+              
             var reviewMap = _mapper.Map<Review>(updatedReview);
 
             if (!_reviewRepository.UpdateReview(reviewMap))

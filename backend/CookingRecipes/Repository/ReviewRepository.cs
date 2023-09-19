@@ -45,6 +45,11 @@ namespace CookingRecipes.Repository
             return _context.Reviews.Where(r => r.RecipeId == recipeId).ToList();
         }
 
+        public Review GetUserReviewOfARecipe(int userId, int recipeId)
+        {
+            return _context.Reviews.Where(r => r.UserId == userId && r.RecipeId == recipeId).FirstOrDefault();
+        }
+
         public bool ReviewExists(int Id)
         {
             return _context.Reviews.Any(r => r.Id == Id);

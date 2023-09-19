@@ -6,6 +6,7 @@ namespace CookingRecipes.Interfaces
     {
         ICollection<Review> GetReviews();
         Review GetReview(int id);
+        Review GetUserReviewOfARecipe(int userId, int recipeId);
         ICollection<Review> GetReviewsOfARecipe(int recipeId);
         bool ReviewExists(int Id);
         bool CreateReview(Review review);

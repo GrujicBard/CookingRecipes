@@ -16,15 +16,17 @@ namespace CookingRecipes.Tests.Controller
 {
     public class RecipeControllerTests
     {
-        private IRecipeRepository _recipeRepository;
-        private IReviewRepository _reviewRepository;
+        private readonly IRecipeRepository _recipeRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
+        private readonly RecipeController _recipeController;
 
         public RecipeControllerTests()
         {
             _recipeRepository = A.Fake<IRecipeRepository>();
             _reviewRepository = A.Fake<IReviewRepository>();
             _mapper = A.Fake<IMapper>();
+            _recipeController = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
         }
 
         [Fact]
@@ -34,11 +36,10 @@ namespace CookingRecipes.Tests.Controller
             var recipes = A.Fake<ICollection<RecipeDto>>();
             var recipesList = A.Fake<List<RecipeDto>>();
             A.CallTo(() => _mapper.Map<List<RecipeDto>>(recipes)).Returns(recipesList);
-            var controller = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
             #endregion
 
             #region Assert
-            var result = controller.GetRecipes();
+            var result = _recipeController.GetRecipes();
             #endregion
 
             #region Act
@@ -59,11 +60,10 @@ namespace CookingRecipes.Tests.Controller
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
             A.CallTo(() => _recipeRepository.GetRecipe(recipeId)).Returns(recipe);
             A.CallTo(() => _mapper.Map<RecipeDto>(recipe)).Returns(recipeDto);
-            var controller = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
             #endregion
 
             #region Assert
-            var result = controller.GetRecipe(recipeId);
+            var result = _recipeController.GetRecipe(recipeId);
             #endregion
 
             #region Act
@@ -87,11 +87,10 @@ namespace CookingRecipes.Tests.Controller
             A.CallTo(() => _recipeRepository.GetRecipeTrimToUpper(recipeCreate)).Returns(null);
             A.CallTo(() => _mapper.Map<Recipe>(recipeCreate)).Returns(recipe);
             A.CallTo(() => _recipeRepository.CreateRecipe(categoryId, recipe)).Returns(true);
-            var controller = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
             #endregion
 
             #region Assert
-            var result = controller.GetRecipes();
+            var result = _recipeController.GetRecipes();
             
             #endregion
 
@@ -111,11 +110,10 @@ namespace CookingRecipes.Tests.Controller
 
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
             A.CallTo(() => _recipeRepository.GetRecipeRating(recipeId)).Returns(1.5M);
-            var controller = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
             #endregion
 
             #region Assert
-            var result = controller.GetRecipeRating(recipeId);
+            var result = _recipeController.GetRecipeRating(recipeId);
             #endregion
 
             #region Act
@@ -137,11 +135,10 @@ namespace CookingRecipes.Tests.Controller
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
             A.CallTo(() => _mapper.Map<Recipe>(updatedRecipe)).Returns(recipeMap);
             A.CallTo(() => _recipeRepository.UpdateRecipe(recipeMap)).Returns(true);
-            var controller = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
             #endregion
 
             #region Assert
-            var result = controller.UpdateRecipe(recipeId, updatedRecipe);
+            var result = _recipeController.UpdateRecipe(recipeId, updatedRecipe);
 
             #endregion
 
@@ -164,11 +161,10 @@ namespace CookingRecipes.Tests.Controller
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
             A.CallTo(() => _reviewRepository.GetReviewsOfARecipe(recipeId)).Returns(reviewsToDelete);
             A.CallTo(() => _recipeRepository.GetRecipe(recipeId)).Returns(recipeToDelete);
-            var controller = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
             #endregion
 
             #region Assert
-            var result = controller.DeleteRecipe(recipeId);
+            var result = _recipeController.DeleteRecipe(recipeId);
 
             #endregion
 
