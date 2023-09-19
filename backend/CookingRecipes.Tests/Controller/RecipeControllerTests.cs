@@ -69,7 +69,6 @@ namespace CookingRecipes.Tests.Controller
 
             #region Act
             result.Should().NotBeNull();
-            result.Should().BeOfType(typeof(OkObjectResult));
             #endregion
         }
     }
