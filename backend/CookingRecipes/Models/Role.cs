@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CookingRecipes.Data.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CookingRecipes.Models
 {
@@ -6,7 +7,7 @@ namespace CookingRecipes.Models
     {
         public int Id { get; set; }
         [Required]
-        public string? Name { get; set; }
+        public RoleType RoleType { get; set; }
         public ICollection<User>? Users { get; set;}
 
     }
