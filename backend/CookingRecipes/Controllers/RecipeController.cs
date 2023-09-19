@@ -14,12 +14,14 @@ namespace ContosoRecipes.Controllers
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IReviewRepository _reviewRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public RecipeController(IRecipeRepository recipeRepository, IReviewRepository reviewRepository, IMapper mapper)
+        public RecipeController(IRecipeRepository recipeRepository, IReviewRepository reviewRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _recipeRepository = recipeRepository;
             _reviewRepository = reviewRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -71,6 +73,27 @@ namespace ContosoRecipes.Controllers
             { return BadRequest(ModelState); }
 
             return Ok(avgRating);
+        }
+
+        [HttpGet("{categoryId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Recipe>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetRecipesByCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExists(categoryId))
+            {
+                return NotFound();
+            }
+
+            var recipes = _mapper.Map<List<RecipeDto>>(_recipeRepository.GetRecipesByCategory(categoryId));
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(recipes);
         }
 
         [HttpPost]

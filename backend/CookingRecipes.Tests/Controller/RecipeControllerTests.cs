@@ -18,6 +18,7 @@ namespace CookingRecipes.Tests.Controller
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IReviewRepository _reviewRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly RecipeController _recipeController;
 
@@ -25,8 +26,9 @@ namespace CookingRecipes.Tests.Controller
         {
             _recipeRepository = A.Fake<IRecipeRepository>();
             _reviewRepository = A.Fake<IReviewRepository>();
+            _categoryRepository = A.Fake<ICategoryRepository>();
             _mapper = A.Fake<IMapper>();
-            _recipeController = new RecipeController(_recipeRepository, _reviewRepository, _mapper);
+            _recipeController = new RecipeController(_recipeRepository, _reviewRepository,_categoryRepository, _mapper);
         }
 
         [Fact]
@@ -104,16 +106,18 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(4)]
         [InlineData(14)]
         [InlineData(12)]
-        public void RecipeController_GetRecipeRating_ReturnsDecimal(int recipeId)
+        public void RecipeController_GetRecipesByCategory_ReturnsOk(int categoryId)
         {
             #region Arrange
-
-            A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
-            A.CallTo(() => _recipeRepository.GetRecipeRating(recipeId)).Returns(1.5M);
+            var recipesList = A.Fake<ICollection<Recipe>>();
+            var recipesMap = A.Fake<List<RecipeDto>>();
+            A.CallTo(() => _categoryRepository.CategoryExists(categoryId)).Returns(true);
+            A.CallTo(() => _recipeRepository.GetRecipesByCategory(categoryId)).Returns(recipesList);
+            A.CallTo(() => _mapper.Map<List<RecipeDto>>(recipesList)).Returns(recipesMap);
             #endregion
 
             #region Assert
-            var result = _recipeController.GetRecipeRating(recipeId);
+            var result = _recipeController.GetRecipesByCategory(categoryId);
             #endregion
 
             #region Act

@@ -10,6 +10,7 @@ namespace CookingRecipes.Interfaces
         Recipe GetRecipe(string title);
         Recipe GetRecipeTrimToUpper(RecipeDto recipeCreate);
         decimal GetRecipeRating(int id);
+        ICollection<Recipe> GetRecipesByCategory(int categoryId);
         bool RecipeExists(int id);
         bool CreateRecipe(int categoryId, Recipe recipe);
         bool UpdateRecipe(Recipe recipe);

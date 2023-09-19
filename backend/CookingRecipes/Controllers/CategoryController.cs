@@ -54,23 +54,6 @@ namespace CookingRecipes.Controllers
             return Ok(category);
         }
 
-        [HttpGet("recipe/{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Recipe>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetRecipesByCategoryId(int categoryId)
-        {
-            var recipes = _mapper.Map<List<RecipeDto>>(_categoryRepository.GetRecipeByCategory(categoryId));
-
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok(recipes);
-
-        }
-
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -81,9 +64,7 @@ namespace CookingRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var category = _categoryRepository.GetCategories().Where(
-                c => c.RecipeType.ToString().Trim().ToUpper() == categoryCreate.RecipeType.ToString().Trim().ToUpper())
-                .FirstOrDefault();
+            var category = _categoryRepository.GetCategoryTrimToUpper(categoryCreate);
 
             if (category != null)
             {
@@ -111,11 +92,6 @@ namespace CookingRecipes.Controllers
         public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updatedCategory)
         {
             if (updatedCategory == null)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (categoryId != updatedCategory.Id)
             {
                 return BadRequest(ModelState);
             }

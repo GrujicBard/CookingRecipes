@@ -1,4 +1,5 @@
 ﻿using CookingRecipes.Data;
+using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
 
@@ -40,9 +41,9 @@ namespace CookingRecipes.Repository
             return _context.Categories.Where(c => c.Id == id).FirstOrDefault();
         }
 
-        public ICollection<Recipe> GetRecipeByCategory(int categoryId)
+        public Category GetCategoryTrimToUpper(CategoryDto categoryCreate)
         {
-            return _context.RecipeCategories.Where(rc  => rc.CategoryId == categoryId).Select(c => c.Recipe).ToList();
+            return _context.Categories.Where(c => c.RecipeType.ToString().Trim().ToUpper() == categoryCreate.RecipeType.ToString().Trim().ToUpper()).FirstOrDefault();
         }
 
         public bool Save()

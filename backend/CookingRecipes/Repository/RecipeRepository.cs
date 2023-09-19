@@ -62,6 +62,11 @@ namespace CookingRecipes.Repository
             return _context.Recipes.OrderBy(r => r.Id).ToList();
         }
 
+        public ICollection<Recipe> GetRecipesByCategory(int categoryId)
+        {
+            return _context.RecipeCategories.Where(rc => rc.CategoryId == categoryId).Select(c => c.Recipe).ToList();
+        }
+
         public Recipe GetRecipeTrimToUpper(RecipeDto recipeCreate)
         {
             return GetRecipes().Where(c => c.Title.Trim().ToUpper() == recipeCreate.Title.Trim().ToUpper()).FirstOrDefault();
