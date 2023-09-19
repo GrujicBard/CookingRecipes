@@ -26,7 +26,7 @@ namespace CookingRecipes.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
-        public IActionResult GetRecipes()
+        public IActionResult GetUsers()
         {
             var users = _mapper.Map<List<UserDto>>(_userRepository.GetUsers());
 
@@ -59,8 +59,13 @@ namespace CookingRecipes.Controllers
         [HttpGet("recipes/{userId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Recipe>))]
         [ProducesResponseType(400)]
-        public IActionResult GetFavoriteRecipesByUserId(int userId)
+        public IActionResult GetFavoriteRecipesByUser(int userId)
         {
+            if (!_userRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+
             var recipes = _mapper.Map<List<RecipeDto>>(_userRepository.GetFavoriteRecipesByUser(userId));
 
 
@@ -76,8 +81,13 @@ namespace CookingRecipes.Controllers
         [HttpGet("reviews/{userId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
         [ProducesResponseType(400)]
-        public IActionResult GetReviewsByUserId(int userId)
+        public IActionResult GetReviewsByUser(int userId)
         {
+            if (!_userRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+
             var reviews = _mapper.Map<List<ReviewDto>>(_userRepository.GetReviewsByUser(userId));
 
 
@@ -100,10 +110,7 @@ namespace CookingRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = _userRepository.GetUsers()
-                .Where(r => r.UserName.Trim().ToUpper() == userCreate.UserName.Trim().ToUpper()
-                || r.Email.Trim().ToUpper() == userCreate.Email.Trim().ToUpper())
-                .FirstOrDefault();
+            var user = _userRepository.GetUserTrimToUpper(userCreate);
 
             if (user != null)
             {
@@ -129,7 +136,7 @@ namespace CookingRecipes.Controllers
         [HttpPost("recipes/{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateFavoriteRecipe(int userId, [FromQuery] int recipeId)
+        public IActionResult AddFavoriteRecipe(int userId, [FromQuery] int recipeId)
         {
             if (!_userRepository.UserExists(userId))
             {
@@ -160,12 +167,6 @@ namespace CookingRecipes.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            if (userId != updatedUser.Id)
-                if (userId != updatedUser.Id)
-                {
-                    return BadRequest(ModelState);
-                }
 
             if (!_userRepository.UserExists(userId))
             {
@@ -222,7 +223,7 @@ namespace CookingRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteFavoriteRecipe(int userId, [FromQuery] int recipeId)
+        public IActionResult RemoveFavoriteRecipe(int userId, [FromQuery] int recipeId)
         {
             if (!_userRepository.UserExists(userId))
             {

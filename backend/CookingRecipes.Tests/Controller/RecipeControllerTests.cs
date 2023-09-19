@@ -133,7 +133,6 @@ namespace CookingRecipes.Tests.Controller
         public void RecipeController_UpdateRecipe_ReturnsNoContent(int recipeId)
         {
             #region Arrange
-
             var recipeMap = A.Fake<Recipe>();
             var updatedRecipe = A.Fake<RecipeDto>();
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
@@ -143,7 +142,6 @@ namespace CookingRecipes.Tests.Controller
 
             #region Assert
             var result = _recipeController.UpdateRecipe(recipeId, updatedRecipe);
-
             #endregion
 
             #region Act
@@ -159,17 +157,17 @@ namespace CookingRecipes.Tests.Controller
         public void RecipeController_DeleteRecipe_ReturnsNoContent(int recipeId)
         {
             #region Arrange
-
-            var reviewsToDelete = A.Fake<ICollection<Review>>();
+            var reviewsToDelete = A.Fake<List<Review>>();
             var recipeToDelete = A.Fake<Recipe>();
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
             A.CallTo(() => _reviewRepository.GetReviewsOfARecipe(recipeId)).Returns(reviewsToDelete);
             A.CallTo(() => _recipeRepository.GetRecipe(recipeId)).Returns(recipeToDelete);
+            A.CallTo(() => _reviewRepository.DeleteReviews(reviewsToDelete)).Returns(true);
+            A.CallTo(() => _recipeRepository.DeleteRecipe(recipeToDelete)).Returns(true);
             #endregion
 
             #region Assert
             var result = _recipeController.DeleteRecipe(recipeId);
-
             #endregion
 
             #region Act

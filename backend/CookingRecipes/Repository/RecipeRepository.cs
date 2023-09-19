@@ -69,7 +69,7 @@ namespace CookingRecipes.Repository
 
         public Recipe GetRecipeTrimToUpper(RecipeDto recipeCreate)
         {
-            return GetRecipes().Where(c => c.Title.Trim().ToUpper() == recipeCreate.Title.Trim().ToUpper()).FirstOrDefault();
+            return _context.Recipes.Where(c => c.Title.Trim().ToUpper() == recipeCreate.Title.Trim().ToUpper()).FirstOrDefault();
         }
 
         public bool RecipeExists(int id)
