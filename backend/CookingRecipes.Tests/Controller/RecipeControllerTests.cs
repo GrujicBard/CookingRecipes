@@ -28,7 +28,7 @@ namespace CookingRecipes.Tests.Controller
         }
 
         [Fact]
-        public void RecipeController_GetRecipes_ReturnOk()
+        public void RecipeController_GetRecipes_ReturnsOk()
         {
             #region Arrange
             var recipes = A.Fake<ICollection<RecipeDto>>();
@@ -51,7 +51,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void RecipeController_GetRecipe_ReturnOk(int recipeId)
+        public void RecipeController_GetRecipe_ReturnsOk(int recipeId)
         {
             #region Arrange
             var recipe = A.Fake<Recipe>();
@@ -76,7 +76,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(12)]
         [InlineData(300)]
-        public void RecipeController_CreateRecipe_ReturnOk(int categoryId)
+        public void RecipeController_CreateRecipe_ReturnsOk(int categoryId)
         {
             #region Arrange
             var recipe = A.Fake<Recipe>();
@@ -105,7 +105,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(4)]
         [InlineData(14)]
         [InlineData(12)]
-        public void RecipeController_GetRecipeRating_ReturnDecimal(int recipeId)
+        public void RecipeController_GetRecipeRating_ReturnsDecimal(int recipeId)
         {
             #region Arrange
 
