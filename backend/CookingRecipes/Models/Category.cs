@@ -8,6 +8,7 @@ namespace CookingRecipes.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public RecipeType RecipeType { get; set; }
         public ICollection<RecipeCategory>? RecipeCategories { get; set;}
     }
