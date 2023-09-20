@@ -110,11 +110,15 @@ namespace CookingRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = _userRepository.GetUserTrimToUpper(userCreate);
-
-            if (user != null)
+            if (_userRepository.UserNameExists(userCreate.UserName))
             {
-                ModelState.AddModelError("", "User already exists.");
+                ModelState.AddModelError("", "Username already exists.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (_userRepository.EmailExists(userCreate.Email))
+            {
+                ModelState.AddModelError("", "Email already exists.");
                 return StatusCode(422, ModelState);
             }
 

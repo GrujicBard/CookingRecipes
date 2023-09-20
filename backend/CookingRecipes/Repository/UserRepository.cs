@@ -61,12 +61,6 @@ namespace CookingRecipes.Repository
             return _context.Users.OrderBy(u => u.UserName).ToList();
         }
 
-        public User GetUserTrimToUpper(UserDto userCreate)
-        {
-            return _context.Users.Where(r => r.UserName.Trim().ToUpper() == userCreate.UserName.Trim().ToUpper()
-                || r.Email.Trim().ToUpper() == userCreate.Email.Trim().ToUpper()).FirstOrDefault();
-        }
-
         public bool RemoveFavoriteRecipe(int userId, int recipeId)
         {
             var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
@@ -99,6 +93,14 @@ namespace CookingRecipes.Repository
         public bool UserExists(int userId)
         {
             return _context.Users.Any(u => u.Id == userId);
+        }
+        public bool UserNameExists(string username)
+        {
+            return _context.Users.Any(u => u.UserName == username);
+        }
+        public bool EmailExists(string email)
+        {
+            return _context.Users.Any(u => u.Email == email);
         }
     }
 }

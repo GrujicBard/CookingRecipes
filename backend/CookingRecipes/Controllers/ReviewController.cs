@@ -94,7 +94,7 @@ namespace CookingRecipes.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
             var reviewMap = _mapper.Map<Review>(reviewCreate);
-            reviewMap.Recipe = _recipeRepository.GetRecipe(recipeId);
+            reviewMap.Recipe = _recipeRepository.GetRecipeById(recipeId);
             reviewMap.User = _userRepository.GetUser(userId);
 
             if (!_reviewRepository.CreateReview(reviewMap))

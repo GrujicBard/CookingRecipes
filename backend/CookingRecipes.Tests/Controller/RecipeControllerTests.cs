@@ -54,18 +54,40 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void RecipeController_GetRecipe_ReturnsOk(int recipeId)
+        public void RecipeController_GetRecipeById_ReturnsOk(int recipeId)
         {
             #region Arrange
             var recipe = A.Fake<Recipe>();
             var recipeDto = A.Fake<RecipeDto>();
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
-            A.CallTo(() => _recipeRepository.GetRecipe(recipeId)).Returns(recipe);
+            A.CallTo(() => _recipeRepository.GetRecipeById(recipeId)).Returns(recipe);
             A.CallTo(() => _mapper.Map<RecipeDto>(recipe)).Returns(recipeDto);
             #endregion
 
             #region Assert
-            var result = _recipeController.GetRecipe(recipeId);
+            var result = _recipeController.GetRecipeById(recipeId);
+            #endregion
+
+            #region Act
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+            #endregion
+        }
+
+        [Theory]
+        [InlineData("recipe")]
+        [InlineData("pancakes")]
+        public void RecipeController_GetRecipeByTitle_ReturnsOk(string title)
+        {
+            #region Arrange
+            var recipe = A.Fake<Recipe>();
+            var recipeDto = A.Fake<RecipeDto>();
+            A.CallTo(() => _recipeRepository.GetRecipeByTitle(title)).Returns(recipe);
+            A.CallTo(() => _mapper.Map<RecipeDto>(recipe)).Returns(recipeDto);
+            #endregion
+
+            #region Assert
+            var result = _recipeController.GetRecipeByTitle(title);
             #endregion
 
             #region Act
@@ -86,7 +108,7 @@ namespace CookingRecipes.Tests.Controller
             var recipeCreate = A.Fake<RecipeDto>();
             var recipes = A.Fake<ICollection<Recipe>>();
             var recipesList = A.Fake<IList<RecipeDto>>();
-            A.CallTo(() => _recipeRepository.GetRecipeTrimToUpper(recipeCreate)).Returns(null);
+            A.CallTo(() => _recipeRepository.GetRecipeByTitle(recipeCreate.Title)).Returns(null);
             A.CallTo(() => _mapper.Map<Recipe>(recipeCreate)).Returns(recipe);
             A.CallTo(() => _recipeRepository.CreateRecipe(categoryId, recipe)).Returns(true);
             #endregion
@@ -161,7 +183,7 @@ namespace CookingRecipes.Tests.Controller
             var recipeToDelete = A.Fake<Recipe>();
             A.CallTo(() => _recipeRepository.RecipeExists(recipeId)).Returns(true);
             A.CallTo(() => _reviewRepository.GetReviewsOfARecipe(recipeId)).Returns(reviewsToDelete);
-            A.CallTo(() => _recipeRepository.GetRecipe(recipeId)).Returns(recipeToDelete);
+            A.CallTo(() => _recipeRepository.GetRecipeById(recipeId)).Returns(recipeToDelete);
             A.CallTo(() => _reviewRepository.DeleteReviews(reviewsToDelete)).Returns(true);
             A.CallTo(() => _recipeRepository.DeleteRecipe(recipeToDelete)).Returns(true);
             #endregion

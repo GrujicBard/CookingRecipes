@@ -6,9 +6,8 @@ namespace CookingRecipes.Interfaces
     public interface IRecipeRepository
     {
         ICollection<Recipe> GetRecipes();
-        Recipe GetRecipe(int id);
-        Recipe GetRecipe(string title);
-        Recipe GetRecipeTrimToUpper(RecipeDto recipeCreate);
+        Recipe GetRecipeById(int id);
+        Recipe GetRecipeByTitle(string title);
         decimal GetRecipeRating(int id);
         ICollection<Recipe> GetRecipesByCategory(int categoryId);
         bool RecipeExists(int id);

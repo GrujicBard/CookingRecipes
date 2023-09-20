@@ -35,14 +35,14 @@ namespace CookingRecipes.Repository
             return Save();
         }
 
-        public Recipe GetRecipe(int id)
+        public Recipe GetRecipeById(int id)
         {
             return _context.Recipes.Where(r => r.Id == id).FirstOrDefault();
         }
 
-        public Recipe GetRecipe(string title)
+        public Recipe GetRecipeByTitle(string title)
         {
-            return _context.Recipes.Where(r => r.Title == title).FirstOrDefault();
+            return _context.Recipes.Where(r => r.Title.Trim().ToUpper() == title.Trim().ToUpper()).FirstOrDefault();
         }
 
         public decimal GetRecipeRating(int id)
@@ -65,11 +65,6 @@ namespace CookingRecipes.Repository
         public ICollection<Recipe> GetRecipesByCategory(int categoryId)
         {
             return _context.RecipeCategories.Where(rc => rc.CategoryId == categoryId).Select(c => c.Recipe).ToList();
-        }
-
-        public Recipe GetRecipeTrimToUpper(RecipeDto recipeCreate)
-        {
-            return _context.Recipes.Where(c => c.Title.Trim().ToUpper() == recipeCreate.Title.Trim().ToUpper()).FirstOrDefault();
         }
 
         public bool RecipeExists(int id)

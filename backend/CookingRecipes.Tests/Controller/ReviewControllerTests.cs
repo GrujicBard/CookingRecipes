@@ -111,7 +111,7 @@ namespace CookingRecipes.Tests.Controller
             var reviewCreate = A.Fake<ReviewPostDto>();
             A.CallTo(() => _reviewRepository.GetUserReviewOfARecipe(userId, recipeId)).Returns(null);
             A.CallTo(() => _mapper.Map<Review>(reviewCreate)).Returns(reviewMap);
-            A.CallTo(() => _recipeRepository.GetRecipe(recipeId)).Returns(reviewMap.Recipe);
+            A.CallTo(() => _recipeRepository.GetRecipeById(recipeId)).Returns(reviewMap.Recipe);
             A.CallTo(() => _userRepository.GetUser(userId)).Returns(reviewMap.User);
             A.CallTo(() => _reviewRepository.CreateReview(reviewMap)).Returns(true);
             #endregion

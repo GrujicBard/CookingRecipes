@@ -64,9 +64,7 @@ namespace CookingRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var category = _categoryRepository.GetCategoryTrimToUpper(categoryCreate);
-
-            if (category != null)
+            if (_categoryRepository.CategoryTypeExists(categoryCreate.RecipeType))
             {
                 ModelState.AddModelError("", "Category already exists.");
                 return StatusCode(422, ModelState);

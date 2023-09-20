@@ -1,6 +1,7 @@
 ﻿using CookingRecipes.Data;
 using CookingRecipes.Models;
 using CookingRecipes.Repository;
+using FakeItEasy;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,8 +13,7 @@ using System.Threading.Tasks;
 namespace CookingRecipes.Tests.Repository
 {
     public class RecipeRepositoryTests
-    {
-        Random rnd = new();
+    {    
         private async Task<DataContext> GetDataBaseContext()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
@@ -21,6 +21,7 @@ namespace CookingRecipes.Tests.Repository
                 .Options;
             var databaseContext = new DataContext(options);
             databaseContext.Database.EnsureCreated();
+            Random rnd = new();
             if (await databaseContext.Recipes.CountAsync() <= 0)
             {
                 for (int i = 0; i < 10; i++)
@@ -28,7 +29,7 @@ namespace CookingRecipes.Tests.Repository
                     databaseContext.Recipes.Add(
                         new Recipe()
                         {
-                            Title = "pancakes",
+                            Title = "recipe"+i.ToString(),
                             Ingredients = "randomIngredients",
                             Instructions = "randomStuff",
                             DishType = Data.Enums.DishType.Lunch,
@@ -38,8 +39,13 @@ namespace CookingRecipes.Tests.Repository
                             {
                                 new RecipeCategory()
                                 {
-                                    Category = new Category(){ RecipeType = Data.Enums.RecipeType.Rice}
-                                }
+                                    Category = new Category(){ RecipeType = Data.Enums.RecipeType.Beef}
+                                },
+                                new RecipeCategory()
+                                {
+                                    Category = new Category(){ RecipeType = Data.Enums.RecipeType.Soups}
+                                },
+
                             },
                             Reviews = new List<Review>()
                             {
@@ -66,17 +72,19 @@ namespace CookingRecipes.Tests.Repository
             return databaseContext;
         }
 
-        [Fact]
-        public async void RecipeRepository_GetRecipe_ReturnsRecipe()
+        [Theory]
+        [InlineData("recipe1")]
+        [InlineData("recipe2")]
+        [InlineData("recipe3")]
+        public async void RecipeRepository_GetRecipeByTitle_ReturnsRecipe(string title)
         {
             #region Arrange
-            var title = "pancakes";
             var dbContext = await GetDataBaseContext();
             var recipeRepository = new RecipeRepository(dbContext);
             #endregion
 
             #region Act
-            var result = recipeRepository.GetRecipe(title);
+            var result = recipeRepository.GetRecipeByTitle(title);
             #endregion
 
             #region Assert
@@ -85,11 +93,55 @@ namespace CookingRecipes.Tests.Repository
             #endregion
         }
 
-        [Fact]
-        public async void RecipeRepository_GetRecipeRating_ReturnDecimaBetweenOneAndFive()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async void RecipeRepository_GetRecipeById_ReturnsRecipe(int recipeId)
         {
             #region Arrange
-            var recipeId = 1;
+            var dbContext = await GetDataBaseContext();
+            var recipeRepository = new RecipeRepository(dbContext);
+            #endregion
+
+            #region Act
+            var result = recipeRepository.GetRecipeById(recipeId);
+            #endregion
+
+            #region Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Recipe>();
+            #endregion
+        }
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(4)]
+        public async void RecipeRepository_GetRecipesByCategory_ReturnsList(int categoryId)
+        {
+            #region Arrange
+            var dbContext = await GetDataBaseContext();
+            var recipeRepository = new RecipeRepository(dbContext);
+            #endregion
+
+            #region Act
+            var result = recipeRepository.GetRecipesByCategory(categoryId);
+            #endregion
+
+            #region Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<List<Recipe>>();
+            result.Count.Should().BeGreaterThan(0);
+            #endregion
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async void RecipeRepository_GetRecipeRating_ReturnsDecimaBetweenOneAndFive(int recipeId)
+        {
+            #region Arrange
             var dbContext = await GetDataBaseContext();
             var recipeRepository = new RecipeRepository(dbContext);
             #endregion
@@ -101,6 +153,25 @@ namespace CookingRecipes.Tests.Repository
             #region Assert
             result.Should().NotBe(0);
             result.Should().BeInRange(1, 5);
+            #endregion
+        }
+
+        [Fact]
+        public async void RecipeRepository_GetRecipes_ReturnsList()
+        {
+            #region Arrange
+            var dbContext = await GetDataBaseContext();
+            var recipeRepository = new RecipeRepository(dbContext);
+            #endregion
+
+            #region Act
+            var result = recipeRepository.GetRecipes();
+            #endregion
+
+            #region Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<List<Recipe>>();
+            result.Count.Should().BeGreaterThan(0);
             #endregion
         }
     }

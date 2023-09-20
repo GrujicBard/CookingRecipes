@@ -1,4 +1,5 @@
-﻿using CookingRecipes.Dtos;
+﻿using CookingRecipes.Data.Enums;
+using CookingRecipes.Dtos;
 using CookingRecipes.Models;
 
 namespace CookingRecipes.Interfaces
@@ -7,8 +8,8 @@ namespace CookingRecipes.Interfaces
     {
         ICollection<Category> GetCategories();
         Category GetCategory(int id);
-        Category GetCategoryTrimToUpper(CategoryDto categoryCreate);
         bool CategoryExists(int id);
+        bool CategoryTypeExists(RecipeType recipeType);
         bool CreateCategory(Category category);
         bool UpdateCategory(Category category);
         bool DeleteCategory(Category category);

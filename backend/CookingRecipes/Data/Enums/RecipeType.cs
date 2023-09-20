@@ -21,5 +21,7 @@
         Pork,
         Pasta,
         Desserts,
+        //Meat,
+        //Vegen
     }
 }

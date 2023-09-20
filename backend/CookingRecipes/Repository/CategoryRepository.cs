@@ -1,4 +1,5 @@
 ﻿using CookingRecipes.Data;
+using CookingRecipes.Data.Enums;
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
@@ -17,6 +18,11 @@ namespace CookingRecipes.Repository
         public bool CategoryExists(int id)
         {
             return _context.Categories.Any(c => c.Id == id);
+        }
+
+        public bool CategoryTypeExists(RecipeType recipeType)
+        {
+            return _context.Categories.Any(c => c.RecipeType == recipeType);
         }
 
         public bool CreateCategory(Category category)
@@ -39,11 +45,6 @@ namespace CookingRecipes.Repository
         public Category GetCategory(int id)
         {
             return _context.Categories.Where(c => c.Id == id).FirstOrDefault();
-        }
-
-        public Category GetCategoryTrimToUpper(CategoryDto categoryCreate)
-        {
-            return _context.Categories.Where(c => c.RecipeType.ToString().Trim().ToUpper() == categoryCreate.RecipeType.ToString().Trim().ToUpper()).FirstOrDefault();
         }
 
         public bool Save()

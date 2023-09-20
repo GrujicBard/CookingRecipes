@@ -42,14 +42,33 @@ namespace ContosoRecipes.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Recipe))]
         [ProducesResponseType(400)]
-        public IActionResult GetRecipe(int id)
+        public IActionResult GetRecipeById(int id)
         {
             if (!_recipeRepository.RecipeExists(id))
             {
                 return NotFound();
             }
 
-            var recipe = _mapper.Map<RecipeDto>(_recipeRepository.GetRecipe(id));
+            var recipe = _mapper.Map<RecipeDto>(_recipeRepository.GetRecipeById(id));
+
+            if (!ModelState.IsValid)
+            { return BadRequest(ModelState); }
+
+            return Ok(recipe);
+        }
+
+        [HttpGet("title/{title}")]
+        [ProducesResponseType(200, Type = typeof(Recipe))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult GetRecipeByTitle(string title)
+        {
+            var recipe = _mapper.Map<RecipeDto>(_recipeRepository.GetRecipeByTitle(title));
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
 
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
@@ -75,7 +94,7 @@ namespace ContosoRecipes.Controllers
             return Ok(avgRating);
         }
 
-        [HttpGet("{categoryId}")]
+        [HttpGet("category/{categoryId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Recipe>))]
         [ProducesResponseType(400)]
         public IActionResult GetRecipesByCategory(int categoryId)
@@ -106,7 +125,7 @@ namespace ContosoRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var recipe = _recipeRepository.GetRecipeTrimToUpper(recipeCreate);
+            var recipe = _recipeRepository.GetRecipeByTitle(recipeCreate.Title);
 
             if (recipe != null)
             {
@@ -170,7 +189,7 @@ namespace ContosoRecipes.Controllers
                 return NotFound();
             }
             var reviewsToDelete = _reviewRepository.GetReviewsOfARecipe(recipeId);
-            var recipeToDelete = _recipeRepository.GetRecipe(recipeId);
+            var recipeToDelete = _recipeRepository.GetRecipeById(recipeId);
 
             if (!ModelState.IsValid)
             {

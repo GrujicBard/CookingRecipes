@@ -82,7 +82,7 @@ namespace CookingRecipes.Tests.Controller
             var recipeCreate = A.Fake<RecipeDto>();
             var recipes = A.Fake<ICollection<Recipe>>();
             var recipesList = A.Fake<IList<RecipeDto>>();
-            A.CallTo(() => _categoryRepository.GetCategoryTrimToUpper(categoryCreate)).Returns(null);
+            A.CallTo(() => _categoryRepository.CategoryTypeExists(categoryCreate.RecipeType)).Returns(false);
             A.CallTo(() => _mapper.Map<Category>(categoryCreate)).Returns(category);
             A.CallTo(() => _categoryRepository.CreateCategory(category)).Returns(true);
             #endregion

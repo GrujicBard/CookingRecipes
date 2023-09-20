@@ -7,13 +7,14 @@ namespace CookingRecipes.Interfaces
     {
         ICollection<User> GetUsers();
         User GetUser(int id);
-        User GetUserTrimToUpper(UserDto userCreate);
         ICollection<Review> GetReviewsByUser(int userId);
         ICollection<Recipe> GetFavoriteRecipesByUser(int userId);
         bool AddFavoriteRecipe(int userId, int recipeId);
         bool RemoveFavoriteRecipe(int userId, int recipeId);
         bool RemoveFavoriteRecipes(int userId);
         bool UserExists(int userId);
+        bool UserNameExists(string username);
+        bool EmailExists(string email);
         bool CreateUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(User user);

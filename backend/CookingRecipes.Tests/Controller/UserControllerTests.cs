@@ -133,7 +133,8 @@ namespace CookingRecipes.Tests.Controller
             #region Arrange
             var userMap = A.Fake<User>();
             var userCreate = A.Fake<UserDto>();
-            A.CallTo(() => _userRepository.GetUserTrimToUpper(userCreate)).Returns(null);
+            A.CallTo(() => _userRepository.UserNameExists(userCreate.UserName)).Returns(false);
+            A.CallTo(() => _userRepository.EmailExists(userCreate.Email)).Returns(false);
             A.CallTo(() => _mapper.Map<User>(userCreate)).Returns(userMap);
             A.CallTo(() => _roleRepository.GetRole(roleId)).Returns(userMap.Role);
             A.CallTo(() => _userRepository.CreateUser(userMap)).Returns(true);
