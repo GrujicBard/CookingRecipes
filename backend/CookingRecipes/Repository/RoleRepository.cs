@@ -1,6 +1,8 @@
 ﻿using CookingRecipes.Data;
+using CookingRecipes.Data.Enums;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CookingRecipes.Repository
 {
@@ -13,36 +15,36 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
-        public bool CreateRole(Role role)
+        public async Task<bool> CreateRole(Role role)
         {
-            _context.Roles.Add(role);
-            return Save();
+            await _context.Roles.AddAsync(role);
+            return await Save();
         }
 
-        public bool DeleteRole(Role role)
+        public async Task<bool> DeleteRole(Role role)
         {
             _context.Remove(role);
-            return Save();
+            return await Save();
         }
 
-        public Role GetRole(int id)
+        public async Task<Role> GetRole(int id)
         {
-            return _context.Roles.Where(r => r.Id == id).FirstOrDefault();
+            return await _context.Roles.Where(r => r.Id == id).FirstOrDefaultAsync();
         }
 
-        public Role GetRoleByUser(int userId)
+        public async Task<Role> GetRoleByUser(int userId)
         {
-            return _context.Users.Where(u => u.Id == userId).Select(r => r.Role).FirstOrDefault();
+            return await _context.Users.Where(u => u.Id == userId).Select(r => r.Role).FirstOrDefaultAsync();
         }
 
-        public ICollection<Role> GetRoles()
+        public async Task<ICollection<Role>> GetRoles()
         {
-            return _context.Roles.ToList();
+            return await _context.Roles.ToListAsync();
         }
 
-        public ICollection<User> GetUsersByRoleId(int roleId)
+        public async Task<ICollection<User>> GetUsersByRoleId(int roleId)
         {
-            return _context.Users.Where(u => u.Role.Id == roleId).ToList();
+            return await _context.Users.Where(u => u.Role.Id == roleId).ToListAsync();
         }
 
         public bool RoleExists(int id)
@@ -50,15 +52,20 @@ namespace CookingRecipes.Repository
             return _context.Roles.Any(r => r.Id == id);
         }
 
-        public bool Save()
+        public bool RoleTypeExists(RoleType roleType)
         {
-            return _context.SaveChanges() > 0;
+            return _context.Roles.Where(r => r.RoleType == roleType).Any();
         }
 
-        public bool UpdateRole(Role role)
+        public async Task<bool> Save()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> UpdateRole(Role role)
         {
             _context.Update(role);
-            return Save();
+            return await Save();
         }
     }
 }

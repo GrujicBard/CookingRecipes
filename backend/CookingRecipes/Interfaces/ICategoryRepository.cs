@@ -6,14 +6,14 @@ namespace CookingRecipes.Interfaces
 {
     public interface ICategoryRepository
     {
-        ICollection<Category> GetCategories();
-        Category GetCategory(int id);
+        Task<ICollection<Category>> GetCategories();
+        Task<Category> GetCategory(int id);
         bool CategoryExists(int id);
         bool CategoryTypeExists(RecipeType recipeType);
-        bool CreateCategory(Category category);
-        bool UpdateCategory(Category category);
-        bool DeleteCategory(Category category);
-        bool Save();
+        Task<bool> CreateCategory(Category category);
+        Task<bool> UpdateCategory(Category category);
+        Task<bool> DeleteCategory(Category category);
+        Task<bool> Save();
 
     }
 }

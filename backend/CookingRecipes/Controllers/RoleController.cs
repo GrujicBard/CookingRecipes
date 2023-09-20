@@ -23,9 +23,9 @@ namespace CookingRecipes.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Role>))]
-        public IActionResult GetRoles()
+        public async Task<IActionResult> GetRoles()
         {
-            var roles = _mapper.Map<List<RoleDto>>(_roleRepository.GetRoles());
+            var roles = _mapper.Map<List<RoleDto>>(await _roleRepository.GetRoles());
 
             if (!ModelState.IsValid)
             {
@@ -38,14 +38,14 @@ namespace CookingRecipes.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Role))]
         [ProducesResponseType(400)]
-        public IActionResult GetRole(int id)
+        public async Task<IActionResult> GetRole(int id)
         {
             if (!_roleRepository.RoleExists(id))
             {
                 return NotFound();
             }
 
-            var role = _mapper.Map<RoleDto>(_roleRepository.GetRole(id));
+            var role = _mapper.Map<RoleDto>(await _roleRepository.GetRole(id));
 
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
@@ -56,9 +56,9 @@ namespace CookingRecipes.Controllers
         [HttpGet("/users/{roleId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
         [ProducesResponseType(400)]
-        public IActionResult GetUsersByRoleId(int roleId)
+        public async Task<IActionResult> GetUsersByRoleId(int roleId)
         {
-            var users = _mapper.Map<List<UserDto>>(_roleRepository.GetUsersByRoleId(roleId));
+            var users = _mapper.Map<List<UserDto>>(await _roleRepository.GetUsersByRoleId(roleId));
 
             if (!ModelState.IsValid)
             {
@@ -71,9 +71,9 @@ namespace CookingRecipes.Controllers
         [HttpGet("/user/{userId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Role>))]
         [ProducesResponseType(400)]
-        public IActionResult GetRoleByUser(int userId)
+        public async Task<IActionResult> GetRoleByUser(int userId)
         {
-            var role = _mapper.Map<RoleDto>(_roleRepository.GetRoleByUser(userId));
+            var role = _mapper.Map<RoleDto>(await _roleRepository.GetRoleByUser(userId));
 
             if (!ModelState.IsValid)
             { 
@@ -86,18 +86,14 @@ namespace CookingRecipes.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateRole([FromBody] RoleDto roleCreate)
+        public async Task<IActionResult> CreateRole([FromBody] RoleDto roleCreate)
         {
             if (roleCreate == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var role = _roleRepository.GetRoles()
-                .Where( r => r.RoleType == roleCreate.RoleType)
-                .FirstOrDefault();
-
-            if (role != null)
+            if (_roleRepository.RoleTypeExists((Data.Enums.RoleType)roleCreate.RoleType))
             {
                 ModelState.AddModelError("", "Role already exists.");
                 return StatusCode(422, ModelState);
@@ -107,7 +103,7 @@ namespace CookingRecipes.Controllers
 
             var roleMap = _mapper.Map<Role>(roleCreate);
 
-            if (!_roleRepository.CreateRole(roleMap))
+            if (!await _roleRepository.CreateRole(roleMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
@@ -120,7 +116,7 @@ namespace CookingRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateRole(int roleId, [FromBody] RoleDto updatedRole)
+        public async Task<IActionResult> UpdateRole(int roleId, [FromBody] RoleDto updatedRole)
         {
             if (updatedRole == null)
             {
@@ -145,7 +141,7 @@ namespace CookingRecipes.Controllers
 
             var roleMap = _mapper.Map<Role>(updatedRole);
 
-            if (!_roleRepository.UpdateRole(roleMap))
+            if (!await _roleRepository.UpdateRole(roleMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating role.");
                 return StatusCode(500, ModelState);
@@ -158,21 +154,21 @@ namespace CookingRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteRole(int roleId)
+        public async Task<IActionResult> DeleteRole(int roleId)
         {
             if (!_roleRepository.RoleExists(roleId))
             {
                 return NotFound();
             }
 
-            var roleToDelete = _roleRepository.GetRole(roleId);
+            var roleToDelete = await _roleRepository.GetRole(roleId);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (!_roleRepository.DeleteRole(roleToDelete))
+             
+            if (!await _roleRepository.DeleteRole(roleToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong deleting role.");
             }

@@ -26,9 +26,9 @@ namespace CookingRecipes.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
-        public IActionResult GetReviews()
+        public async Task<IActionResult> GetReviews()
         {
-            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviews());
+            var reviews = _mapper.Map<List<ReviewDto>>(await _reviewRepository.GetReviews());
 
             if (!ModelState.IsValid)
             {
@@ -41,14 +41,14 @@ namespace CookingRecipes.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Review))]
         [ProducesResponseType(400)]
-        public IActionResult GetReview(int id)
+        public async Task<IActionResult> GetReview(int id)
         {
             if (!_reviewRepository.ReviewExists(id))
             {
                 return NotFound();
             }
 
-            var review = _mapper.Map<ReviewDto>(_reviewRepository.GetReview(id));
+            var review = _mapper.Map<ReviewDto>(await _reviewRepository.GetReview(id));
 
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
@@ -58,14 +58,14 @@ namespace CookingRecipes.Controllers
 
         [HttpGet("recipes/{recipeId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
-        public IActionResult GetReviewsOfARecipe(int recipeId)
+        public async Task<IActionResult> GetReviewsOfARecipe(int recipeId)
         {
             if (!_recipeRepository.RecipeExists(recipeId))
             {
                 return NotFound();
             }
 
-            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviewsOfARecipe(recipeId)).ToList();
+            var reviews = _mapper.Map<List<ReviewDto>>(await _reviewRepository.GetReviewsOfARecipe(recipeId)).ToList();
 
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
@@ -76,14 +76,14 @@ namespace CookingRecipes.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateReview([FromQuery] int userId, [FromQuery] int recipeId, [FromBody] ReviewPostDto reviewCreate)
+        public async Task<IActionResult> CreateReview([FromQuery] int userId, [FromQuery] int recipeId, [FromBody] ReviewPostDto reviewCreate)
         {
             if (reviewCreate == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var review = _reviewRepository.GetUserReviewOfARecipe(userId, recipeId);
+            var review = await _reviewRepository.GetUserReviewOfARecipe(userId, recipeId);
 
             if (review != null)
             {
@@ -94,10 +94,10 @@ namespace CookingRecipes.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
             var reviewMap = _mapper.Map<Review>(reviewCreate);
-            reviewMap.Recipe = _recipeRepository.GetRecipeById(recipeId);
-            reviewMap.User = _userRepository.GetUser(userId);
+            reviewMap.Recipe = await _recipeRepository.GetRecipeById(recipeId);
+            reviewMap.User = await _userRepository.GetUser(userId);
 
-            if (!_reviewRepository.CreateReview(reviewMap))
+            if (!await _reviewRepository.CreateReview(reviewMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
@@ -110,7 +110,7 @@ namespace CookingRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateReview(int reviewId, [FromBody] ReviewDto updatedReview)
+        public async Task<IActionResult> UpdateReview(int reviewId, [FromBody] ReviewDto updatedReview)
         {
             if (updatedReview == null)
             { return BadRequest(ModelState); }
@@ -127,7 +127,7 @@ namespace CookingRecipes.Controllers
               
             var reviewMap = _mapper.Map<Review>(updatedReview);
 
-            if (!_reviewRepository.UpdateReview(reviewMap))
+            if (!await _reviewRepository.UpdateReview(reviewMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating review.");
                 return StatusCode(500, ModelState);
@@ -140,21 +140,21 @@ namespace CookingRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteReview(int reviewId)
+        public async Task<IActionResult> DeleteReview(int reviewId)
         {
             if (!_reviewRepository.ReviewExists(reviewId))
             {
                 return NotFound();
             }
 
-            var reviewToDelete = _reviewRepository.GetReview(reviewId);
+            var reviewToDelete = await _reviewRepository.GetReview(reviewId);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (!_reviewRepository.DeleteReview(reviewToDelete))
+            if (!await _reviewRepository.DeleteReview(reviewToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong deleting review.");
             }

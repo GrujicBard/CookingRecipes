@@ -30,7 +30,7 @@ namespace CookingRecipes.Tests.Controller
         }
 
         [Fact]
-        public void RecipeController_GetCategories_ReturnsOk()
+        public async void RecipeController_GetCategories_ReturnsOk()
         {
             #region Arrange
             var categories = A.Fake<ICollection<CategoryDto>>();
@@ -39,7 +39,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _categoryController.GetCategories();
+            var result = await _categoryController.GetCategories();
             #endregion
 
             #region Act
@@ -52,7 +52,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void CategoryController_GetCategory_ReturnsOk(int categoryId)
+        public async void CategoryController_GetCategory_ReturnsOk(int categoryId)
         {
             #region Arrange
             var category = A.Fake<Category>();
@@ -63,7 +63,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _categoryController.GetCategory(categoryId);
+            var result = await _categoryController.GetCategory(categoryId);
             #endregion
 
             #region Act
@@ -73,7 +73,7 @@ namespace CookingRecipes.Tests.Controller
         }
 
         [Fact]
-        public void CategoryController_CreateCategory_ReturnsOk()
+        public async void CategoryController_CreateCategory_ReturnsOk()
         {
             #region Arrange
             var category = A.Fake<Category>();
@@ -88,7 +88,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _categoryController.CreateCategory(categoryCreate);
+            var result = await _categoryController.CreateCategory(categoryCreate);
 
             #endregion
 
@@ -102,7 +102,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void CategoryController_UpdateCategory_ReturnsNoContent(int categoryId)
+        public async void CategoryController_UpdateCategory_ReturnsNoContentAsync(int categoryId)
         {
             #region Arrange
 
@@ -114,7 +114,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _categoryController.UpdateCategory(categoryId, updatedCategory);
+            var result = await _categoryController.UpdateCategory(categoryId, updatedCategory);
 
             #endregion
 
@@ -128,7 +128,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(4)]
         [InlineData(5)]
         [InlineData(6)]
-        public void CategoryController_DeleteCategory_ReturnsNoContent(int categoryId)
+        public async void CategoryController_DeleteCategory_ReturnsNoContentAsync(int categoryId)
         {
             #region Arrange
             var categoryToDelete = A.Fake<Category>();
@@ -137,7 +137,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _categoryController.DeleteCategory(categoryId);
+            var result = await _categoryController.DeleteCategory(categoryId);
             #endregion
 
             #region Act
@@ -145,7 +145,5 @@ namespace CookingRecipes.Tests.Controller
             result.Should().BeOfType(typeof(NoContentResult));
             #endregion
         }
-
-
     }
 }

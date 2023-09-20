@@ -3,6 +3,7 @@ using CookingRecipes.Data.Enums;
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CookingRecipes.Repository
 {
@@ -25,37 +26,37 @@ namespace CookingRecipes.Repository
             return _context.Categories.Any(c => c.RecipeType == recipeType);
         }
 
-        public bool CreateCategory(Category category)
+        public async Task<bool> CreateCategory(Category category)
         {
-            _context.Add(category);
-            return Save();
+            await _context.AddAsync(category);
+            return await Save();
         }
 
-        public bool DeleteCategory(Category category)
+        public async Task<bool> DeleteCategory(Category category)
         {
             _context.Remove(category);
-            return Save();
+            return await Save();
         }
 
-        public ICollection<Category> GetCategories()
+        public async Task<ICollection<Category>> GetCategories()
         {
-            return _context.Categories.OrderBy(c => c.Id).ToList();
+            return await _context.Categories.OrderBy(c => c.Id).ToListAsync();
         }
 
-        public Category GetCategory(int id)
+        public async Task<Category> GetCategory(int id)
         {
-            return _context.Categories.Where(c => c.Id == id).FirstOrDefault();
+            return await _context.Categories.Where(c => c.Id == id).FirstOrDefaultAsync();
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateCategory(Category category)
+        public async Task<bool> UpdateCategory(Category category)
         {
             _context.Update(category);
-            return Save();
+            return await Save();
         }
     }
 }

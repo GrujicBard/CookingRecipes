@@ -5,20 +5,20 @@ namespace CookingRecipes.Interfaces
 {
     public interface IUserRepository
     {
-        ICollection<User> GetUsers();
-        User GetUser(int id);
-        ICollection<Review> GetReviewsByUser(int userId);
-        ICollection<Recipe> GetFavoriteRecipesByUser(int userId);
-        bool AddFavoriteRecipe(int userId, int recipeId);
-        bool RemoveFavoriteRecipe(int userId, int recipeId);
-        bool RemoveFavoriteRecipes(int userId);
+        Task<ICollection<User>> GetUsers();
+        Task<User> GetUser(int id);
+        Task<ICollection<Review>> GetReviewsByUser(int userId);
+        Task<ICollection<Recipe>> GetFavoriteRecipesByUser(int userId);
+        Task<bool> AddFavoriteRecipe(int userId, int recipeId);
+        Task<bool> RemoveFavoriteRecipe(int userId, int recipeId);
+        Task<bool> RemoveFavoriteRecipes(int userId);
         bool UserExists(int userId);
         bool UserNameExists(string username);
         bool EmailExists(string email);
-        bool CreateUser(User user);
-        bool UpdateUser(User user);
-        bool DeleteUser(User user);
-        bool Save();
+        Task<bool> CreateUser(User user);
+        Task<bool> UpdateUser(User user);
+        Task<bool> DeleteUser(User user);
+        Task<bool> Save();
 
     }
 }

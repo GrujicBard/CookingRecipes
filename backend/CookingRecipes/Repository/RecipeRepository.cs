@@ -2,6 +2,7 @@
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CookingRecipes.Repository
 {
@@ -13,9 +14,9 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
-        public bool CreateRecipe(int categoryId, Recipe recipe)
+        public async Task<bool> CreateRecipe(int categoryId, Recipe recipe)
         {
-            var category = _context.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
+            var category = await _context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync();
 
             var recipeCategory = new RecipeCategory()
             {
@@ -23,48 +24,48 @@ namespace CookingRecipes.Repository
                 Recipe = recipe,
             };
 
-            _context.Add(recipeCategory);
-            _context.Add(recipe);
+            await _context.AddAsync(recipeCategory);
+            await _context.AddAsync(recipe);
 
-            return Save();
+            return await Save();
         }
 
-        public bool DeleteRecipe(Recipe recipe)
+        public async Task<bool> DeleteRecipe(Recipe recipe)
         {
             _context.Remove(recipe);
-            return Save();
+            return await Save();
         }
 
-        public Recipe GetRecipeById(int id)
+        public async Task<Recipe> GetRecipeById(int id)
         {
-            return _context.Recipes.Where(r => r.Id == id).FirstOrDefault();
+            return await _context.Recipes.Where(r => r.Id == id).FirstOrDefaultAsync();
         }
 
-        public Recipe GetRecipeByTitle(string title)
+        public async Task<Recipe> GetRecipeByTitle(string title)
         {
-            return _context.Recipes.Where(r => r.Title.Trim().ToUpper() == title.Trim().ToUpper()).FirstOrDefault();
+            return await _context.Recipes.Where(r => r.Title.Trim().ToUpper() == title.Trim().ToUpper()).FirstOrDefaultAsync();
         }
 
-        public decimal GetRecipeRating(int id)
+        public async Task<decimal> GetRecipeRating(int id)
         {
-            var review = _context.Reviews.Where(r => r.RecipeId == id);
+            var reviews = await _context.Reviews.Where(r => r.RecipeId == id).ToListAsync();
 
-            if (review.Count() <= 0)
+            if (reviews.Count() <= 0)
             {
                 return 0;
             }
 
-            return review.Sum(r => r.Rating) / review.Count();
+            return reviews.Sum(r => r.Rating) / reviews.Count();
         }
 
-        public ICollection<Recipe> GetRecipes()
+        public async Task<ICollection<Recipe>> GetRecipes()
         {
-            return _context.Recipes.OrderBy(r => r.Id).ToList();
+            return await _context.Recipes.OrderBy(r => r.Id).ToListAsync();
         }
 
-        public ICollection<Recipe> GetRecipesByCategory(int categoryId)
+        public async Task<ICollection<Recipe>> GetRecipesByCategory(int categoryId)
         {
-            return _context.RecipeCategories.Where(rc => rc.CategoryId == categoryId).Select(c => c.Recipe).ToList();
+            return await _context.RecipeCategories.Where(rc => rc.CategoryId == categoryId).Select(c => c.Recipe).ToListAsync();
         }
 
         public bool RecipeExists(int id)
@@ -72,15 +73,15 @@ namespace CookingRecipes.Repository
             return _context.Recipes.Any(r => r.Id == id);
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateRecipe(Recipe recipe)
+        public async Task<bool> UpdateRecipe(Recipe recipe)
         {
             _context.Update(recipe);
-            return Save();
+            return await Save();
         }
     }
 }

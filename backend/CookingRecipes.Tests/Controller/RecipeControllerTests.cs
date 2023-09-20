@@ -32,7 +32,7 @@ namespace CookingRecipes.Tests.Controller
         }
 
         [Fact]
-        public void RecipeController_GetRecipes_ReturnsOk()
+        public async void RecipeController_GetRecipes_ReturnsOk()
         {
             #region Arrange
             var recipes = A.Fake<ICollection<RecipeDto>>();
@@ -41,7 +41,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _recipeController.GetRecipes();
+            var result = await _recipeController.GetRecipes();
             #endregion
 
             #region Act

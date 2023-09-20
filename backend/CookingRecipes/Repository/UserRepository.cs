@@ -2,6 +2,7 @@
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CookingRecipes.Repository
 {
@@ -13,11 +14,11 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
-        public bool AddFavoriteRecipe(int userId, int recipeId)
+        public async Task<bool> AddFavoriteRecipe(int userId, int recipeId)
         {
 
-            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
-            var recipe = _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefault();
+            var user = await _context.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
+            var recipe = await _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefaultAsync();
 
             var userFavoriteRecipe = new UserFavoriteRecipe()
             {
@@ -25,69 +26,69 @@ namespace CookingRecipes.Repository
                 Recipe = recipe,
             };
 
-            _context.Add(userFavoriteRecipe);
-            return Save();
+            await _context.AddAsync(userFavoriteRecipe);
+            return await Save();
         }
 
-        public bool CreateUser(User user)
+        public async Task<bool> CreateUser(User user)
         {
-            _context.Add(user);
-            return Save();
+            await _context.AddAsync(user);
+            return await Save();
         }
 
-        public bool DeleteUser(User user)
+        public async Task<bool> DeleteUser(User user)
         {
             _context.Remove(user);
-            return Save();
+            return await Save();
         }
 
-        public ICollection<Recipe> GetFavoriteRecipesByUser(int userId)
+        public async Task<ICollection<Recipe>> GetFavoriteRecipesByUser(int userId)
         {
-            return _context.UserFavoriteRecipes.Where(u => u.UserId == userId).Select(r => r.Recipe).ToList();
+            return await _context.UserFavoriteRecipes.Where(u => u.UserId == userId).Select(r => r.Recipe).ToListAsync();
         }
 
-        public ICollection<Review> GetReviewsByUser(int userId)
+        public async Task<ICollection<Review>> GetReviewsByUser(int userId)
         {
-            return _context.Reviews.Where(u => u.UserId == userId).ToList();
+            return await _context.Reviews.Where(u => u.UserId == userId).ToListAsync();
         }
 
-        public User GetUser(int id)
+        public async Task<User> GetUser(int id)
         {
-            return _context.Users.Where(u => u.Id == id).FirstOrDefault();
+            return await _context.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
-        public ICollection<User> GetUsers()
+        public async Task<ICollection<User>> GetUsers()
         {
-            return _context.Users.OrderBy(u => u.UserName).ToList();
+            return await _context.Users.OrderBy(u => u.UserName).ToListAsync();
         }
 
-        public bool RemoveFavoriteRecipe(int userId, int recipeId)
+        public async Task<bool> RemoveFavoriteRecipe(int userId, int recipeId)
         {
-            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
-            var recipe = _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefault();
+            var user = await _context.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
+            var recipe = await _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefaultAsync();
 
-            var favoriteRecipe = _context.UserFavoriteRecipes.Where(f => f.UserId == userId && f.RecipeId == recipeId).FirstOrDefault();
+            var favoriteRecipe = await _context.UserFavoriteRecipes.Where(f => f.UserId == userId && f.RecipeId == recipeId).FirstOrDefaultAsync();
 
             _context.Remove(favoriteRecipe);
-            return Save();
+            return await Save();
         }
 
-        public bool RemoveFavoriteRecipes(int userId)
+        public async Task<bool> RemoveFavoriteRecipes(int userId)
         {
-            var favoriteRecipes = _context.UserFavoriteRecipes.Where(f => f.UserId == userId).ToList();
+            var favoriteRecipes = await _context.UserFavoriteRecipes.Where(f => f.UserId == userId).ToListAsync();
             _context.RemoveRange(favoriteRecipes);
-            return Save();
+            return await Save();
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateUser(User user)
+        public async Task<bool> UpdateUser(User user)
         {
             _context.Update(user);
-            return Save();
+            return await Save();
         }
 
         public bool UserExists(int userId)

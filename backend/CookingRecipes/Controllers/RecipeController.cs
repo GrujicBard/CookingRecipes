@@ -27,9 +27,9 @@ namespace ContosoRecipes.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Recipe>))]
-        public IActionResult GetRecipes()
+        public async Task<IActionResult> GetRecipes()
         {
-            var recipes = _mapper.Map<List<RecipeDto>>(_recipeRepository.GetRecipes());
+            var recipes = _mapper.Map<List<RecipeDto>>(await _recipeRepository.GetRecipes());
 
             if (!ModelState.IsValid)
             {
@@ -42,14 +42,14 @@ namespace ContosoRecipes.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Recipe))]
         [ProducesResponseType(400)]
-        public IActionResult GetRecipeById(int id)
+        public async Task<IActionResult> GetRecipeById(int id)
         {
             if (!_recipeRepository.RecipeExists(id))
             {
                 return NotFound();
             }
 
-            var recipe = _mapper.Map<RecipeDto>(_recipeRepository.GetRecipeById(id));
+            var recipe = _mapper.Map<RecipeDto>(await _recipeRepository.GetRecipeById(id));
 
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
@@ -61,9 +61,9 @@ namespace ContosoRecipes.Controllers
         [ProducesResponseType(200, Type = typeof(Recipe))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetRecipeByTitle(string title)
+        public async Task<IActionResult> GetRecipeByTitle(string title)
         {
-            var recipe = _mapper.Map<RecipeDto>(_recipeRepository.GetRecipeByTitle(title));
+            var recipe = _mapper.Map<RecipeDto>(await _recipeRepository.GetRecipeByTitle(title));
 
             if (recipe == null)
             {
@@ -79,14 +79,14 @@ namespace ContosoRecipes.Controllers
         [HttpGet("{id}/rating")]
         [ProducesResponseType(200, Type = typeof(decimal))]
         [ProducesResponseType(400)]
-        public IActionResult GetRecipeRating(int id)
+        public async Task<IActionResult> GetRecipeRating(int id)
         {
             if (!_recipeRepository.RecipeExists(id))
             {
                 return NotFound();
             }
 
-            var avgRating = _recipeRepository.GetRecipeRating(id);
+            var avgRating = await _recipeRepository.GetRecipeRating(id);
 
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
@@ -97,14 +97,14 @@ namespace ContosoRecipes.Controllers
         [HttpGet("category/{categoryId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Recipe>))]
         [ProducesResponseType(400)]
-        public IActionResult GetRecipesByCategory(int categoryId)
+        public async Task<IActionResult> GetRecipesByCategory(int categoryId)
         {
             if (!_categoryRepository.CategoryExists(categoryId))
             {
                 return NotFound();
             }
 
-            var recipes = _mapper.Map<List<RecipeDto>>(_recipeRepository.GetRecipesByCategory(categoryId));
+            var recipes = _mapper.Map<List<RecipeDto>>(await _recipeRepository.GetRecipesByCategory(categoryId));
 
 
             if (!ModelState.IsValid)
@@ -118,14 +118,14 @@ namespace ContosoRecipes.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateRecipe([FromQuery] int categoryId, [FromBody] RecipeDto recipeCreate)
+        public async Task<IActionResult> CreateRecipe([FromQuery] int categoryId, [FromBody] RecipeDto recipeCreate)
         {
             if (recipeCreate == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var recipe = _recipeRepository.GetRecipeByTitle(recipeCreate.Title);
+            var recipe = await _recipeRepository.GetRecipeByTitle(recipeCreate.Title);
 
             if (recipe != null)
             {
@@ -137,7 +137,7 @@ namespace ContosoRecipes.Controllers
 
             var recipeMap = _mapper.Map<Recipe>(recipeCreate);
 
-            if (!_recipeRepository.CreateRecipe(categoryId, recipeMap))
+            if (!await _recipeRepository.CreateRecipe(categoryId, recipeMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
@@ -150,7 +150,7 @@ namespace ContosoRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateRecipe(int recipeId, [FromBody] RecipeDto updatedRecipe)
+        public async Task<IActionResult> UpdateRecipe(int recipeId, [FromBody] RecipeDto updatedRecipe)
         {
             if (updatedRecipe == null)
             {
@@ -169,7 +169,7 @@ namespace ContosoRecipes.Controllers
 
             var recipeMap = _mapper.Map<Recipe>(updatedRecipe);
 
-            if (!_recipeRepository.UpdateRecipe(recipeMap))
+            if (!await _recipeRepository.UpdateRecipe(recipeMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating recipe.");
                 return StatusCode(500, ModelState);
@@ -182,26 +182,26 @@ namespace ContosoRecipes.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteRecipe(int recipeId)
+        public async Task<IActionResult> DeleteRecipe(int recipeId)
         {
             if (!_recipeRepository.RecipeExists(recipeId))
             {
                 return NotFound();
             }
-            var reviewsToDelete = _reviewRepository.GetReviewsOfARecipe(recipeId);
-            var recipeToDelete = _recipeRepository.GetRecipeById(recipeId);
+            var reviewsToDelete = await _reviewRepository.GetReviewsOfARecipe(recipeId);
+            var recipeToDelete = await _recipeRepository.GetRecipeById(recipeId);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (!_reviewRepository.DeleteReviews(reviewsToDelete.ToList()))
+            if (!await _reviewRepository.DeleteReviews(reviewsToDelete.ToList()))
             {
                 ModelState.AddModelError("", "Something went wrong deleting reviews");
             }
 
-            if (!_recipeRepository.DeleteRecipe(recipeToDelete))
+            if (!await _recipeRepository.DeleteRecipe(recipeToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong deleting recipe.");
             }

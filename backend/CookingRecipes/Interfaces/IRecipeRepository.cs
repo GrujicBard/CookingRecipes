@@ -5,15 +5,15 @@ namespace CookingRecipes.Interfaces
 {
     public interface IRecipeRepository
     {
-        ICollection<Recipe> GetRecipes();
-        Recipe GetRecipeById(int id);
-        Recipe GetRecipeByTitle(string title);
-        decimal GetRecipeRating(int id);
-        ICollection<Recipe> GetRecipesByCategory(int categoryId);
+        Task<ICollection<Recipe>> GetRecipes();
+        Task<Recipe> GetRecipeById(int id);
+        Task<Recipe> GetRecipeByTitle(string title);
+        Task<decimal> GetRecipeRating(int id);
+        Task<ICollection<Recipe>> GetRecipesByCategory(int categoryId);
         bool RecipeExists(int id);
-        bool CreateRecipe(int categoryId, Recipe recipe);
-        bool UpdateRecipe(Recipe recipe);
-        bool DeleteRecipe(Recipe recipe);
-        bool Save();
+        Task<bool> CreateRecipe(int categoryId, Recipe recipe);
+        Task<bool> UpdateRecipe(Recipe recipe);
+        Task<bool> DeleteRecipe(Recipe recipe);
+        Task<bool> Save();
     }
 }

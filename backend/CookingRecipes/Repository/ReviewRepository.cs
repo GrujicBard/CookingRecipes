@@ -1,6 +1,7 @@
 ﻿using CookingRecipes.Data;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CookingRecipes.Repository
 {
@@ -12,42 +13,42 @@ namespace CookingRecipes.Repository
             _context = context;
         }
 
-        public bool CreateReview(Review review)
+        public async Task<bool> CreateReview(Review review)
         {
-            _context.Reviews.Add(review);
-            return Save();
+            await _context.Reviews.AddAsync(review);
+            return await Save();
         }
 
-        public bool DeleteReview(Review review)
+        public async Task<bool> DeleteReview(Review review)
         {
             _context.Remove(review);
-            return Save();
+            return await Save();
         }
 
-        public bool DeleteReviews(List<Review> reviews)
+        public async Task<bool> DeleteReviews(List<Review> reviews)
         {
             _context.RemoveRange(reviews);
-            return Save();
+            return await Save();
         }
 
-        public Review GetReview(int id)
+        public async Task<Review> GetReview(int id)
         {
-            return _context.Reviews.Where(r => r.Id == id).FirstOrDefault();
+            return await _context.Reviews.Where(r => r.Id == id).FirstOrDefaultAsync();
         }
 
-        public ICollection<Review> GetReviews()
+        public async Task<ICollection<Review>> GetReviews()
         {
-            return _context.Reviews.OrderBy(r => r.PostedDate).ToList();
+            return await _context.Reviews.OrderBy(r => r.PostedDate).ToListAsync();
         }
 
-        public ICollection<Review> GetReviewsOfARecipe(int recipeId)
+        public async Task<ICollection<Review>> GetReviewsOfARecipe(int recipeId)
         {
-            return _context.Reviews.Where(r => r.RecipeId == recipeId).ToList();
+            return await _context.Reviews.Where(r => r.RecipeId == recipeId).ToListAsync();
         }
 
-        public Review GetUserReviewOfARecipe(int userId, int recipeId)
+        public async Task<Review> GetUserReviewOfARecipe(int userId, int recipeId)
         {
-            return _context.Reviews.Where(r => r.UserId == userId && r.RecipeId == recipeId).FirstOrDefault();
+            return await _context.Reviews.Where(r => r.UserId == userId && r.RecipeId == recipeId).FirstOrDefaultAsync();
         }
 
         public bool ReviewExists(int Id)
@@ -55,15 +56,15 @@ namespace CookingRecipes.Repository
             return _context.Reviews.Any(r => r.Id == Id);
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateReview(Review review)
+        public async Task<bool> UpdateReview(Review review)
         {
             _context.Update(review);
-            return Save();
+            return await Save();
         }
     }
 }

@@ -4,16 +4,16 @@ namespace CookingRecipes.Interfaces
 {
     public interface IReviewRepository
     {
-        ICollection<Review> GetReviews();
-        Review GetReview(int id);
-        Review GetUserReviewOfARecipe(int userId, int recipeId);
-        ICollection<Review> GetReviewsOfARecipe(int recipeId);
+        Task<ICollection<Review>> GetReviews();
+        Task<Review> GetReview(int id);
+        Task<Review> GetUserReviewOfARecipe(int userId, int recipeId);
+        Task<ICollection<Review>> GetReviewsOfARecipe(int recipeId);
         bool ReviewExists(int Id);
-        bool CreateReview(Review review);
-        bool UpdateReview(Review review);
-        bool DeleteReview(Review review);
-        bool DeleteReviews(List<Review> reviews);
-        bool Save();
+        Task<bool> CreateReview(Review review);
+        Task<bool> UpdateReview(Review review);
+        Task<bool> DeleteReview(Review review);
+        Task<bool> DeleteReviews(List<Review> reviews);
+        Task<bool> Save();
 
     }
 }
