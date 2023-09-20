@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace CookingRecipes.Tests.Repository
 {
     public class RecipeRepositoryTests
-    {    
+    {
         private async Task<DataContext> GetDataBaseContext()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
@@ -29,21 +29,17 @@ namespace CookingRecipes.Tests.Repository
                     databaseContext.Recipes.Add(
                         new Recipe()
                         {
-                            Title = "recipe"+i.ToString(),
+                            Title = "recipe" + i.ToString(),
                             Ingredients = "randomIngredients",
                             Instructions = "randomStuff",
                             DishType = Data.Enums.DishType.Lunch,
-                            ImageName = "image" + i.ToString(),
-                            Difficulty = rnd.Next(4),
+                            ImageName = "image",
+                            Difficulty = 2,
                             RecipeCategories = new List<RecipeCategory>()
                             {
                                 new RecipeCategory()
                                 {
                                     Category = new Category(){ RecipeType = Data.Enums.RecipeType.Beef}
-                                },
-                                new RecipeCategory()
-                                {
-                                    Category = new Category(){ RecipeType = Data.Enums.RecipeType.Soups}
                                 },
 
                             },
@@ -172,6 +168,88 @@ namespace CookingRecipes.Tests.Repository
             result.Should().NotBeNull();
             result.Should().BeOfType<List<Recipe>>();
             result.Count.Should().BeGreaterThan(0);
+            #endregion
+        }
+
+        [Fact]
+        public async void RecipeRepository_CreateRecipe_ReturnsTrue()
+        {
+            #region Arrange
+            var recipe = new Recipe()
+            {
+                Title = "pancakes",
+                Ingredients = "eggs, flour",
+                Instructions = "mix flour and eggs",
+                DishType = Data.Enums.DishType.Breakfast,
+                ImageName = "image200",
+                Difficulty = 3,
+            };
+            var dbContext = await GetDataBaseContext();
+            var recipeRepository = new RecipeRepository(dbContext);
+            #endregion
+
+            #region Act
+            var result = recipeRepository.CreateRecipe(10, recipe);
+            #endregion
+
+            #region Assert
+            result.Should().BeTrue();
+            #endregion
+        }
+
+        [Fact]
+        public async void RecipeRepository_DeleteRecipe_ReturnsTrue()
+        {
+            #region Arrange
+            var recipe = new Recipe()
+            {
+                Title = "pancakes",
+                Ingredients = "eggs, flour",
+                Instructions = "mix flour and eggs",
+                DishType = Data.Enums.DishType.Breakfast,
+                ImageName = "image200",
+                Difficulty = 3,
+            };
+            var dbContext = await GetDataBaseContext();
+            var recipeRepository = new RecipeRepository(dbContext);
+            #endregion
+
+            #region Act
+            recipeRepository.CreateRecipe(2, recipe);
+            var result = recipeRepository.DeleteRecipe(recipe);
+            #endregion
+
+            #region Assert
+            result.Should().BeTrue();
+            #endregion
+        }
+
+        [Fact]
+        public async void RecipeRepository_UpdateRecipe_ReturnsTrue()
+        {
+            #region Arrange
+            var recipe = new Recipe()
+            {
+                Title = "pancakes",
+                Ingredients = "eggs, flour",
+                Instructions = "mix flour and eggs",
+                DishType = Data.Enums.DishType.Breakfast,
+                ImageName = "image200",
+                Difficulty = 3,
+            };
+            var updatedrecipe = recipe;
+            updatedrecipe.Title = "cheesecake";
+            var dbContext = await GetDataBaseContext();
+            var recipeRepository = new RecipeRepository(dbContext);
+            #endregion
+
+            #region Act
+            recipeRepository.CreateRecipe(2, recipe);
+            var result = recipeRepository.UpdateRecipe(updatedrecipe);
+            #endregion
+
+            #region Assert
+            result.Should().BeTrue();
             #endregion
         }
     }
