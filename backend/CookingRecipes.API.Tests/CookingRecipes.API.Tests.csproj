@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CookingRecipes\CookingRecipes.csproj" />
+    <ProjectReference Include="..\CookingRecipes.API\CookingRecipes.API.csproj" />
   </ItemGroup>
 
 </Project>

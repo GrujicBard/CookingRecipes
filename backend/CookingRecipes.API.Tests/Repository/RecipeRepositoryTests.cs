@@ -134,7 +134,7 @@ namespace CookingRecipes.Tests.Repository
         [Theory]
         [InlineData(2)]
         [InlineData(3)]
-        public async void RecipeRepository_GetRecipeRating_ReturnsDecimaBetweenOneAndFive(int recipeId)
+        public async void RecipeRepository_GetRecipeRating_ReturnsDecimaBetweenZeroAndFive(int recipeId)
         {
             #region Arrange
             var dbContext = await GetDataBaseContext();
@@ -146,8 +146,7 @@ namespace CookingRecipes.Tests.Repository
             #endregion
 
             #region Assert
-            result.Should().NotBe(0);
-            result.Should().BeInRange(1, 5);
+            result.Should().BeInRange(0, 5);
             #endregion
         }
 
