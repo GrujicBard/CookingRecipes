@@ -42,14 +42,18 @@ namespace CookingRecipes.Data.Seed
 
                 foreach (var recipe in csvRecipes)
                 {
+                    string ingredients = recipe.Ingredients;
+                    ingredients = ingredients.Substring(1, ingredients.Length - 2);
+                    ingredients = ingredients.Trim('"');
+                    ingredients = ingredients.Replace("'", "");
                     recipes.Add(
                         new Recipe()
                         {
                             Title = recipe.Title,
                             Instructions = recipe.Instructions,
                             ImageName = recipe.ImageName,
-                            Ingredients = recipe.Ingredients,
-                            Difficulty = rnd.Next(4),
+                            Ingredients = ingredients,
+                            Difficulty = rnd.Next(1,4),
                             DishType = dishTypes[rnd.Next(dishTypes.Count)]
                         });
                     if (++counter > _numberOfRecipes) break;
