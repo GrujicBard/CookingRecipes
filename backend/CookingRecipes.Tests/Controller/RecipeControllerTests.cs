@@ -54,7 +54,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void RecipeController_GetRecipeById_ReturnsOk(int recipeId)
+        public async void RecipeController_GetRecipeById_ReturnsOk(int recipeId)
         {
             #region Arrange
             var recipe = A.Fake<Recipe>();
@@ -65,7 +65,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _recipeController.GetRecipeById(recipeId);
+            var result = await _recipeController.GetRecipeById(recipeId);
             #endregion
 
             #region Act
@@ -77,7 +77,7 @@ namespace CookingRecipes.Tests.Controller
         [Theory]
         [InlineData("recipe")]
         [InlineData("pancakes")]
-        public void RecipeController_GetRecipeByTitle_ReturnsOk(string title)
+        public async void RecipeController_GetRecipeByTitle_ReturnsOk(string title)
         {
             #region Arrange
             var recipe = A.Fake<Recipe>();
@@ -87,7 +87,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _recipeController.GetRecipeByTitle(title);
+            var result = await _recipeController.GetRecipeByTitle(title);
             #endregion
 
             #region Act
@@ -100,7 +100,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(12)]
         [InlineData(300)]
-        public void RecipeController_CreateRecipe_ReturnsOk(int categoryId)
+        public async void RecipeController_CreateRecipe_ReturnsOk(int categoryId)
         {
             #region Arrange
             var recipe = A.Fake<Recipe>();
@@ -108,13 +108,13 @@ namespace CookingRecipes.Tests.Controller
             var recipeCreate = A.Fake<RecipeDto>();
             var recipes = A.Fake<ICollection<Recipe>>();
             var recipesList = A.Fake<IList<RecipeDto>>();
-            A.CallTo(() => _recipeRepository.GetRecipeByTitle(recipeCreate.Title)).Returns(null);
+            A.CallTo(() => _recipeRepository.RecipeTitleExists(recipeCreate.Title)).Returns(false);
             A.CallTo(() => _mapper.Map<Recipe>(recipeCreate)).Returns(recipe);
             A.CallTo(() => _recipeRepository.CreateRecipe(categoryId, recipe)).Returns(true);
             #endregion
 
             #region Assert
-            var result = _recipeController.GetRecipes();
+            var result = await _recipeController.CreateRecipe(categoryId, recipeCreate);
             
             #endregion
 
@@ -128,7 +128,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(4)]
         [InlineData(14)]
         [InlineData(12)]
-        public void RecipeController_GetRecipesByCategory_ReturnsOk(int categoryId)
+        public async void RecipeController_GetRecipesByCategory_ReturnsOk(int categoryId)
         {
             #region Arrange
             var recipesList = A.Fake<ICollection<Recipe>>();
@@ -139,7 +139,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _recipeController.GetRecipesByCategory(categoryId);
+            var result = await _recipeController.GetRecipesByCategory(categoryId);
             #endregion
 
             #region Act
@@ -152,7 +152,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void RecipeController_UpdateRecipe_ReturnsNoContent(int recipeId)
+        public async void RecipeController_UpdateRecipe_ReturnsNoContent(int recipeId)
         {
             #region Arrange
             var recipeMap = A.Fake<Recipe>();
@@ -163,7 +163,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _recipeController.UpdateRecipe(recipeId, updatedRecipe);
+            var result = await _recipeController.UpdateRecipe(recipeId, updatedRecipe);
             #endregion
 
             #region Act
@@ -176,7 +176,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void RecipeController_DeleteRecipe_ReturnsNoContent(int recipeId)
+        public async void RecipeController_DeleteRecipe_ReturnsNoContent(int recipeId)
         {
             #region Arrange
             var reviewsToDelete = A.Fake<List<Review>>();
@@ -189,7 +189,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _recipeController.DeleteRecipe(recipeId);
+            var result = await _recipeController.DeleteRecipe(recipeId);
             #endregion
 
             #region Act

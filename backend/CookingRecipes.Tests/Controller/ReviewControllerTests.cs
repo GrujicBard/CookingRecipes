@@ -33,7 +33,7 @@ namespace CookingRecipes.Tests.Controller
         }
 
         [Fact]
-        public void ReviewController_GetReviews_ReturnsOk()
+        public async void ReviewController_GetReviews_ReturnsOk()
         {
             #region Arrange
             var reviews = A.Fake<ICollection<ReviewDto>>();
@@ -42,7 +42,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _reviewController.GetReviews();
+            var result = await _reviewController.GetReviews();
             #endregion
 
             #region Act
@@ -55,7 +55,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void ReviewController_GetReview_ReturnsOk(int reviewId)
+        public async void ReviewController_GetReview_ReturnsOk(int reviewId)
         {
             #region Arrange
             var review = A.Fake<Review>();
@@ -66,7 +66,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _reviewController.GetReview(reviewId);
+            var result =  await _reviewController.GetReview(reviewId);
             #endregion
 
             #region Act
@@ -79,7 +79,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void ReviewController_GetReviewsOfARecipe_ReturnsOk(int recipeId)
+        public async void ReviewController_GetReviewsOfARecipe_ReturnsOk(int recipeId)
         {
             #region Arrange
             var reviews = A.Fake<ICollection<Review>>();
@@ -90,7 +90,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _reviewController.GetReviewsOfARecipe(recipeId);
+            var result = await _reviewController.GetReviewsOfARecipe(recipeId);
             #endregion
 
             #region Act
@@ -103,13 +103,13 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(3, 4)]
         [InlineData(33, 44)]
         [InlineData(333, 444)]
-        public void ReviewController_CreateReview_ReturnsOk(int userId, int recipeId)
+        public async void ReviewController_CreateReview_ReturnsOk(int userId, int recipeId)
         {
             #region Arrange
             var review = A.Fake<Review>();
             var reviewMap = A.Fake<Review>();
             var reviewCreate = A.Fake<ReviewPostDto>();
-            A.CallTo(() => _reviewRepository.GetUserReviewOfARecipe(userId, recipeId)).Returns(null);
+            A.CallTo(() => _reviewRepository.UserReviewExists(userId, recipeId)).Returns(false);
             A.CallTo(() => _mapper.Map<Review>(reviewCreate)).Returns(reviewMap);
             A.CallTo(() => _recipeRepository.GetRecipeById(recipeId)).Returns(reviewMap.Recipe);
             A.CallTo(() => _userRepository.GetUser(userId)).Returns(reviewMap.User);
@@ -117,7 +117,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _reviewController.CreateReview(userId, recipeId, reviewCreate);
+            var result = await _reviewController.CreateReview(userId, recipeId, reviewCreate);
 
             #endregion
 
@@ -131,7 +131,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void ReviewController_UpdateReview_ReturnsNoContent(int reviewId)
+        public async void ReviewController_UpdateReview_ReturnsNoContent(int reviewId)
         {
             #region Arrange
 
@@ -143,7 +143,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _reviewController.UpdateReview(reviewId, updatedReview);
+            var result = await _reviewController.UpdateReview(reviewId, updatedReview);
             #endregion
 
             #region Act
@@ -156,7 +156,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void ReviewController_DeleteReview_ReturnsNoContent(int reviewId)
+        public async void ReviewController_DeleteReview_ReturnsNoContent(int reviewId)
         {
             #region Arrange
 
@@ -167,7 +167,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _reviewController.DeleteReview(reviewId);
+            var result = await _reviewController.DeleteReview(reviewId);
             #endregion
 
             #region Act

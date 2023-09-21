@@ -83,9 +83,7 @@ namespace CookingRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var review = await _reviewRepository.GetUserReviewOfARecipe(userId, recipeId);
-
-            if (review != null)
+            if (_reviewRepository.UserReviewExists(userId, recipeId))
             {
                 ModelState.AddModelError("", "Review already exists.");
                 return StatusCode(422, ModelState);

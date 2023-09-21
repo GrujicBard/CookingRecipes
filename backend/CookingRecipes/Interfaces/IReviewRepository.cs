@@ -6,7 +6,7 @@ namespace CookingRecipes.Interfaces
     {
         Task<ICollection<Review>> GetReviews();
         Task<Review> GetReview(int id);
-        Task<Review> GetUserReviewOfARecipe(int userId, int recipeId);
+        bool UserReviewExists(int userId, int recipeId);
         Task<ICollection<Review>> GetReviewsOfARecipe(int recipeId);
         bool ReviewExists(int Id);
         Task<bool> CreateReview(Review review);

@@ -46,9 +46,9 @@ namespace CookingRecipes.Repository
             return await _context.Reviews.Where(r => r.RecipeId == recipeId).ToListAsync();
         }
 
-        public async Task<Review> GetUserReviewOfARecipe(int userId, int recipeId)
+        public bool UserReviewExists(int userId, int recipeId)
         {
-            return await _context.Reviews.Where(r => r.UserId == userId && r.RecipeId == recipeId).FirstOrDefaultAsync();
+            return _context.Reviews.Any(r => r.UserId == userId && r.RecipeId == recipeId);
         }
 
         public bool ReviewExists(int Id)

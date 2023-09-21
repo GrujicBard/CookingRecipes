@@ -125,9 +125,7 @@ namespace ContosoRecipes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var recipe = await _recipeRepository.GetRecipeByTitle(recipeCreate.Title);
-
-            if (recipe != null)
+            if (_recipeRepository.RecipeTitleExists(recipeCreate.Title))
             {
                 ModelState.AddModelError("", "Recipe already exists.");
                 return StatusCode(422, ModelState);

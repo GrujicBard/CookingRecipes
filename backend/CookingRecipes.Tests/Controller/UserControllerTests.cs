@@ -34,7 +34,7 @@ namespace CookingRecipes.Tests.Controller
         }
 
         [Fact]
-        public void RecipeController_GetUsers_ReturnsOk()
+        public async void UserController_GetUsers_ReturnsOk()
         {
             #region Arrange
             var Users = A.Fake<ICollection<UserDto>>();
@@ -43,7 +43,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.GetUsers();
+            var result = await _userController.GetUsers();
             #endregion
 
             #region Act
@@ -56,7 +56,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void UserController_GetUser_ReturnsOk(int userId)
+        public async void UserController_GetUser_ReturnsOk(int userId)
         {
             #region Arrange
             var user = A.Fake<User>();
@@ -67,7 +67,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.GetUser(userId);
+            var result = await _userController.GetUser(userId);
             #endregion
 
             #region Act
@@ -80,7 +80,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void UserController_GetFavoriteRecipesByUser_ReturnsOk(int userId)
+        public async void UserController_GetFavoriteRecipesByUser_ReturnsOk(int userId)
         {
             #region Arrange
             var recipes = A.Fake<ICollection<Recipe>>();
@@ -91,7 +91,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.GetFavoriteRecipesByUser(userId);
+            var result = await _userController.GetFavoriteRecipesByUser(userId);
             #endregion
 
             #region Act
@@ -104,7 +104,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void UserController_GetReviewsByUser_ReturnsOk(int userId)
+        public async void UserController_GetReviewsByUser_ReturnsOk(int userId)
         {
             #region Arrange
             var reviews = A.Fake<ICollection<Review>>();
@@ -115,7 +115,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.GetReviewsByUser(userId);
+            var result = await _userController.GetReviewsByUser(userId);
             #endregion
 
             #region Act
@@ -128,7 +128,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(12)]
         [InlineData(300)]
-        public void UserController_CreateUser_ReturnsOk(int roleId)
+        public async void UserController_CreateUser_ReturnsOk(int roleId)
         {
             #region Arrange
             var userMap = A.Fake<User>();
@@ -141,7 +141,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.CreateUser(roleId, userCreate);
+            var result = await _userController.CreateUser(roleId, userCreate);
             #endregion
 
             #region Act
@@ -154,7 +154,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1,43)]
         [InlineData(12,23)]
         [InlineData(30,19)]
-        public void UserController_AddFavoriteRecipe_ReturnsOk(int userId, int recipeId)
+        public async void UserController_AddFavoriteRecipe_ReturnsOk(int userId, int recipeId)
         {
             #region Arrange
             A.CallTo(() => _userRepository.UserExists(userId)).Returns(true);
@@ -163,7 +163,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.AddFavoriteRecipe(userId, recipeId);
+            var result = await _userController.AddFavoriteRecipe(userId, recipeId);
             #endregion
 
             #region Act
@@ -176,7 +176,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void RecipeController_UpdateUser_ReturnsNoContent(int userId)
+        public async void RecipeController_UpdateUser_ReturnsNoContent(int userId)
         {
             #region Arrange
             var userMap = A.Fake<User>();
@@ -187,7 +187,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.UpdateUser(userId, updatedUser);
+            var result = await _userController.UpdateUser(userId, updatedUser);
             #endregion
 
             #region Act
@@ -200,7 +200,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void UserController_DeleteUser_ReturnsNoContent(int userId)
+        public async void UserController_DeleteUser_ReturnsNoContent(int userId)
         {
             #region Arrange
             var userToDelete = A.Fake<User>();
@@ -210,7 +210,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.DeleteUser(userId);
+            var result = await _userController.DeleteUser(userId);
             #endregion
 
             #region Act
@@ -223,7 +223,7 @@ namespace CookingRecipes.Tests.Controller
         [InlineData(1, 1)]
         [InlineData(1, 2)]
         [InlineData(3, 1)]
-        public void UserController_RemoveFavoriteRecipe_ReturnsNoContent(int userId, int recipeId)
+        public async void UserController_RemoveFavoriteRecipe_ReturnsNoContent(int userId, int recipeId)
         {
             #region Arrange
             var userToDelete = A.Fake<User>();
@@ -233,7 +233,7 @@ namespace CookingRecipes.Tests.Controller
             #endregion
 
             #region Assert
-            var result = _userController.RemoveFavoriteRecipe(userId, recipeId);
+            var result = await _userController.RemoveFavoriteRecipe(userId, recipeId);
             #endregion
 
             #region Act

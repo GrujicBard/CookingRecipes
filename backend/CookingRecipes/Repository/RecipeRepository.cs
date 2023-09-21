@@ -1,4 +1,5 @@
 ﻿using CookingRecipes.Data;
+using CookingRecipes.Data.Enums;
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
@@ -71,6 +72,11 @@ namespace CookingRecipes.Repository
         public bool RecipeExists(int id)
         {
             return _context.Recipes.Any(r => r.Id == id);
+        }
+
+        public bool RecipeTitleExists(string title)
+        {
+            return _context.Recipes.Any(r => r.Title == title);
         }
 
         public async Task<bool> Save()
