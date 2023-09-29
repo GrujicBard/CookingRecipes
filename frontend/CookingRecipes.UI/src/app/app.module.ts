@@ -9,6 +9,7 @@ import { RecipesListComponent } from './components/features/recipe/recipes-list/
 import { AddRecipeComponent } from './components/features/recipe/add-recipe/add-recipe.component';
 import { EditRecipeComponent } from './components/features/recipe/edit-recipe/edit-recipe.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from './components/core/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RecipesListComponent,
     AddRecipeComponent,
     EditRecipeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

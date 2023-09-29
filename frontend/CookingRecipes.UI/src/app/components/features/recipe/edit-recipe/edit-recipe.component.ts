@@ -5,7 +5,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import Recipe from 'src/app/models/recipe';
 
 @Component({
-  selector: 'edit-recipe',
+  selector: 'app-edit-recipe',
   templateUrl: './edit-recipe.component.html',
   styleUrls: ['./edit-recipe.component.css']
 })
@@ -53,7 +53,7 @@ export class EditRecipeComponent implements OnInit {
     this.recipeService.updateRecipe(this.recipeDetails)
       .subscribe({
         next: () => {
-          this.router.navigate(['recipes']);
+          this.router.navigate(['admin/recipes']);
         }
       });
   }
@@ -62,11 +62,11 @@ export class EditRecipeComponent implements OnInit {
     this.recipeService.deleteRecipe(this.recipeDetails)
       .subscribe({
         next: () => {
-          this.router.navigate(['recipes']);
+          this.router.navigate(['admin/recipes']);
         },
         error:(response)=>{
           console.log(response);
-          this.router.navigate(['recipes']);
+          this.router.navigate(['admin/recipes']);
         }
       });
   }

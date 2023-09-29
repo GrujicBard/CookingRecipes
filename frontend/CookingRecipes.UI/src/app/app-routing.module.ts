@@ -10,16 +10,16 @@ const routes: Routes = [
     component: RecipesListComponent
   },
   {
-    path: "recipes",
+    path: "admin/recipes",
     component: RecipesListComponent
   },  
   {
-    path: "recipes/add",
+    path: "admin/recipes/add",
     component: AddRecipeComponent
   }
   ,  
   {
-    path: "recipes/edit/:id",
+    path: "admin/recipes/edit/:id",
     component: EditRecipeComponent
   },
 ];

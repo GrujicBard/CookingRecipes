@@ -4,7 +4,7 @@ import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
-  selector: 'add-recipe',
+  selector: 'app-add-recipe',
   templateUrl: './add-recipe.component.html',
   styleUrls: ['./add-recipe.component.css']
 })
@@ -40,11 +40,11 @@ export class AddRecipeComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log("test")
-          this.router.navigate(['recipes']);
+          this.router.navigate(['admin/recipes']);
         },
         error:(response)=>{
           console.log(response);
-          this.router.navigate(['recipes']);
+          this.router.navigate(['admin/recipes']);
         },
       });
   }
