@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { RecipesListComponent } from './components/recipe/recipes-list/recipes-list.component';
 import { AddRecipeComponent } from './components/recipe/add-recipe/add-recipe.component';
 import { EditRecipeComponent } from './components/recipe/edit-recipe/edit-recipe.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { EditRecipeComponent } from './components/recipe/edit-recipe/edit-recipe
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

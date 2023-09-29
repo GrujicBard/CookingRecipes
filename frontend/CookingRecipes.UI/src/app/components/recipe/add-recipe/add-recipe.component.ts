@@ -36,7 +36,7 @@ export class AddRecipeComponent implements OnInit {
   ngOnInit() {
   }
   addRecipe() {
-    this.recipeService.postRecipe(this.categoryId, this.createRecipe)
+    this.recipeService.addRecipe(this.categoryId, this.createRecipe)
       .subscribe({
         next: () => {
           console.log("test")

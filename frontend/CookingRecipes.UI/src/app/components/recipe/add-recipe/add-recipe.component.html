@@ -1,7 +1,8 @@
-<div class="container my-4">
-  <h2>Add New Recipe</h2>
+<div class="container mb-3">
+  <button class="btn ps-0" routerLink="/recipes"><i class="bi bi-arrow-left" style="font-size: 1rem;"></i> Recipes </button>
   <div class="row">
     <div class="col-6">
+      <h2>Add New Recipe</h2>
       <hr class="hr" />
       <form #form="ngForm" (ngSubmit)="addRecipe()">
         <div class="form-group mb-3">

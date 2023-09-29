@@ -22,16 +22,16 @@ export class RecipeService {
     return this.httpClient.get<Recipe>(`${this.baseApiUrl}/${this.url}/${recipeId}`);
   };
 
-  public postRecipe(categoryId: number, recipe: Recipe): Observable<Recipe> {
-    return this.httpClient.post<Recipe>(`${this.baseApiUrl}/${this.url}?categoryId=${categoryId}`, recipe);
+  public addRecipe(categoryId: number, recipe: Recipe): Observable<void> {
+    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}?categoryId=${categoryId}`, recipe);
   };
 
-  public updateRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.httpClient.put<Recipe>(`${this.baseApiUrl}/${this.url}/${recipe.id}`, recipe);
+  public updateRecipe(recipe: Recipe): Observable<void> {
+    return this.httpClient.put<void>(`${this.baseApiUrl}/${this.url}/${recipe.id}`, recipe);
   };
 
-  public deleteRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.httpClient.delete<Recipe>(`${this.baseApiUrl}/${this.url}/${recipe.id}`);
+  public deleteRecipe(recipe: Recipe): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseApiUrl}/${this.url}/${recipe.id}`);
   };
 
 }
