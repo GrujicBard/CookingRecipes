@@ -14,7 +14,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
+import {MatSortModule} from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
@@ -27,7 +27,6 @@ import { EditRecipeComponent } from './components/features/recipe/edit-recipe/ed
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddEditRecipeComponent } from './components/features/recipe/add-edit-recipe/add-edit-recipe.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -40,7 +39,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddRecipeComponent,
     EditRecipeComponent,
     NavbarComponent,
-    AddEditRecipeComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +59,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
+    BrowserModule,
+    MatTableModule,
     MatSortModule,
     MatSnackBarModule,
     

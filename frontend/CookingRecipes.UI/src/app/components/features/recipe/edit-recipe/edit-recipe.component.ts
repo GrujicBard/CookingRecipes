@@ -28,10 +28,11 @@ export class EditRecipeComponent implements OnInit {
     private _recipeService: RecipeService,
     private _notificationService: NotificationService,
     private _dialogRef: MatDialogRef<EditRecipeComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: Recipe,
+    @Inject(MAT_DIALOG_DATA) data: any,
   ) {
 
     this.displayRecipe = { ...data };
+    this.displayRecipe.difficulty = data.difficulty.toString();
   }
 
   ngOnInit() {

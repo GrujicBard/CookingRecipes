@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { AddRecipeComponent } from '../add-recipe/add-recipe.component';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { DialogRef } from '@angular/cdk/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-recipes-list',
@@ -20,32 +20,32 @@ export class RecipesListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   recipes!: MatTableDataSource<Recipe>;
-  displayedColumns = ['Id', 'Title', 'Dish Type', 'Image Name', 'Difficulty'];
+  displayedColumns = ['id', 'title', 'dishType', 'imageName', 'difficulty'];
 
   columns = [
     {
-      columnDef: 'Id',
-      header: 'Id',
+      columnDef: 'id',
+      header: 'id',
       cell: (recipe: Recipe) => `${recipe.id}`,
     },
     {
-      columnDef: 'Title',
-      header: 'Title',
+      columnDef: 'title',
+      header: 'title',
       cell: (recipe: Recipe) => `${recipe.title}`,
     },
     {
-      columnDef: 'Dish Type',
-      header: 'Dish Type',
+      columnDef: 'dishType',
+      header: 'dishType',
       cell: (recipe: Recipe) => `${recipe.dishType}`,
     },
     {
-      columnDef: 'Image Name',
-      header: 'Image Name',
+      columnDef: 'imageName',
+      header: 'imageName',
       cell: (recipe: Recipe) => `${recipe.imageName}`,
     },
     {
-      columnDef: 'Difficulty',
-      header: 'Difficulty',
+      columnDef: 'difficulty',
+      header: 'difficulty',
       cell: (recipe: Recipe) => `${recipe.difficulty}`,
     },
   ];
@@ -100,7 +100,9 @@ export class RecipesListComponent implements OnInit {
       .subscribe({
         next: (recipes) => {
           this.recipes = new MatTableDataSource(recipes);
-          this.recipes.sort = this.sort;
+          setTimeout(()=>{
+            this.recipes.sort=this.sort
+         });
           this.recipes.paginator = this.paginator;
           this.recipes.filterPredicate = function (data: Recipe, filter: string): boolean {
             return data.title.toLowerCase().includes(filter);
@@ -123,7 +125,8 @@ export class RecipesListComponent implements OnInit {
         console.log(res);
 
       }
-    })
+    });
+
   }
 
 }
