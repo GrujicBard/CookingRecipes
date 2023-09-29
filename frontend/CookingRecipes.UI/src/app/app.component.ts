@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import Recipe from './models/recipe';
-import { RecipeService } from './services/recipe.service';
+import { RecipeService } from './services/recipe/recipe.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 

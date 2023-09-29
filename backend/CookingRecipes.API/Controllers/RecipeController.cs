@@ -120,6 +120,7 @@ namespace ContosoRecipes.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> CreateRecipe([FromQuery] int categoryId, [FromBody] RecipeDto recipeCreate)
         {
+            Response.ContentType = "text/plain";
             if (recipeCreate == null)
             {
                 return BadRequest(ModelState);

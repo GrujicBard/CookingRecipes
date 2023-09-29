@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Recipe from '../models/recipe';
+import Recipe from '../../models/recipe';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -23,7 +23,7 @@ export class RecipeService {
   };
 
   public addRecipe(categoryId: number, recipe: Recipe): Observable<void> {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}?categoryId=${categoryId}`, recipe);
+    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}?categoryId=${categoryId}`, recipe, { responseType: 'text' as 'json' });
   };
 
   public updateRecipe(recipe: Recipe): Observable<void> {

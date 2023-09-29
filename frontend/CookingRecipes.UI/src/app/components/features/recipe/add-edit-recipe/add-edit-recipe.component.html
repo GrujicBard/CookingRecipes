@@ -1,22 +1,16 @@
-<h2 mat-dialog-title>Edit Recipe</h2>
-<form #form="ngForm" (ngSubmit)="editRecipe()" class="recipeForm">
+<h2 mat-dialog-title>Add New Recipe</h2>
+<form #form="ngForm" (ngSubmit)="addRecipe()" class="recipeForm">
   <div mat-dialog-content class="content">
     <div class="row">
       <mat-form-field appearance="outline">
-        <mat-label>Id</mat-label>
-        <input matInput type="text" id="recipeId" name="id" [(ngModel)]="displayRecipe.id" disabled>
-      </mat-form-field>
-    </div>
-    <div class="row">
-      <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
-        <input matInput type="text" placeholder="Ex. Pancakes" id="recipeTitle" name="title" [(ngModel)]="displayRecipe.title">
+        <input matInput type="text" placeholder="Ex. Pancakes" id="recipeTitle" name="title" [(ngModel)]="createRecipe.title">
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Dish Category</mat-label>
-        <mat-select id="dishType" name="dishType" [(ngModel)]="displayRecipe.dishType">
+        <mat-select id="dishType" name="dishType" [(ngModel)]="createRecipe.dishType">
           <mat-option *ngFor="let dishType of dishTypes; let i = index" [value]="i + 1">
             {{ dishType }}
           </mat-option>
@@ -24,15 +18,25 @@
       </mat-form-field>
     </div>
     <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Recipe Category</mat-label>
+        <mat-select id="recipeType" name="recipeType" [(ngModel)]="categoryId">
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
       <mat-form-field appearance="outline" >
         <mat-label>Image Name</mat-label>
-        <input matInput type="text" placeholder="Ex. pancake01" id="image" name="image" [(ngModel)]="displayRecipe.imageName">
+        <input matInput type="text" placeholder="Ex. pancake01" id="image" name="image" [(ngModel)]="createRecipe.imageName">
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Difficulty</mat-label>
-        <mat-select id="difficulty" name="difficulty" [(ngModel)]="displayRecipe.difficulty">
+        <mat-select id="diff" name="difficulty" [(ngModel)]="createRecipe.difficulty">
           <mat-option value="1">1</mat-option>
           <mat-option value="2">2</mat-option>
           <mat-option value="3">3</mat-option>
@@ -43,19 +47,19 @@
       <mat-form-field appearance="outline">
         <mat-label>Ingredients</mat-label>
         <textarea matInput type="text" rows="10" id="ingredients" name="ingredients"
-        [(ngModel)]="displayRecipe.ingredients"></textarea>
+        [(ngModel)]="createRecipe.ingredients"></textarea>
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Instructions</mat-label>
         <textarea matInput type="text" rows="10" id="instructions" name="instructions"
-        [(ngModel)]="displayRecipe.instructions"></textarea>
+        [(ngModel)]="createRecipe.instructions"></textarea>
       </mat-form-field>
     </div>
   </div>
   <div mat-dialog-actions class="action">
-    <button mat-raised-button color="primary" type="submit">Update</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
     <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
   </div>
 </form>

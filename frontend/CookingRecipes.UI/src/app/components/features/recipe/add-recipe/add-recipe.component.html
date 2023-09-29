@@ -1,57 +1,65 @@
-<div class="container mb-3">
-  <button class="btn ps-0" routerLink="/recipes"><i class="bi bi-arrow-left" style="font-size: 1rem;"></i> Recipes </button>
-  <div class="row">
-    <div class="col-6">
-      <h2>Add New Recipe</h2>
-      <hr class="hr" />
-      <form #form="ngForm" (ngSubmit)="addRecipe()">
-        <div class="form-group mb-3">
-          <label for="recipeTitle" class="form-label">Title</label>
-          <input type="text" class="form-control" id="recipeTitle" name="title" [(ngModel)]="createRecipe.title">
-        </div>
-        <div class="form-group mb-3">
-          <label for="dishType">Dish Category</label>
-          <select class="form-control" id="dishType" name="dishType" [(ngModel)]="createRecipe.dishType">
-            <option value="" disabled="disabled" selected="true">-Dish Category-</option>
-            <option *ngFor="let dishType of dishTypes; let i = index" [ngValue]="i + 1">
-              {{ dishType }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group mb-3">
-          <label for="recipeType">Recipe Category</label>
-          <select class="form-control" id="recipeType" name="recipeType" [(ngModel)]="categoryId">
-            <option value="" disabled="disabled" selected="true">-Recipe Category-</option>
-            <option [ngValue]=1>1</option>
-            <option [ngValue]=2>2</option>
-            <option [ngValue]=3>3</option>
-          </select>
-        </div>
-        <div class="form-group mb-3">
-          <label for="image" class="form-label">Image Name</label>
-          <input type="text" class="form-control" id="image" name="image" [(ngModel)]="createRecipe.imageName">
-        </div>
-        <div class="form-group mb-3">
-          <label for="diff" class="form-label">Difficulty</label>
-          <select class="form-control" id="diff" name="difficulty" [(ngModel)]="createRecipe.difficulty">
-            <option value="" disabled="disabled" selected="true">-Recipe Difficulty-</option>
-            <option [ngValue]=1>1</option>
-            <option [ngValue]=2>2</option>
-            <option [ngValue]=3>3</option>
-          </select>
-        </div>
-        <div class="form-group mb-3">
-          <label for="ingredients">Ingredients</label>
-          <textarea class="form-control" id="ingredients" rows="5" name="ingredients"
-            [(ngModel)]="createRecipe.ingredients"></textarea>
-        </div>
-        <div class="form-group mb-3">
-          <label for="instructions">Instructions</label>
-          <textarea class="form-control" id="instructions" rows="5" name="instructions"
-            [(ngModel)]="createRecipe.instructions"></textarea>
-        </div>
-        <button type="submit" class="btn btn-dark btn-outline-success">Save</button>
-      </form>
+<h2 mat-dialog-title>Add New Recipe</h2>
+<form #form="ngForm" (ngSubmit)="addRecipe()" class="recipeForm">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput type="text" placeholder="Ex. Pancakes" id="recipeTitle" name="title" [(ngModel)]="createRecipe.title">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Dish Category</mat-label>
+        <mat-select id="dishType" name="dishType" [(ngModel)]="createRecipe.dishType">
+          <mat-option *ngFor="let dishType of dishTypes; let i = index" [value]="i + 1">
+            {{ dishType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Recipe Category</mat-label>
+        <mat-select id="recipeType" name="recipeType" [(ngModel)]="categoryId">
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline" >
+        <mat-label>Image Name</mat-label>
+        <input matInput type="text" placeholder="Ex. pancake01" id="image" name="image" [(ngModel)]="createRecipe.imageName">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Difficulty</mat-label>
+        <mat-select id="diff" name="difficulty" [(ngModel)]="createRecipe.difficulty">
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Ingredients</mat-label>
+        <textarea matInput type="text" rows="5" id="ingredients" name="ingredients"
+        [(ngModel)]="createRecipe.ingredients"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Instructions</mat-label>
+        <textarea matInput type="text" rows="5" id="instructions" name="instructions"
+        [(ngModel)]="createRecipe.instructions"></textarea>
+      </mat-form-field>
     </div>
   </div>
-</div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button color="primary" type="submit">Save</button>
+    <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+  </div>
+</form>

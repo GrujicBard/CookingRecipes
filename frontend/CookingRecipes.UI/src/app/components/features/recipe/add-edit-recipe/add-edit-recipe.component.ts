@@ -4,14 +4,13 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
-import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 
 @Component({
-  selector: 'app-add-recipe',
-  templateUrl: './add-recipe.component.html',
-  styleUrls: ['./add-recipe.component.scss']
+  selector: 'app-add-edit-recipe',
+  templateUrl: './add-edit-recipe.component.html',
+  styleUrls: ['./add-edit-recipe.component.scss']
 })
-export class AddRecipeComponent implements OnInit {
+export class AddEditRecipeComponent implements OnInit {
   
   dishTypes: string[] = [
     "Breakfast",
@@ -20,15 +19,15 @@ export class AddRecipeComponent implements OnInit {
     "Dinner",
   ];
 
-  createRecipe!: Recipe;
+  createRecipe: Recipe;
   categoryId: number;
   private addRecipeSubscription?: Subscription;
 
 
   constructor(
     private _recipeService: RecipeService,
-    private _notificationService: NotificationService,
-    private _dialogRef: MatDialogRef<AddRecipeComponent>,
+    private _router: Router,
+    private _dialogRef: MatDialogRef<AddEditRecipeComponent>,
   ) { 
     this.createRecipe ={
       title: "",
@@ -38,7 +37,7 @@ export class AddRecipeComponent implements OnInit {
       dishType: 0,
       difficulty: 0,
     };
-    this.categoryId = 0;
+    this.categoryId = 2;
   }
 
   ngOnInit() {
@@ -48,13 +47,13 @@ export class AddRecipeComponent implements OnInit {
     this.addRecipeSubscription = this._recipeService.addRecipe(this.categoryId, this.createRecipe)
       .subscribe({
         next: () => {
-          this._notificationService.openSnackBar("Recipe added!", "Done");
+          alert("Recipe added successfuly");
           this._dialogRef.close(true);
           location.reload()
         },
         error: (res) => {
-          this._notificationService.openSnackBar("There was a problem adding recipe.", "Close");
           console.log(res);
+          alert("There was a problem adding Recipe");
         },
       });
   }
