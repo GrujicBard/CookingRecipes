@@ -4,3 +4,14 @@
 mat-form-field {
   @include mat.all-component-densities(-2);
 }
+
+.buttons-group-align-end{
+  display:flex;
+  justify-content: flex-end !important;
+  align-items: flex-end;
+}
+
+body { 
+  --mat-focus-indicator-border-width: 0;
+  --mat-mdc-focus-indicator-border-width: 0;
+}

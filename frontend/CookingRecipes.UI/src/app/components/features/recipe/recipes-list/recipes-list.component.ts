@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { DialogService } from 'src/app/services/core/dialogs/dialog.service';
 
 @Component({
   selector: 'app-recipes-list',
@@ -54,6 +55,7 @@ export class RecipesListComponent implements OnInit {
     private _recipeService: RecipeService,
     private _notificationService: NotificationService,
     private _dialog: MatDialog,
+    private _dialogService: DialogService,
 
   ) { }
 
@@ -100,9 +102,9 @@ export class RecipesListComponent implements OnInit {
       .subscribe({
         next: (recipes) => {
           this.recipes = new MatTableDataSource(recipes);
-          setTimeout(()=>{
-            this.recipes.sort=this.sort
-         });
+          setTimeout(() => {
+            this.recipes.sort = this.sort
+          });
           this.recipes.paginator = this.paginator;
           this.recipes.filterPredicate = function (data: Recipe, filter: string): boolean {
             return data.title.toLowerCase().includes(filter);
@@ -115,17 +117,28 @@ export class RecipesListComponent implements OnInit {
   }
 
   deleteRecipe(recipe: Recipe) {
-    this._recipeService.deleteRecipe(recipe).subscribe({
-      next: () => {
-        this._notificationService.openSnackBar("Recipe deleted!", "Done");
-        this.getRecipes();
-      },
-      error: (res) => {
-        this._notificationService.openSnackBar("There was a problem deleting recipe.", "Close");
-        console.log(res);
-
+    this._dialogService.confirmDialog({
+      title: "Delete recipe",
+      message: "Are you use you want to delete recipe?",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    }).subscribe(data => {
+      if (data) {
+        this._recipeService.deleteRecipe(recipe).subscribe({
+          next: () => {
+            this._notificationService.openSnackBar("Recipe deleted!", "Done");
+            this.getRecipes();
+          },
+          error: (res) => {
+            this._notificationService.openSnackBar("There was a problem deleting recipe.", "Close");
+            console.log(res);
+    
+          }
+        }); 
       }
-    });
+    })
+
+
 
   }
 

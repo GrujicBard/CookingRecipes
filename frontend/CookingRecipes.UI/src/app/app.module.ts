@@ -28,6 +28,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmDialogComponent } from './components/core/dialogs/confirm-dialog/confirm-dialog.component';
 
 
 
@@ -39,6 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddRecipeComponent,
     EditRecipeComponent,
     NavbarComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

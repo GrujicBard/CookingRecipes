@@ -50,7 +50,6 @@ export class AddRecipeComponent implements OnInit {
         next: () => {
           this._notificationService.openSnackBar("Recipe added!", "Done");
           this._dialogRef.close(true);
-          location.reload()
         },
         error: (res) => {
           this._notificationService.openSnackBar("There was a problem adding recipe.", "Close");
