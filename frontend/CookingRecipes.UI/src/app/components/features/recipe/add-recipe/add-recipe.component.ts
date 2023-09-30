@@ -36,6 +36,7 @@ export class AddRecipeComponent implements OnInit {
       instructions: "",
       imageName: "",
       dishType: 0,
+      cuisineType: 0,
       difficulty: 0,
     };
     this.categoryId = 0;

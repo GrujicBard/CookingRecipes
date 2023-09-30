@@ -41,6 +41,7 @@ import { ConfirmDialogComponent } from './components/core/dialogs/confirm-dialog
     EditRecipeComponent,
     NavbarComponent,
     ConfirmDialogComponent,
+
   ],
   imports: [
     BrowserModule,

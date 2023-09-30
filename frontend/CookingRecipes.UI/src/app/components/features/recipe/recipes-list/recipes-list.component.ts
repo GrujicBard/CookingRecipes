@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
@@ -8,54 +8,64 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DialogService } from 'src/app/services/core/dialogs/dialog.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-recipes-list',
   templateUrl: './recipes-list.component.html',
-  styleUrls: ['./recipes-list.component.scss']
+  styleUrls: ['./recipes-list.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
+
 })
 export class RecipesListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   recipes!: MatTableDataSource<Recipe>;
-  displayedColumns = ['id', 'title', 'dishType', 'imageName', 'difficulty'];
+  columnsToDisplay = ['id', 'title', 'dishType', 'cuisineType', 'difficulty'];
+  expandedElement!: Recipe | null;
 
-  columns = [
+  tableDef: Array<any> = [
     {
-      columnDef: 'id',
-      header: 'id',
-      cell: (recipe: Recipe) => `${recipe.id}`,
+      key: 'id',
+      header: 'Id',
+      className: 'number'
     },
     {
-      columnDef: 'title',
-      header: 'title',
-      cell: (recipe: Recipe) => `${recipe.title}`,
+      key: 'title',
+      header: 'Title',
+      className: 'string'
     },
     {
-      columnDef: 'dishType',
-      header: 'dishType',
-      cell: (recipe: Recipe) => `${recipe.dishType}`,
+      key: 'dishType',
+      header: 'Dish Type',
+      className: 'number'
     },
     {
-      columnDef: 'imageName',
-      header: 'imageName',
-      cell: (recipe: Recipe) => `${recipe.imageName}`,
+      key: 'cuisineType',
+      header: 'Cuisine Type',
+      className: 'number'
     },
     {
-      columnDef: 'difficulty',
-      header: 'difficulty',
-      cell: (recipe: Recipe) => `${recipe.difficulty}`,
+      key: 'difficulty',
+      header: 'Difficulty',
+      className: 'number'
     },
-  ];
+  ]
 
   constructor(
     private _recipeService: RecipeService,
     private _notificationService: NotificationService,
     private _dialog: MatDialog,
     private _dialogService: DialogService,
+    private _cd: ChangeDetectorRef,
 
   ) { }
 
@@ -97,6 +107,7 @@ export class RecipesListComponent implements OnInit {
       this.recipes.paginator.firstPage();
     }
   }
+
   getRecipes() {
     this._recipeService.getRecipes()
       .subscribe({
@@ -132,9 +143,9 @@ export class RecipesListComponent implements OnInit {
           error: (res) => {
             this._notificationService.openSnackBar("There was a problem deleting recipe.", "Close");
             console.log(res);
-    
+
           }
-        }); 
+        });
       }
     })
 

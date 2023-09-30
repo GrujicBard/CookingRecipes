@@ -29,6 +29,7 @@ export class AppComponent {
       instructions: "",
       difficulty: 0,
       dishType: 0,
+      cuisineType: 0,
     };
   }
   editRecipe(recipe: Recipe) {

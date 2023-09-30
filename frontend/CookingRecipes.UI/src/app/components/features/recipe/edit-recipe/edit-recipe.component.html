@@ -19,8 +19,18 @@
       <mat-form-field appearance="outline">
         <mat-label>Dish Category</mat-label>
         <mat-select id="dishType" name="dishType" [(ngModel)]="displayRecipe.dishType">
-          <mat-option *ngFor="let dishType of dishTypes; let i = index" [value]="i + 1">
+          <mat-option *ngFor="let dishType of dishTypes; let i = index" [value]="i">
             {{ dishType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Cuisine Category</mat-label>
+        <mat-select id="cuisineType" name="cuisineType" [(ngModel)]="displayRecipe.cuisineType">
+          <mat-option *ngFor="let cuisineType of cuisineTypes; let i = index" [value]="i">
+            {{ cuisineType }}
           </mat-option>
         </mat-select>
       </mat-form-field>

@@ -6,4 +6,5 @@ export default interface Recipe {
     ingredients: string
     difficulty: number
     dishType: number
+    cuisineType: number
 }
