@@ -10,6 +10,8 @@ import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 import { DialogService } from 'src/app/services/core/dialogs/dialog.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { DishType } from 'src/app/models/enums/dishType';
+import { CuisineType } from 'src/app/models/enums/cuisineType';
 
 @Component({
   selector: 'app-recipes-list',
@@ -29,8 +31,9 @@ export class RecipesListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   recipes!: MatTableDataSource<Recipe>;
-  columnsToDisplay = ['id', 'title', 'dishType', 'cuisineType', 'difficulty'];
+  columnsToDisplay = ['id', 'title', 'dishType', 'cuisineType', 'difficulty', 'actions'];
   expandedElement!: Recipe | null;
+  
 
   tableDef: Array<any> = [
     {
@@ -66,7 +69,6 @@ export class RecipesListComponent implements OnInit {
     private _dialog: MatDialog,
     private _dialogService: DialogService,
     private _cd: ChangeDetectorRef,
-
   ) { }
 
   ngOnInit() {
@@ -148,9 +150,14 @@ export class RecipesListComponent implements OnInit {
         });
       }
     })
+  }
 
+  public get DishType() {
+    return DishType; 
+  }
 
-
+  public get CuisineType() {
+    return CuisineType; 
   }
 
 }

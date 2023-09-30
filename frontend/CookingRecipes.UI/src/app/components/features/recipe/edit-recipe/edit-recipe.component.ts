@@ -1,10 +1,11 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
+import { DishType } from 'src/app/models/enums/dishType';
+import { CuisineType } from 'src/app/models/enums/cuisineType';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -13,33 +14,14 @@ import { NotificationService } from 'src/app/services/core/notifications/notific
 })
 export class EditRecipeComponent implements OnInit {
 
-  dishTypes: string[] = [
-    "Breakfast",
-    "Brunch",
-    "Lunch",
-    "Dinner",
-  ];
-
-  cuisineTypes: string[] = [
-    "African",
-    "American",
-    "Asian",
-    "British",
-    "European",
-    "French",
-    "German",
-    "Greek",
-    "Indian",
-    "Italian",
-    "Japanese",
-    "Korean",
-    "Mexican",
-    "Thai",
-    "Turkish",
-  ];
-
+  dishTypes = Object.keys(DishType).filter((item) => {
+    return isNaN(Number(item));
+  });
+  cuisineTypes = Object.keys(CuisineType).filter((item) => {
+    return isNaN(Number(item));
+  });
   displayRecipe!: Recipe;
-  private edditRecipeSubscription?: Subscription;
+  private editRecipeSubscription?: Subscription;
 
 
   constructor(
@@ -56,8 +38,12 @@ export class EditRecipeComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnDestroy() {
+    this.editRecipeSubscription?.unsubscribe();
+  }
+
   editRecipe() {
-    this.edditRecipeSubscription = this._recipeService.updateRecipe(this.displayRecipe)
+    this.editRecipeSubscription = this._recipeService.updateRecipe(this.displayRecipe)
       .subscribe({
         next: () => {
           this._notificationService.openSnackBar("Recipe updated!", "Done");

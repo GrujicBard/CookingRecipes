@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
+import { DishType } from 'src/app/models/enums/dishType';
+import { CuisineType } from 'src/app/models/enums/cuisineType';
 
 @Component({
   selector: 'app-add-recipe',
@@ -12,13 +14,13 @@ import { NotificationService } from 'src/app/services/core/notifications/notific
   styleUrls: ['./add-recipe.component.scss']
 })
 export class AddRecipeComponent implements OnInit {
-  
-  dishTypes: string[] = [
-    "Breakfast",
-    "Brunch",
-    "Lunch",
-    "Dinner",
-  ];
+
+  dishTypes = Object.keys(DishType).filter((item) => {
+    return isNaN(Number(item));
+  });
+  cuisineTypes = Object.keys(CuisineType).filter((item) => {
+    return isNaN(Number(item));
+  });
 
   createRecipe!: Recipe;
   categoryId: number;
@@ -29,8 +31,8 @@ export class AddRecipeComponent implements OnInit {
     private _recipeService: RecipeService,
     private _notificationService: NotificationService,
     private _dialogRef: MatDialogRef<AddRecipeComponent>,
-  ) { 
-    this.createRecipe ={
+  ) {
+    this.createRecipe = {
       title: "",
       ingredients: "",
       instructions: "",
@@ -43,6 +45,10 @@ export class AddRecipeComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.addRecipeSubscription?.unsubscribe();
   }
 
   addRecipe() {

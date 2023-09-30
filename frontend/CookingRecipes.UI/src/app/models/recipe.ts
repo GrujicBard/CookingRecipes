@@ -1,3 +1,6 @@
+import { CuisineType } from "./enums/cuisineType"
+import { DishType } from "./enums/dishType"
+
 export default interface Recipe {
     id?: number
     title: string
@@ -5,6 +8,6 @@ export default interface Recipe {
     imageName: string
     ingredients: string
     difficulty: number
-    dishType: number
-    cuisineType: number
+    dishType: DishType
+    cuisineType: CuisineType
 }

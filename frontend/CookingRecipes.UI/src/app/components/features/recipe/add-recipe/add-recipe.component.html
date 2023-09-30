@@ -21,6 +21,16 @@
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
+        <mat-label>Cuisine Category</mat-label>
+        <mat-select id="cuisineType" name="cuisineType" [(ngModel)]="createRecipe.cuisineType">
+          <mat-option *ngFor="let cuisineType of cuisineTypes; let i = index" [value]="i + 1">
+            {{ cuisineType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
         <mat-label>Recipe Category</mat-label>
         <mat-select id="recipeType" name="recipeType" [(ngModel)]="categoryId">
           <mat-option value="1">1</mat-option>
