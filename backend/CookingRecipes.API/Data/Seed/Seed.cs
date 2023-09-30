@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using CookingRecipes.Dtos;
 using CookingRecipes.Data.Enums;
+using CookingRecipes.API.Data.Enums;
 
 namespace CookingRecipes.Data.Seed
 {
@@ -31,6 +32,7 @@ namespace CookingRecipes.Data.Seed
             var csvRecipes = ReadCsv(_csv_file_path);
             Random rnd = new();
             List<DishType> dishTypes = Enum.GetValues(typeof(DishType)).Cast<DishType>().ToList();
+            List<CuisineType> cuisineTypes = Enum.GetValues(typeof(CuisineType)).Cast<CuisineType>().ToList();
             List<RecipeType> recipeTypes = Enum.GetValues(typeof(RecipeType)).Cast<RecipeType>().ToList();
             List<RoleType> roleTypes = Enum.GetValues(typeof(RoleType)).Cast<RoleType>().ToList();
 
@@ -54,7 +56,8 @@ namespace CookingRecipes.Data.Seed
                             ImageName = recipe.ImageName,
                             Ingredients = ingredients,
                             Difficulty = rnd.Next(1,4),
-                            DishType = dishTypes[rnd.Next(dishTypes.Count)]
+                            DishType = dishTypes[rnd.Next(dishTypes.Count)],
+                            CuisineType = cuisineTypes[rnd.Next(cuisineTypes.Count)],
                         });
                     if (++counter > _numberOfRecipes) break;
                 }

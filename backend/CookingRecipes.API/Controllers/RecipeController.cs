@@ -5,6 +5,7 @@ using CookingRecipes.Models;
 using CookingRecipes.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace ContosoRecipes.Controllers
 {
@@ -144,6 +145,82 @@ namespace ContosoRecipes.Controllers
 
             return Ok("Successfuly created.");
         }
+
+        [HttpGet("categories/{recipeId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetRecipeCategories(int recipeId)
+        {
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                return NotFound();
+            }
+
+            var categories = _mapper.Map<List<CategoryDto>>(await _recipeRepository.GetRecipeCategories(recipeId));
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(categories);
+
+        }
+
+        [HttpDelete("category/{recipeId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> RemoveRecipeCategory(int recipeId, [FromQuery] int categoryId)
+        {
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                return NotFound();
+            }
+
+            if (!_categoryRepository.CategoryExists(categoryId))
+            {
+                return NotFound();
+            }
+
+            if (!await _recipeRepository.RemoveRecipeCategory(recipeId, categoryId))
+            {
+                ModelState.AddModelError("", "Something went wrong removing recipe category.");
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost("category/{recipeId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> AddRecipeCategories(int recipeId, [FromBody] List<int> categoryIds)
+        {
+
+            if (!_recipeRepository.RecipeExists(recipeId))
+            {
+                ModelState.AddModelError("", "Recipe doesn't exist.");
+                return StatusCode(422, ModelState);
+            }
+
+            foreach(var categoryId in categoryIds)
+            {
+                if (!_categoryRepository.CategoryExists(categoryId))
+                {
+                    ModelState.AddModelError("", "Category doesn't exist.");
+                    return StatusCode(422, ModelState);
+                }
+            }
+            if (!await _recipeRepository.AddRecipeCategories(recipeId, categoryIds))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfuly added.");
+        }
+
 
         [HttpPut("{recipeId}")]
         [ProducesResponseType(400)]

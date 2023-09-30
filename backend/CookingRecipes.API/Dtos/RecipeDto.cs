@@ -1,4 +1,5 @@
-﻿using CookingRecipes.Data.Enums;
+﻿using CookingRecipes.API.Data.Enums;
+using CookingRecipes.Data.Enums;
 
 namespace CookingRecipes.Dtos
 {
@@ -11,5 +12,6 @@ namespace CookingRecipes.Dtos
         public string? Ingredients { get; set; }
         public int? Difficulty { get; set; }
         public DishType DishType { get; set; }
+        public CuisineType CuisineType { get; set; }
     }
 }

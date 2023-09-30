@@ -64,11 +64,7 @@ namespace CookingRecipes.Repository
 
         public async Task<bool> RemoveFavoriteRecipe(int userId, int recipeId)
         {
-            var user = await _context.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
-            var recipe = await _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefaultAsync();
-
             var favoriteRecipe = await _context.UserFavoriteRecipes.Where(f => f.UserId == userId && f.RecipeId == recipeId).FirstOrDefaultAsync();
-
             _context.Remove(favoriteRecipe);
             return await Save();
         }

@@ -10,6 +10,9 @@ namespace CookingRecipes.Interfaces
         Task<Recipe> GetRecipeByTitle(string title);
         Task<decimal> GetRecipeRating(int id);
         Task<ICollection<Recipe>> GetRecipesByCategory(int categoryId);
+        Task<ICollection<Category>> GetRecipeCategories(int recipeId);
+        Task<bool> AddRecipeCategories(int recipeId, IList<int> categoryIds);
+        Task<bool> RemoveRecipeCategory(int recipeId, int categoryId);
         bool RecipeExists(int id);
         bool RecipeTitleExists(string title);
         Task<bool> CreateRecipe(int categoryId, Recipe recipe);

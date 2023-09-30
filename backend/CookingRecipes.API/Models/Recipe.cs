@@ -1,4 +1,5 @@
-﻿using CookingRecipes.Data.Enums;
+﻿using CookingRecipes.API.Data.Enums;
+using CookingRecipes.Data.Enums;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,6 +18,7 @@ namespace CookingRecipes.Models
         [DefaultValue(0)]
         public int? Difficulty { get; set; }
         public DishType DishType { get; set; }
+        public CuisineType CuisineType { get; set; }
         public ICollection<UserFavoriteRecipe>? UserFavoriteRecipes { get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public ICollection<RecipeCategory>? RecipeCategories { get; set; }
