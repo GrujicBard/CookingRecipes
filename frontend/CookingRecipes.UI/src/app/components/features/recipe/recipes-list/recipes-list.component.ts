@@ -12,6 +12,8 @@ import { DialogService } from 'src/app/services/core/dialogs/dialog.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DishType } from 'src/app/models/enums/dishType';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
+import { RecipeType } from 'src/app/models/enums/recipeType';
+import RecipeDisplayDto from 'src/app/dtos/recipeDisplayDto';
 
 @Component({
   selector: 'app-recipes-list',
@@ -30,10 +32,13 @@ export class RecipesListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  recipes!: MatTableDataSource<Recipe>;
-  columnsToDisplay = ['id', 'title', 'dishType', 'cuisineType', 'difficulty', 'actions'];
+  recipesDataSource!: MatTableDataSource<RecipeDisplayDto>;
+  columnsToDisplay = ['id', 'title','categories', 'dishType', 'cuisineType', 'difficulty', 'actions'];
   expandedElement!: Recipe | null;
-  
+
+  recipes!: Recipe[];
+  recipesDisplay!: RecipeDisplayDto[];
+  categoriesToDisplay: string[] = [];
 
   tableDef: Array<any> = [
     {
@@ -44,6 +49,11 @@ export class RecipesListComponent implements OnInit {
     {
       key: 'title',
       header: 'Title',
+      className: 'string'
+    },
+    {
+      key: 'categories',
+      header: 'Categories',
       className: 'string'
     },
     {
@@ -73,6 +83,7 @@ export class RecipesListComponent implements OnInit {
 
   ngOnInit() {
     this.getRecipes();
+    this.copyCategories();
   }
 
   openAddRecipeDialog() {
@@ -103,10 +114,10 @@ export class RecipesListComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
-    this.recipes.filter = filterValue;
+    this.recipesDataSource.filter = filterValue;
 
-    if (this.recipes.paginator) {
-      this.recipes.paginator.firstPage();
+    if (this.recipesDataSource.paginator) {
+      this.recipesDataSource.paginator.firstPage();
     }
   }
 
@@ -114,12 +125,22 @@ export class RecipesListComponent implements OnInit {
     this._recipeService.getRecipes()
       .subscribe({
         next: (recipes) => {
-          this.recipes = new MatTableDataSource(recipes);
+          this.recipes = recipes;
+          console.log(recipes)
+          this.recipesDisplay = recipes;
+          for (let i = 0; i < recipes.length; i++) {
+            let categories: string[] = [];
+            for (let j = 0; j < recipes[i].recipeCategories.length; j++){
+              categories.push(RecipeType[recipes[i].recipeCategories[j].category.recipeType]);
+            }
+            this.recipesDisplay[i].categories = categories;
+          }
+          this.recipesDataSource = new MatTableDataSource(this.recipesDisplay);
           setTimeout(() => {
-            this.recipes.sort = this.sort
+            this.recipesDataSource.sort = this.sort
           });
-          this.recipes.paginator = this.paginator;
-          this.recipes.filterPredicate = function (data: Recipe, filter: string): boolean {
+          this.recipesDataSource.paginator = this.paginator;
+          this.recipesDataSource.filterPredicate = function (data: RecipeDisplayDto, filter: string): boolean {
             return data.title.toLowerCase().includes(filter);
           };
         },
@@ -127,6 +148,10 @@ export class RecipesListComponent implements OnInit {
           console.log(response);
         },
       });
+  }
+
+  copyCategories() {
+
   }
 
   deleteRecipe(recipe: Recipe) {
@@ -153,11 +178,15 @@ export class RecipesListComponent implements OnInit {
   }
 
   public get DishType() {
-    return DishType; 
+    return DishType;
   }
 
   public get CuisineType() {
-    return CuisineType; 
+    return CuisineType;
+  }
+
+  public get RecipeType() {
+    return RecipeType;
   }
 
 }

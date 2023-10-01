@@ -17,7 +17,8 @@
 .main-body {
   padding-top: 20px;
   margin: 0 auto;
-  max-width: 1800px;
+  min-width: 1200px;
+  max-width: 1400px;
 
 }
 
@@ -58,7 +59,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   padding: 0px 0px 10px 10px;
 }
 
-h3 {
+h4 {
   font-weight: 500;
   margin-bottom: 5px;
 }

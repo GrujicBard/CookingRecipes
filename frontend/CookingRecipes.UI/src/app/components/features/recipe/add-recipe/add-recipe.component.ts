@@ -1,12 +1,16 @@
 import { MatDialogRef } from '@angular/material/dialog';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 import { DishType } from 'src/app/models/enums/dishType';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
+import { RecipeType } from 'src/app/models/enums/recipeType';
+import RecipeCategory from 'src/app/models/recipeCategory';
+import Category from 'src/app/models/category';
+import { Value } from 'sass';
+
 
 @Component({
   selector: 'app-add-recipe',
@@ -21,11 +25,15 @@ export class AddRecipeComponent implements OnInit {
   cuisineTypes = Object.keys(CuisineType).filter((item) => {
     return isNaN(Number(item));
   });
+  recipeTypes = Object.keys(RecipeType).filter((item) => {
+    return isNaN(Number(item));
+  });
 
   createRecipe!: Recipe;
   categoryId: number;
-  private addRecipeSubscription?: Subscription;
-
+  categoriesToDisplay: string[] = [];
+  tempCategories: number[] = [];
+  private _addRecipeSubscription?: Subscription;
 
   constructor(
     private _recipeService: RecipeService,
@@ -40,6 +48,7 @@ export class AddRecipeComponent implements OnInit {
       dishType: 0,
       cuisineType: 0,
       difficulty: 0,
+      recipeCategories: [],
     };
     this.categoryId = 0;
   }
@@ -48,11 +57,15 @@ export class AddRecipeComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.addRecipeSubscription?.unsubscribe();
+    this._addRecipeSubscription?.unsubscribe();
   }
 
   addRecipe() {
-    this.addRecipeSubscription = this._recipeService.addRecipe(this.categoryId, this.createRecipe)
+    this.tempCategories.forEach(category => {
+      this.createRecipe.recipeCategories.push(new RecipeCategory(new Category(category)))
+    });
+
+    this._addRecipeSubscription = this._recipeService.addRecipe(this.createRecipe)
       .subscribe({
         next: () => {
           this._notificationService.openSnackBar("Recipe added!", "Done");
@@ -63,6 +76,22 @@ export class AddRecipeComponent implements OnInit {
           console.log(res);
         },
       });
+  }
+
+  addRecipeCatToIput() {
+    if (this.tempCategories?.indexOf(this.categoryId) === -1) { // check if value is unique
+      this.tempCategories?.push(this.categoryId); // enums start with 0, ids start with 1
+      this.categoriesToDisplay = [...this.categoriesToDisplay, RecipeType[this.categoryId]]; // push is not detected as a change in ngModel
+      console.log(this.tempCategories);
+      console.log(this.categoriesToDisplay);
+    }
+  }
+
+  removeRecipeCatFromInput() {
+    this.tempCategories = this.tempCategories?.filter((item) => item != this.categoryId);
+    this.categoriesToDisplay = this.categoriesToDisplay.filter((item) => item != RecipeType[this.categoryId]);
+    console.log(this.tempCategories);
+    console.log(this.categoriesToDisplay);
   }
 
 }

@@ -6,6 +6,8 @@ import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 import { DishType } from 'src/app/models/enums/dishType';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
+import { RecipeType } from 'src/app/models/enums/recipeType';
+import RecipeDisplayDto from 'src/app/dtos/recipeDisplayDto';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -20,7 +22,13 @@ export class EditRecipeComponent implements OnInit {
   cuisineTypes = Object.keys(CuisineType).filter((item) => {
     return isNaN(Number(item));
   });
-  displayRecipe!: Recipe;
+  recipeTypes = Object.keys(RecipeType).filter((item) => {
+    return isNaN(Number(item));
+  });
+  displayRecipe!: RecipeDisplayDto;
+  tempCategories!:number[];
+  categoriesToDisplay: string[] = [];
+  categoryId!: number;
   private editRecipeSubscription?: Subscription;
 
 
@@ -54,6 +62,21 @@ export class EditRecipeComponent implements OnInit {
           this._notificationService.openSnackBar("There was a problem deleting recipe.", "Close");
         },
       });
+  }
+  addRecipeCatToIput() {
+/*     if (this.tempCategories?.indexOf(this.categoryId) === -1 && this.categoryId > 0) { // check if value is unique
+      this.tempCategories?.push(this.categoryId);
+      this.categoriesToDisplay = [...this.categoriesToDisplay, RecipeType[this.categoryId]]; // push is not detected as a change in ngModel
+      console.log(this.tempCategories);
+      console.log(this.categoriesToDisplay);
+    } */
+  }
+
+  removeRecipeCatFromInput() {
+/*     this.tempCategories = this.tempCategories?.filter((item) => item != this.categoryId);
+    this.categoriesToDisplay = this.categoriesToDisplay.filter((item) => item != RecipeType[this.categoryId]);
+    console.log(this.tempCategories);
+    console.log(this.categoriesToDisplay); */
   }
 
 }

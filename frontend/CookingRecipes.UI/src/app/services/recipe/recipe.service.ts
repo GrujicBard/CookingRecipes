@@ -3,6 +3,7 @@ import Recipe from '../../models/recipe';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import RecipeDisplayDto from 'src/app/dtos/recipeDisplayDto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,15 @@ export class RecipeService {
     return this.httpClient.get<Recipe>(`${this.baseApiUrl}/${this.url}/${recipeId}`);
   };
 
-  public addRecipe(categoryId: number, recipe: Recipe): Observable<void> {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}?categoryId=${categoryId}`, recipe, { responseType: 'text' as 'json' });
+  public getRecipeByTitle(title: string): Observable<Recipe> {
+    return this.httpClient.get<Recipe>(`${this.baseApiUrl}/${this.url}/title/${title}`);
   };
 
-  public updateRecipe(recipe: Recipe): Observable<void> {
+  public addRecipe(recipe: Recipe): Observable<void> {
+    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}`, recipe, { responseType: 'text' as 'json' });
+  };
+
+  public updateRecipe(recipe: RecipeDisplayDto): Observable<void> {
     return this.httpClient.put<void>(`${this.baseApiUrl}/${this.url}/${recipe.id}`, recipe);
   };
 
@@ -34,5 +39,16 @@ export class RecipeService {
     return this.httpClient.delete<void>(`${this.baseApiUrl}/${this.url}/${recipe.id}`);
   };
 
+  public addCatToRecipe(recipeId: number, categoryIds: number[]): Observable<void> {
+    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}/categories/${recipeId}`, categoryIds, { responseType: 'text' as 'json' });
+  }
+
+  public remCatFromRecipe(recipeId: number, categoryIds: number[], recipe: Recipe) {
+    return this.httpClient.delete<void>(`${this.baseApiUrl}/${this.url}/categories/${recipeId}`);
+  }
+
+  public addCatToRecipeByTitle(recipeTitle: string, categoryIds: number[]): Observable<void> {
+    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}/categories/title/${recipeTitle}`, categoryIds, { responseType: 'text' as 'json' });
+  }
 }
 

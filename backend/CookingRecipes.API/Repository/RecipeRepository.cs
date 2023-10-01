@@ -1,9 +1,8 @@
 ﻿using CookingRecipes.Data;
-using CookingRecipes.Data.Enums;
-using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace CookingRecipes.Repository
 {
@@ -37,25 +36,44 @@ namespace CookingRecipes.Repository
             return await Save();
         }
 
-        public async Task<bool> CreateRecipe(int categoryId, Recipe recipe)
+        public async Task<bool> AddRecipeCategoriesByRecipeTitle(string title, IList<int> categoryIds)
         {
-            var category = await _context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync();
 
-            var recipeCategory = new RecipeCategory()
+            var recipe = await _context.Recipes.Where(r => r.Title == title).FirstOrDefaultAsync();
+            var recipeCategories = new List<RecipeCategory>();
+
+            foreach (var categoryId in categoryIds)
             {
-                Category = category,
-                Recipe = recipe,
-            };
+                var category = await _context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync();
+                if (!_context.RecipeCategories.Any(rc => rc.RecipeId == recipe.Id && rc.CategoryId == categoryId))
+                {
+                    recipeCategories.Add(
+                        new RecipeCategory
+                        {
+                            Recipe = recipe,
+                            Category = category,
+                        });
+                }
+            }
+            await _context.AddRangeAsync(recipeCategories);
+            return await Save();
+        }
 
-            await _context.AddAsync(recipeCategory);
+        public async Task<bool> CreateRecipe(Recipe recipe)
+        {
             await _context.AddAsync(recipe);
-
             return await Save();
         }
 
         public async Task<bool> DeleteRecipe(Recipe recipe)
         {
             _context.Remove(recipe);
+            return await Save();
+        }
+
+        public async Task<bool> DeleteRecipeCategories(List<RecipeCategory> recipeCategories)
+        {
+            _context.RemoveRange(recipeCategories);
             return await Save();
         }
 
@@ -69,7 +87,7 @@ namespace CookingRecipes.Repository
             return await _context.Recipes.Where(r => r.Title.Trim().ToUpper() == title.Trim().ToUpper()).FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<Category>> GetRecipeCategories(int recipeId)
+        public async Task<ICollection<Category>> GetCategoriesByRecipeId(int recipeId)
         {
             return await _context.RecipeCategories.Where(rc => rc.RecipeId == recipeId).Select(rc => rc.Category).ToListAsync();
         }
@@ -88,7 +106,7 @@ namespace CookingRecipes.Repository
 
         public async Task<ICollection<Recipe>> GetRecipes()
         {
-            return await _context.Recipes.OrderBy(r => r.Id).ToListAsync();
+            return await _context.Recipes.Include(r => r.RecipeCategories).ThenInclude(rc => rc.Category).ToListAsync();
         }
 
         public async Task<ICollection<Recipe>> GetRecipesByCategory(int categoryId)
@@ -107,6 +125,28 @@ namespace CookingRecipes.Repository
             return _context.Recipes.Any(r => r.Title == title);
         }
 
+        public async Task<bool> RemoveRecipeCategories(int recipeId, IList<int> categoryIds)
+        {
+            var recipe = await _context.Recipes.Where(r => r.Id == recipeId).FirstOrDefaultAsync();
+            var recipeCategories = new List<RecipeCategory>();
+
+            foreach (var categoryId in categoryIds)
+            {
+                var category = await _context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync();
+                if (_context.RecipeCategories.Any(rc => rc.RecipeId == recipeId && rc.CategoryId == categoryId))
+                {
+                    recipeCategories.Add(
+                        new RecipeCategory
+                        {
+                            Recipe = recipe,
+                            Category = category,
+                        });
+                }
+            }
+            _context.RemoveRange(recipeCategories);
+            return await Save();
+        }
+
         public async Task<bool> RemoveRecipeCategory(int recipeId, int categoryId)
         {
            var recipeCategory = await _context.RecipeCategories.Where(rc => rc.RecipeId == recipeId && rc.CategoryId == categoryId).FirstOrDefaultAsync();
@@ -123,6 +163,11 @@ namespace CookingRecipes.Repository
         {
             _context.Update(recipe);
             return await Save();
+        }
+
+        public async Task<ICollection<RecipeCategory>> GetRecipeCategoriesByRecipeId(int recipeId)
+        {
+            return await _context.RecipeCategories.Where(rc => rc.RecipeId == recipeId).ToListAsync();
         }
     }
 }

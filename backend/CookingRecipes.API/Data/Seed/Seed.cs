@@ -59,7 +59,7 @@ namespace CookingRecipes.Data.Seed
                             DishType = dishTypes[rnd.Next(dishTypes.Count)],
                             CuisineType = cuisineTypes[rnd.Next(cuisineTypes.Count)],
                         });
-                    if (++counter > _numberOfRecipes) break;
+                    if (++counter == _numberOfRecipes) break;
                 }
                 _dataContext.Recipes.AddRange(recipes);
                 _dataContext.SaveChanges();

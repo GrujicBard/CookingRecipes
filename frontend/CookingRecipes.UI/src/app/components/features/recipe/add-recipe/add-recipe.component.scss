@@ -11,15 +11,25 @@ mat-form-field {
     width: 100%;
 }
 
-.recipeForm{
+.recipeForm {
     min-width: 800px;
     max-width: 1000px;
 }
 
-.action{
+.action {
     padding: 20px 25px 20px;
 }
 
-mat-dialog-title{
+mat-dialog-title {
     margin-bottom: 5px;
+}
+
+.recipeCategory {
+    width: 75%;
+    padding-right: 0px;
+}
+
+.buttonRow {
+    padding-bottom: 28px;
+    width: 24%;
 }

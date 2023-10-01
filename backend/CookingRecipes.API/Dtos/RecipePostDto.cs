@@ -1,10 +1,10 @@
 ﻿using CookingRecipes.API.Data.Enums;
-using CookingRecipes.API.Dtos;
 using CookingRecipes.Data.Enums;
+using CookingRecipes.Models;
 
-namespace CookingRecipes.Dtos
+namespace CookingRecipes.API.Dtos
 {
-    public class RecipeDto
+    public class RecipePostDto
     {
         public int? Id { get; set; }
         public string? Title { get; set; }
@@ -14,6 +14,6 @@ namespace CookingRecipes.Dtos
         public int? Difficulty { get; set; }
         public DishType DishType { get; set; }
         public CuisineType CuisineType { get; set; }
-        public List<RecipeCategoryDto>? RecipeCategories { get; set; }
+        public ICollection<RecipeCategoryDto>? RecipeCategories { get; set; }
     }
 }
