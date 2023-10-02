@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import Recipe from 'src/app/models/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
@@ -32,8 +32,8 @@ export class RecipesListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  recipesDataSource!: MatTableDataSource<RecipeDisplayDto>;
-  columnsToDisplay = ['id', 'title','categories', 'dishType', 'cuisineType', 'difficulty', 'actions'];
+  recipesDataSource!: MatTableDataSource<Recipe>;
+  columnsToDisplay = ['id', 'title', 'categories', 'dishType', 'cuisineType', 'difficulty', 'actions'];
   expandedElement!: Recipe | null;
 
   recipes!: Recipe[];
@@ -78,12 +78,10 @@ export class RecipesListComponent implements OnInit {
     private _notificationService: NotificationService,
     private _dialog: MatDialog,
     private _dialogService: DialogService,
-    private _cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.getRecipes();
-    this.copyCategories();
   }
 
   openAddRecipeDialog() {
@@ -125,17 +123,10 @@ export class RecipesListComponent implements OnInit {
     this._recipeService.getRecipes()
       .subscribe({
         next: (recipes) => {
+          console.log(recipes);
+          /* Manage data to display in recipes list */
           this.recipes = recipes;
-          console.log(recipes)
-          this.recipesDisplay = recipes;
-          for (let i = 0; i < recipes.length; i++) {
-            let categories: string[] = [];
-            for (let j = 0; j < recipes[i].recipeCategories.length; j++){
-              categories.push(RecipeType[recipes[i].recipeCategories[j].category.recipeType]);
-            }
-            this.recipesDisplay[i].categories = categories;
-          }
-          this.recipesDataSource = new MatTableDataSource(this.recipesDisplay);
+          this.recipesDataSource = new MatTableDataSource(recipes);
           setTimeout(() => {
             this.recipesDataSource.sort = this.sort
           });
@@ -148,10 +139,6 @@ export class RecipesListComponent implements OnInit {
           console.log(response);
         },
       });
-  }
-
-  copyCategories() {
-
   }
 
   deleteRecipe(recipe: Recipe) {

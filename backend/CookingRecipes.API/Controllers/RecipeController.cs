@@ -120,7 +120,7 @@ namespace ContosoRecipes.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateRecipe([FromBody] RecipePostDto recipeCreate)
+        public async Task<IActionResult> CreateRecipe([FromBody] RecipeDto recipeCreate)
         {
             if (recipeCreate == null)
             {
@@ -136,24 +136,6 @@ namespace ContosoRecipes.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
             var recipeMap = _mapper.Map<Recipe>(recipeCreate);
-            //if (recipeCreate.CategoryIds != null)
-            //{
-            //    var recipeCategories = new List<RecipeCategory>();
-            //    foreach (int categoryId in recipeCreate.CategoryIds)
-            //    {
-            //        if (!_categoryRepository.CategoryExists(categoryId))
-            //        {
-            //            ModelState.AddModelError("", "Category doesn't exist.");
-            //            return StatusCode(422, ModelState);
-            //        }
-            //        recipeCategories.Add(new RecipeCategory()
-            //        {
-            //            Recipe = recipeMap,
-            //            Category = await _categoryRepository.GetCategory(categoryId),
-            //        });                  
-            //    }
-            //    recipeMap.RecipeCategories = recipeCategories;
-            //}
 
             if (!await _recipeRepository.CreateRecipe(recipeMap))
             {
@@ -163,116 +145,6 @@ namespace ContosoRecipes.Controllers
 
             return Ok("Successfuly created.");
         }
-
-        [HttpGet("categories/{recipeId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> GetRecipeCategories(int recipeId)
-        {
-            if (!_recipeRepository.RecipeExists(recipeId))
-            {
-                return NotFound();
-            }
-
-            var categories = _mapper.Map<List<CategoryDto>>(await _recipeRepository.GetCategoriesByRecipeId(recipeId));
-
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok(categories);
-
-        }
-
-        [HttpDelete("categories/{recipeId}")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> RemoveRecipeCategories(int recipeId, [FromBody] int[] categoryIds)
-        {
-            if (!_recipeRepository.RecipeExists(recipeId))
-            {
-                ModelState.AddModelError("", "Recipe doesn't exist.");
-                return StatusCode(422, ModelState);
-            }
-
-            foreach (var categoryId in categoryIds)
-            {
-                if (!_categoryRepository.CategoryExists(categoryId))
-                {
-                    ModelState.AddModelError("", "Category doesn't exist.");
-                    return StatusCode(422, ModelState);
-                }
-            }
-            if (!await _recipeRepository.RemoveRecipeCategories(recipeId, categoryIds))
-            {
-                ModelState.AddModelError("", "Something went wrong removing recipe categories.");
-                return StatusCode(500, ModelState);
-            }
-
-            return Ok("Successfuly removed.");
-        }
-
-        [HttpPost("categories/{recipeId}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> AddRecipeCategories(int recipeId, [FromBody] List<int> categoryIds)
-        {
-
-            if (!_recipeRepository.RecipeExists(recipeId))
-            {
-                ModelState.AddModelError("", "Recipe doesn't exist.");
-                return StatusCode(422, ModelState);
-            }
-
-            foreach(var categoryId in categoryIds)
-            {
-                if (!_categoryRepository.CategoryExists(categoryId))
-                {
-                    ModelState.AddModelError("", "Category doesn't exist.");
-                    return StatusCode(422, ModelState);
-                }
-            }
-            if (!await _recipeRepository.AddRecipeCategories(recipeId, categoryIds))
-            {
-                ModelState.AddModelError("", "Something went wrong while saving.");
-                return StatusCode(500, ModelState);
-            }
-
-            return Ok("Successfuly added.");
-        }
-
-        [HttpPost("categories/title/{title}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> AddRecipeCategoriesByRecipeTitle(string title, [FromBody] List<int> categoryIds)
-        {
-
-            if (!_recipeRepository.RecipeTitleExists(title))
-            {
-                ModelState.AddModelError("", "Recipe doesn't exist.");
-                return StatusCode(422, ModelState);
-            }
-
-            foreach (var categoryId in categoryIds)
-            {
-                if (!_categoryRepository.CategoryExists(categoryId))
-                {
-                    ModelState.AddModelError("", "Category doesn't exist.");
-                    return StatusCode(422, ModelState);
-                }
-            }
-            if (!await _recipeRepository.AddRecipeCategoriesByRecipeTitle(title, categoryIds))
-            {
-                ModelState.AddModelError("", "Something went wrong while saving.");
-                return StatusCode(500, ModelState);
-            }
-
-            return Ok("Successfuly added.");
-        }
-
 
         [HttpPut("{recipeId}")]
         [ProducesResponseType(400)]
@@ -294,7 +166,7 @@ namespace ContosoRecipes.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            await _recipeRepository.DeleteRecipeCategoriesByRecipeId(recipeId);
             var recipeMap = _mapper.Map<Recipe>(updatedRecipe);
 
             if (!await _recipeRepository.UpdateRecipe(recipeMap))
@@ -317,7 +189,6 @@ namespace ContosoRecipes.Controllers
                 return NotFound();
             }
             var reviewsToDelete = await _reviewRepository.GetReviewsOfARecipe(recipeId);
-            var recipeCategoriesToDelete = await _recipeRepository.GetRecipeCategoriesByRecipeId(recipeId);
             var recipeToDelete = await _recipeRepository.GetRecipeById(recipeId);
 
             if (!ModelState.IsValid)
@@ -330,7 +201,7 @@ namespace ContosoRecipes.Controllers
                 ModelState.AddModelError("", "Something went wrong deleting reviews");
             }
 
-            if (!await _recipeRepository.DeleteRecipeCategories(recipeCategoriesToDelete.ToList()))
+            if (!await _recipeRepository.DeleteRecipeCategoriesByRecipeId(recipeId))
             {
                 ModelState.AddModelError("", "Something went wrong deleting recipe categories.");
             }

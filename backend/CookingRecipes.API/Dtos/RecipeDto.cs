@@ -14,6 +14,6 @@ namespace CookingRecipes.Dtos
         public int? Difficulty { get; set; }
         public DishType DishType { get; set; }
         public CuisineType CuisineType { get; set; }
-        public List<RecipeCategoryDto>? RecipeCategories { get; set; }
+        public ICollection<RecipeCategoryDto>? RecipeCategories { get; set; }
     }
 }

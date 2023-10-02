@@ -8,6 +8,8 @@ import { DishType } from 'src/app/models/enums/dishType';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
 import { RecipeType } from 'src/app/models/enums/recipeType';
 import RecipeDisplayDto from 'src/app/dtos/recipeDisplayDto';
+import RecipeCategory from 'src/app/models/recipeCategory';
+import Category from 'src/app/models/category';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -25,8 +27,8 @@ export class EditRecipeComponent implements OnInit {
   recipeTypes = Object.keys(RecipeType).filter((item) => {
     return isNaN(Number(item));
   });
-  displayRecipe!: RecipeDisplayDto;
-  tempCategories!:number[];
+  displayRecipe!: Recipe;
+  tempCategories: number[] = [];
   categoriesToDisplay: string[] = [];
   categoryId!: number;
   private editRecipeSubscription?: Subscription;
@@ -40,10 +42,10 @@ export class EditRecipeComponent implements OnInit {
   ) {
 
     this.displayRecipe = { ...data };
-    this.displayRecipe.difficulty = data.difficulty.toString();
   }
 
   ngOnInit() {
+    this.loadCategories();
   }
 
   ngOnDestroy() {
@@ -51,6 +53,11 @@ export class EditRecipeComponent implements OnInit {
   }
 
   editRecipe() {
+    this.displayRecipe.recipeCategories = [];
+    this.tempCategories.forEach(category => {
+      this.displayRecipe.recipeCategories.push(new RecipeCategory(new Category(category)))
+    });
+
     this.editRecipeSubscription = this._recipeService.updateRecipe(this.displayRecipe)
       .subscribe({
         next: () => {
@@ -59,24 +66,33 @@ export class EditRecipeComponent implements OnInit {
         },
         error: (res) => {
           console.log(res);
-          this._notificationService.openSnackBar("There was a problem deleting recipe.", "Close");
+          this._notificationService.openSnackBar("There was a problem updating recipe.", "Close");
         },
       });
   }
   addRecipeCatToIput() {
-/*     if (this.tempCategories?.indexOf(this.categoryId) === -1 && this.categoryId > 0) { // check if value is unique
+    if (this.tempCategories?.indexOf(this.categoryId) === -1 && this.categoryId > 0) { // check if value is unique
       this.tempCategories?.push(this.categoryId);
       this.categoriesToDisplay = [...this.categoriesToDisplay, RecipeType[this.categoryId]]; // push is not detected as a change in ngModel
       console.log(this.tempCategories);
       console.log(this.categoriesToDisplay);
-    } */
+    }
   }
 
   removeRecipeCatFromInput() {
-/*     this.tempCategories = this.tempCategories?.filter((item) => item != this.categoryId);
+    this.tempCategories = this.tempCategories?.filter((item) => item != this.categoryId);
     this.categoriesToDisplay = this.categoriesToDisplay.filter((item) => item != RecipeType[this.categoryId]);
     console.log(this.tempCategories);
-    console.log(this.categoriesToDisplay); */
+    console.log(this.categoriesToDisplay);
+  }
+
+  loadCategories(){
+    this.displayRecipe.recipeCategories.forEach(element => {
+      if(element.category != null){
+        this.tempCategories.push(element.category.recipeType);
+        this.categoriesToDisplay.push(RecipeType[element.category.recipeType]);
+      }
+    });
   }
 
 }

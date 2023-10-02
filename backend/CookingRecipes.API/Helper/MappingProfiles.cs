@@ -10,7 +10,6 @@ namespace CookingRecipes.Helper
         public MappingProfiles()
         {
             CreateMap<Recipe, RecipeDto>().ReverseMap();
-            CreateMap<Recipe, RecipePostDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<RecipeCategory, RecipeCategoryDto>().ReverseMap();
             CreateMap<Role, RoleDto>().ReverseMap();

@@ -9,7 +9,6 @@ import { CuisineType } from 'src/app/models/enums/cuisineType';
 import { RecipeType } from 'src/app/models/enums/recipeType';
 import RecipeCategory from 'src/app/models/recipeCategory';
 import Category from 'src/app/models/category';
-import { Value } from 'sass';
 
 
 @Component({
@@ -82,16 +81,11 @@ export class AddRecipeComponent implements OnInit {
     if (this.tempCategories?.indexOf(this.categoryId) === -1) { // check if value is unique
       this.tempCategories?.push(this.categoryId); // enums start with 0, ids start with 1
       this.categoriesToDisplay = [...this.categoriesToDisplay, RecipeType[this.categoryId]]; // push is not detected as a change in ngModel
-      console.log(this.tempCategories);
-      console.log(this.categoriesToDisplay);
     }
   }
 
   removeRecipeCatFromInput() {
     this.tempCategories = this.tempCategories?.filter((item) => item != this.categoryId);
     this.categoriesToDisplay = this.categoriesToDisplay.filter((item) => item != RecipeType[this.categoryId]);
-    console.log(this.tempCategories);
-    console.log(this.categoriesToDisplay);
   }
-
 }

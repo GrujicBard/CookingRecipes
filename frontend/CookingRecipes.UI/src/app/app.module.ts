@@ -66,7 +66,6 @@ import { ConfirmDialogComponent } from './components/core/dialogs/confirm-dialog
     MatTableModule,
     MatSortModule,
     MatSnackBarModule,
-    
   ],
   providers: [],
   bootstrap: [AppComponent]

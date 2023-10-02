@@ -38,17 +38,5 @@ export class RecipeService {
   public deleteRecipe(recipe: Recipe): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseApiUrl}/${this.url}/${recipe.id}`);
   };
-
-  public addCatToRecipe(recipeId: number, categoryIds: number[]): Observable<void> {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}/categories/${recipeId}`, categoryIds, { responseType: 'text' as 'json' });
-  }
-
-  public remCatFromRecipe(recipeId: number, categoryIds: number[], recipe: Recipe) {
-    return this.httpClient.delete<void>(`${this.baseApiUrl}/${this.url}/categories/${recipeId}`);
-  }
-
-  public addCatToRecipeByTitle(recipeTitle: string, categoryIds: number[]): Observable<void> {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}/categories/title/${recipeTitle}`, categoryIds, { responseType: 'text' as 'json' });
-  }
 }
 
