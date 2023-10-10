@@ -20,6 +20,10 @@ h1{
     border-radius: unset;
 }
 
+mat-icon{
+    margin-right: 0px !important;
+    
+}
 mat-card {
     box-shadow: 0px 1px 10px 0 #1414142e !important
 }
@@ -28,28 +32,33 @@ mat-card {
     width: 350px;
   }
 
-.left-button {
-    float: left;
-    padding: 0;
-}
+
 .mat-mdc-card-content:last-child{
     padding-bottom: 0px;
 }
 
 mat-card-content p {
     float: left;
-    padding-top: 10px;
+    padding: 10px 0px 0px 10px;
+}
+
+.left-button {
+    float: left;
+    padding: 0;
+    color: gold !important;
 }
 
 .right-button {
     float: right;
     padding: 0;
+    color: #dc3554 !important;
 }
 
 mat-card-title {
     padding: 10px 10px 0px 10px;
     overflow: hidden;
     min-height: 75px;
+    font-weight: 400;
 }
 
 .recipe-image {
