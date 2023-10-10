@@ -1,0 +1,58 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-body {
+    padding-top: 20px;
+    margin: 0 auto;
+    max-width: 1460px;
+}
+
+h1{
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+.recipe-card {
+    max-width: 350px;
+    margin: 0px 15px 15px 0px;
+    border-radius: unset;
+}
+
+mat-card {
+    box-shadow: 0px 1px 10px 0 #1414142e !important
+}
+
+.element-image {
+    width: 350px;
+  }
+
+.left-button {
+    float: left;
+    padding: 0;
+}
+.mat-mdc-card-content:last-child{
+    padding-bottom: 0px;
+}
+
+mat-card-content p {
+    float: left;
+    padding-top: 10px;
+}
+
+.right-button {
+    float: right;
+    padding: 0;
+}
+
+mat-card-title {
+    padding: 10px 10px 0px 10px;
+    overflow: hidden;
+    min-height: 75px;
+}
+
+.recipe-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}

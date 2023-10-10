@@ -21,14 +21,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { RecipesListComponent } from './components/features/recipe/recipes-list/recipes-list.component';
-import { AddRecipeComponent } from './components/features/recipe/add-recipe/add-recipe.component';
-import { EditRecipeComponent } from './components/features/recipe/edit-recipe/edit-recipe.component';
+import { RecipesListComponent } from './components/features/admin/recipe/recipes-list/recipes-list.component';
+import { AddRecipeComponent } from './components/features/admin/recipe/add-recipe/add-recipe.component';
+import { EditRecipeComponent } from './components/features/admin/recipe/edit-recipe/edit-recipe.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from './components/core/dialogs/confirm-dialog/confirm-dialog.component';
+import { RecipesListUserComponent } from './components/features/user/recipe/recipes-list-user/recipes-list-user.component';
 
 
 
@@ -41,6 +42,7 @@ import { ConfirmDialogComponent } from './components/core/dialogs/confirm-dialog
     EditRecipeComponent,
     NavbarComponent,
     ConfirmDialogComponent,
+    RecipesListUserComponent,
 
   ],
   imports: [

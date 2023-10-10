@@ -33,12 +33,10 @@ export class RecipesListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   recipesDataSource!: MatTableDataSource<Recipe>;
-  columnsToDisplay = ['id', 'title', 'categories', 'dishType', 'cuisineType', 'difficulty', 'actions'];
+  columnsToDisplay = ['id', 'title', 'recipeType', 'dishType', 'cuisineType', 'difficulty', 'actions'];
   expandedElement!: Recipe | null;
 
   recipes!: Recipe[];
-  recipesDisplay!: RecipeDisplayDto[];
-  categoriesToDisplay: string[] = [];
 
   tableDef: Array<any> = [
     {
@@ -52,7 +50,7 @@ export class RecipesListComponent implements OnInit {
       className: 'string'
     },
     {
-      key: 'categories',
+      key: 'recipeType',
       header: 'Categories',
       className: 'string'
     },
