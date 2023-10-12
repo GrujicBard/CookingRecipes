@@ -110,11 +110,11 @@ namespace CookingRecipes.Tests.Controller
             var recipesList = A.Fake<IList<RecipeDto>>();
             A.CallTo(() => _recipeRepository.RecipeTitleExists(recipeCreate.Title)).Returns(false);
             A.CallTo(() => _mapper.Map<Recipe>(recipeCreate)).Returns(recipe);
-            A.CallTo(() => _recipeRepository.CreateRecipe(categoryId, recipe)).Returns(true);
+            A.CallTo(() => _recipeRepository.CreateRecipe(recipe)).Returns(true);
             #endregion
 
             #region Assert
-            var result = await _recipeController.CreateRecipe(categoryId, recipeCreate);
+            var result = await _recipeController.CreateRecipe(recipeCreate);
             
             #endregion
 

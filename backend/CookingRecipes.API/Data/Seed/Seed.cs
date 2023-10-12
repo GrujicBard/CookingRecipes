@@ -45,9 +45,7 @@ namespace CookingRecipes.Data.Seed
                 foreach (var recipe in csvRecipes)
                 {
                     string ingredients = recipe.Ingredients;
-                    ingredients = ingredients.Substring(1, ingredients.Length - 2);
-                    ingredients = ingredients.Trim('"');
-                    ingredients = ingredients.Replace("'", "");
+                    ingredients = ingredients.Substring(2, ingredients.Length - 4);
                     recipes.Add(
                         new Recipe()
                         {

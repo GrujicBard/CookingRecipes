@@ -26,10 +26,7 @@ export class RecipesListUserComponent implements OnInit {
     this._recipeService.getRecipes()
       .subscribe({
         next: (recipes) => {
-          console.log(recipes);
-          /* Manage data to display in recipes list */
           this.recipes = recipes;
-          console.log(this.recipes)
         },
         error: (response) => {
           console.log(response);

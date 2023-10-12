@@ -187,7 +187,7 @@ namespace CookingRecipes.Tests.Repository
             #endregion
 
             #region Act
-            var result = await recipeRepository.CreateRecipe(10, recipe);
+            var result = await recipeRepository.CreateRecipe(recipe);
             #endregion
 
             #region Assert
@@ -213,7 +213,7 @@ namespace CookingRecipes.Tests.Repository
             #endregion
 
             #region Act
-            await recipeRepository.CreateRecipe(2, recipe);
+            await recipeRepository.CreateRecipe(recipe);
             var result = await recipeRepository.DeleteRecipe(recipe);
             #endregion
 
@@ -242,7 +242,7 @@ namespace CookingRecipes.Tests.Repository
             #endregion
 
             #region Act
-            recipeRepository.CreateRecipe(2, recipe);
+            recipeRepository.CreateRecipe(recipe);
             var result = await recipeRepository.UpdateRecipe(updatedrecipe);
             #endregion
 

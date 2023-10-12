@@ -16,6 +16,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatListModule} from '@angular/material/list';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from './components/core/dialogs/confirm-dialog/confirm-dialog.component';
 import { RecipesListUserComponent } from './components/features/user/recipe/recipes-list-user/recipes-list-user.component';
+import { RecipeDetailsComponent } from './components/features/user/recipe/recipe-details/recipe-details.component';
 
 
 
@@ -43,6 +46,8 @@ import { RecipesListUserComponent } from './components/features/user/recipe/reci
     NavbarComponent,
     ConfirmDialogComponent,
     RecipesListUserComponent,
+    RecipeDetailsComponent,
+    
 
   ],
   imports: [
@@ -68,6 +73,8 @@ import { RecipesListUserComponent } from './components/features/user/recipe/reci
     MatTableModule,
     MatSortModule,
     MatSnackBarModule,
+    MatListModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

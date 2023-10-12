@@ -5,13 +5,30 @@ mat-form-field {
   @include mat.all-component-densities(-2);
 }
 
-.buttons-group-align-end{
-  display:flex;
+.main-body {
+  padding-top: 20px;
+  margin: 0 auto;
+  max-width: 80vw;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.buttons-group-align-end {
+  display: flex;
   justify-content: flex-end !important;
   align-items: flex-end;
 }
 
-body { 
+body {
   --mat-focus-indicator-border-width: 0;
   --mat-mdc-focus-indicator-border-width: 0;
+}
+
+@media only screen and (max-width: 1024px) {
+  .main-body {
+    max-width: 90vw;
+  }
 }

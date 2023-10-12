@@ -1,0 +1,57 @@
+<div class="main-body">
+  <h1>{{recipeDetails.title}}</h1>
+  <div class="flex-container">
+    <div class="details-div">
+      <img mat-card-image class="element-image"
+        src="../../../../../assets/recipe-images/{{recipeDetails.imageName}}.jpg">
+      <table class="details-table">
+        <tr>
+          <td>
+            Difficulty:
+          </td>
+          <td class="diff-td">
+            <mat-icon class="diff-icon" style="color: #d0bb907d;"
+              *ngFor="let n of numSequence(recipeDetails.difficulty)">lens</mat-icon>
+            <mat-icon class="diff-icon" style="color:rgba(0, 0, 0, 0)"
+              *ngFor="let n of numSequence(3 - recipeDetails.difficulty)">lens</mat-icon>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Cuisine:
+          </td>
+          <td>{{CuisineType[recipeDetails.cuisineType]}}</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="rating-td">
+            <mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star_border</mat-icon><mat-icon>star_border</mat-icon>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">Avg. 4.4 (11 Votes)</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="ingredients-div">
+    <mat-divider></mat-divider>
+    <h2 class="ingred-header">Ingredients:</h2>
+    <mat-divider></mat-divider>
+    <mat-list role="list" class="ingredients-list">
+      <mat-list-item role="listitem" *ngFor="let ingredient of ingredients" style="padding-bottom: 15px">
+        <span matListItemLine>{{ingredient}}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="instructions-div">
+    <mat-divider></mat-divider>
+    <h2 class="instruct-header">Instructions:</h2>
+    <mat-divider></mat-divider>
+    <mat-list role="list" class="instructions-list">
+      <mat-list-item role="listitem" *ngFor="let step of instructions; index as i">
+        <span matListItemTitle>Step {{i+1}}</span>
+        <span matListItemLine>{{step}}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

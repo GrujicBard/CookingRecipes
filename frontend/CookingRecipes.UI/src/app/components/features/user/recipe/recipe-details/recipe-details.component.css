@@ -1,0 +1,119 @@
+h1 {
+    font-size: 24px;
+}
+
+.details-div {
+    padding-bottom: 20px;
+}
+
+.element-image {
+    max-width: 350px;
+    float: left;
+    box-shadow: 0px 1px 10px 0 #1414142e;
+    border: 1px solid #00000029;
+}
+
+.details-table {
+    float: left;
+    margin-left: 10px;
+    font-size: 20px;
+    border-spacing: 0 15px;
+}
+
+.details-table td {
+    padding: 0px 5px 10px 10px;
+}
+
+.details-table tr td:first-child {
+    font-weight: 400;
+}
+
+.diff-td {
+    -webkit-text-stroke: 1px #a1a1a17a;
+}
+
+.rating-td {
+    color: gold;
+    -webkit-text-stroke: 1px #a1a1a147;
+}
+
+.diff-icon {
+    font-size: 24px;
+    padding-top: 1px;
+}
+
+h2 {
+    margin: 0;
+    font-weight: 400;
+    background-color: #d0bb902e;
+}
+
+.ingredients-div {
+    float: left;
+}
+
+.instructions-div {
+    float: left;
+}
+
+.ingred-header {
+    padding-left: 10px;
+}
+
+.instruct-header {
+    padding-left: 20px;
+}
+
+.ingredients-list {
+    max-width: 20vw;
+    padding-left: 10px;
+    padding-bottom: 50px;
+}
+
+.instructions-list {
+    max-width: 60vw;
+    padding-top: 0px;
+    padding-left: 20px;
+    padding-bottom: 50px;
+}
+
+.instructions-list mat-list-item span:first-child {
+    color: #c1a05e;
+    font-weight: 500;
+}
+
+mat-list-item {
+    height: auto !important;
+    white-space: pre-wrap;
+    padding-left: 0px;
+}
+
+mat-list-item span {
+    white-space: pre-wrap;
+    font-size: 16px;
+    color: unset;
+}
+
+@media only screen and (max-width: 1024px) {
+    .details-table {
+        margin-top: 20px;
+
+    }
+
+    .details-table td {
+        padding: 0px 5px 10px 0px;
+    }
+
+
+    .ingredients-list {
+        max-width: 90vw;
+
+    }
+
+    .instructions-list {
+        max-width: 90vw;
+        padding-left: 0px;
+
+    }
+
+}
