@@ -1,14 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 mat-form-field {
   @include mat.all-component-densities(-2);
 }
 
+
 .main-body {
-  padding-top: 20px;
-  margin: 0 auto;
-  max-width: 80vw;
+  padding: 20px 10vw 50px 10vw;
 }
 
 .flex-container {
@@ -29,6 +31,6 @@ body {
 
 @media only screen and (max-width: 1024px) {
   .main-body {
-    max-width: 90vw;
+    padding: 20px 5vw 50px 5vw;
   }
 }

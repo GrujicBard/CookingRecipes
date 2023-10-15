@@ -1,42 +1,27 @@
-<nav class="navbar navbar-expand-lg border-bottom border-body" data-bs-theme="light" style="background-color: #d0bb902e;">
-  <div class="container">
-    <a class="navbar-brand" href="#">Cookbook</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="recipes">Recipes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Favorite Recipes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Reviews</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Admin
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="admin/recipes">Recipes</a></li>
-            <li><a class="dropdown-item" routerLink="admin/reviews">Reviews</a></li>
-            <li><a class="dropdown-item" routerLink="admin/users">Users</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<br>
-
-
-<!-- <mat-toolbar>
-  <span>Cooking Recipes</span>
-  <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
+<mat-toolbar color="primary" class="navbar">
+  <span class="home" routerLink="recipes"> <mat-icon>free_breakfast</mat-icon> Cooking Recipes</span>
+  <mat-button-toggle-group>
+    <mat-button-toggle checked="true" routerLink="recipes">Recipes</mat-button-toggle>
+    <mat-button-toggle routerLink="recipes">Favorites</mat-button-toggle>
+    <mat-button-toggle routerLink="recipes">Reviews</mat-button-toggle>
+  </mat-button-toggle-group>
+  <span class="spacer"></span>
+  <button mat-button class="auth-btn">Login</button>
+  <button mat-button class="auth-btn">Register</button>
+  <button mat-button class="auth-btn" [matMenuTriggerFor]="menu">
+    <span>Admin</span>
+    <mat-icon iconPositionEnd>menu</mat-icon>
   </button>
-</mat-toolbar> -->
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="admin/recipes">
+      <span>Recipes</span>
+    </button>
+    <button mat-menu-item>
+      <span>Reviews</span>
+    </button>
+    <button mat-menu-item>
+      <span>Users</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<mat-divider></mat-divider>

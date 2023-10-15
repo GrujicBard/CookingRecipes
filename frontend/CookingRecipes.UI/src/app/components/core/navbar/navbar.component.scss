@@ -1,3 +1,61 @@
-.example-spacer {
-    flex: 1 1 auto;
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import '../../../../theme.scss';
+
+
+$color-config: mat.get-color-config($cooking-app-theme);
+$primary-palette: map.get($color-config, 'primary');
+
+.navbar {
+  padding: 0 10vw;
+}
+
+.navbar .mat-button-toggle-group {
+  border: none;
+  border-radius: unset;
+  height: 100%;
+}
+
+.navbar .mat-button-toggle {
+  background-color: mat.get-color-from-palette($primary-palette, 100);
+  border: none !important;
+  padding-top: 10px;
+}
+
+.navbar .mat-button-toggle-checked {
+  background-color: mat.get-color-from-palette($primary-palette, 100) !important;
+  border-bottom: 4px solid mat.get-color-from-palette($primary-palette, 200) !important;
+}
+
+.navbar mat-button-toggle,
+button {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.auth-btn {
+  height: 100% !important;
+  border-radius: unset;
+  letter-spacing: 0px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+
+.home {
+  cursor: pointer;
+  padding-right: 10px;
+  font-size: 24px
+}
+
+.home mat-icon {
+  padding-top: 3px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .navbar {
+    padding: 0 5vw;
   }
+}

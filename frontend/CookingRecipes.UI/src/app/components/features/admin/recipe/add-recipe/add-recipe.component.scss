@@ -1,3 +1,12 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import '../../../../../../theme.scss';
+
+
+$color-config: mat.get-color-config($cooking-app-theme);
+$primary-palette: map.get($color-config, 'primary');
+$accent-palette:  map.get($color-config, 'accent');
+
 .content {
     padding-top: 5px;
 }
@@ -20,8 +29,13 @@ mat-form-field {
     padding: 20px 25px 20px;
 }
 
-mat-dialog-title {
-    margin-bottom: 5px;
+.mdc-dialog__title {
+    padding: 0 24px 15px;
+    background-color:  mat.get-color-from-palette($primary-palette, 100);;
+}
+
+h2{
+    margin:0;
 }
 
 .recipeCategory {

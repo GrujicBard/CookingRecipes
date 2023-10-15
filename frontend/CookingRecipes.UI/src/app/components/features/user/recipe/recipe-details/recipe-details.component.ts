@@ -9,7 +9,7 @@ import { RecipeService } from 'src/app/services/recipe/recipe.service';
 @Component({
   selector: 'app-recipe-details',
   templateUrl: './recipe-details.component.html',
-  styleUrls: ['./recipe-details.component.css']
+  styleUrls: ['./recipe-details.component.scss']
 })
 export class RecipeDetailsComponent implements OnInit {
   private recipeId: number;

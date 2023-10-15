@@ -8,7 +8,7 @@ import { RecipeService } from 'src/app/services/recipe/recipe.service';
 @Component({
   selector: 'app-recipes-list-user',
   templateUrl: './recipes-list-user.component.html',
-  styleUrls: ['./recipes-list-user.component.css']
+  styleUrls: ['./recipes-list-user.component.scss']
 })
 export class RecipesListUserComponent implements OnInit {
   recipes!: Recipe[];

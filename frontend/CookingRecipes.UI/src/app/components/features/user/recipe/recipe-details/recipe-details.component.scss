@@ -1,3 +1,12 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import '../../../../../../theme.scss';
+
+
+$color-config: mat.get-color-config($cooking-app-theme);
+$primary-palette: map.get($color-config, 'primary');
+$accent-palette:  map.get($color-config, 'accent');
+
 h1 {
     font-size: 24px;
 }
@@ -45,7 +54,7 @@ h1 {
 h2 {
     margin: 0;
     font-weight: 400;
-    background-color: #d0bb902e;
+    background-color: mat.get-color-from-palette($primary-palette, 100);
 }
 
 .ingredients-div {
@@ -65,20 +74,20 @@ h2 {
 }
 
 .ingredients-list {
-    max-width: 20vw;
+    max-width: calc(20vw - 10px);
     padding-left: 10px;
     padding-bottom: 50px;
 }
 
 .instructions-list {
-    max-width: 60vw;
+    max-width: calc(60vw - 20px);
     padding-top: 0px;
     padding-left: 20px;
     padding-bottom: 50px;
 }
 
 .instructions-list mat-list-item span:first-child {
-    color: #c1a05e;
+    color: mat.get-color-from-palette($primary-palette, 700);
     font-weight: 500;
 }
 

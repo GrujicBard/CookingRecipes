@@ -18,6 +18,8 @@ import {MatSortModule} from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -75,6 +77,9 @@ import { RecipeDetailsComponent } from './components/features/user/recipe/recipe
     MatSnackBarModule,
     MatListModule,
     MatGridListModule,
+    MatButtonToggleModule,
+    MatMenuModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

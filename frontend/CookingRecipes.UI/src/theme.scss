@@ -1,0 +1,47 @@
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+@include mat.core();
+
+
+$bright-beige-palette: (
+  50: #f4efe2,
+  100: #e6d6b6,
+  200: #d6bc88,
+  300: #c9a256,
+  400: #c2902f,
+  500: #bb7f0e,
+  600: #b87609,
+  700: #b26902,
+  800: #ac5b00,
+  900: #a24600,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+
+$cooking-app-primary: mat-palette($bright-beige-palette, 100);
+$cooking-app-accent: mat-palette($mat-blue-gray, 200);
+$cooking-app-warn: mat-palette($mat-red);
+
+$cooking-app-theme: mat-light-theme((
+    color:(
+        primary: $cooking-app-primary,
+        accent: $cooking-app-accent,
+        warn: $cooking-app-warn,
+    )
+));
+
+@include mat.all-component-themes($cooking-app-theme);

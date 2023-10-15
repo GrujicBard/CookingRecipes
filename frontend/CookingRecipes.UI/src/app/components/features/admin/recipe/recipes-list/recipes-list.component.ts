@@ -96,6 +96,7 @@ export class RecipesListComponent implements OnInit {
   openEditRecipeDialog(data: any) {
     const dialogRef = this._dialog.open(EditRecipeComponent, {
       data,
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe({
