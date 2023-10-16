@@ -5,7 +5,7 @@
 
 $color-config: mat.get-color-config($cooking-app-theme);
 $primary-palette: map.get($color-config, 'primary');
-$accent-palette:  map.get($color-config, 'accent');
+$accent-palette: map.get($color-config, 'accent');
 
 h1 {
     font-size: 24px;
@@ -95,8 +95,17 @@ mat-card-title {
 
 ::ng-deep .mdc-text-field--outlined {
     --mdc-outlined-text-field-container-shape: 6px !important;
+    --mdc-outlined-text-field-outline-color: #c7c7c7;
 }
 
+.filter-btn {
+    padding: 22px 10px;
+    margin-left: 10px;
+}
+
+.filter-field{
+    margin-top: 15px;
+}
 
 @media only screen and (max-width: 1024px) {
     .search-field {
