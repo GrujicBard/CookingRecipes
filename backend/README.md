@@ -1,7 +1,6 @@
 # Backend
 
-![image](https://github.com/GrujicBard/CookingRecipes/assets/33715866/93fa69ff-1389-45fd-acb5-ffbf61e37e92)
-
+![image](https://github.com/GrujicBard/CookingRecipes/assets/33715866/5cf04a3d-19ae-4d5c-8b7a-dd50348feb53)
 
 ## Database Setup
 ### Create Database
