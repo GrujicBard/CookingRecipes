@@ -1,13 +1,23 @@
 <div class="main-body">
   <h1>Recipes</h1>
+  <mat-form-field class="search-field" appearance="outline">
+    <mat-label>Find a recipe...</mat-label>
+    <input matInput type="text" [(ngModel)]="search_value">
+    <mat-icon matPrefix>search</mat-icon>
+    <button class="search-btn" matSuffix mat-raised-button color="primary" aria-label="Search" (click)="getRecipesByTitle(search_value)">
+      Search
+    </button>
+  </mat-form-field>
   <div class="flex-container">
+    <p *ngIf="!recipes">No recipes found.</p>
     <mat-card class="recipe-card" *ngFor="let recipe of recipes">
       <img mat-card-image class="element-image" src="../../../../../assets/recipe-images/{{recipe.imageName}}.jpg"
         [routerLink]="['details',recipe.id]">
-      <mat-card-title [routerLink]="['details',recipe.id]" >{{recipe.title}}</mat-card-title>
+      <mat-card-title [routerLink]="['details',recipe.id]">{{recipe.title}}</mat-card-title>
       <mat-card-content>
-        <div
-          class="rating"><mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star_border</mat-icon><mat-icon>star_border</mat-icon></div>
+        <div class="rating">
+          <mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star_border</mat-icon><mat-icon>star_border</mat-icon>
+        </div>
         <p>4.4</p>
         <!-- <button mat-button class="right-button"><mat-icon>favorite_border</mat-icon></button> -->
       </mat-card-content>

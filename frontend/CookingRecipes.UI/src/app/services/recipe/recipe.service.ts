@@ -23,8 +23,8 @@ export class RecipeService {
     return this.httpClient.get<Recipe>(`${this.baseApiUrl}/${this.url}/${recipeId}`);
   };
 
-  public getRecipeByTitle(title: string): Observable<Recipe> {
-    return this.httpClient.get<Recipe>(`${this.baseApiUrl}/${this.url}/title/${title}`);
+  public getRecipesByTitle(title: string): Observable<Recipe[]> {
+    return this.httpClient.get<Recipe[]>(`${this.baseApiUrl}/${this.url}/title/${title}`);
   };
 
   public addRecipe(recipe: Recipe): Observable<void> {

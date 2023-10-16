@@ -7,7 +7,7 @@ namespace CookingRecipes.Interfaces
     {
         Task<ICollection<Recipe>> GetRecipes();
         Task<Recipe> GetRecipeById(int id);
-        Task<Recipe> GetRecipeByTitle(string title);
+        Task<ICollection<Recipe>> GetRecipesByTitle(string title);
         Task<decimal> GetRecipeRating(int id);
         Task<ICollection<Recipe>> GetRecipesByCategory(int categoryId);
         Task<ICollection<RecipeCategory>> GetRecipeCategoriesByRecipeId(int recipeId);

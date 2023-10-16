@@ -31,9 +31,9 @@ namespace CookingRecipes.Repository
             return await _context.Recipes.Where(r => r.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Recipe> GetRecipeByTitle(string title)
+        public async Task<ICollection<Recipe>> GetRecipesByTitle(string title)
         {
-            return await _context.Recipes.Where(r => r.Title.Trim().ToUpper() == title.Trim().ToUpper()).FirstOrDefaultAsync();
+            return await _context.Recipes.Where(r => r.Title.Trim().ToUpper().Contains(title.Trim().ToUpper())).Include(r => r.RecipeCategories).ThenInclude(rc => rc.Category).ToListAsync();
         }
 
         public async Task<decimal> GetRecipeRating(int id)

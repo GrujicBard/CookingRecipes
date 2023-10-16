@@ -63,11 +63,11 @@ namespace ContosoRecipes.Controllers
         [ProducesResponseType(200, Type = typeof(Recipe))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetRecipeByTitle(string title)
+        public async Task<IActionResult> GetRecipesByTitle(string title)
         {
-            var recipe = _mapper.Map<RecipeDto>(await _recipeRepository.GetRecipeByTitle(title));
+            var recipes = _mapper.Map<List<RecipeDto>>(await _recipeRepository.GetRecipesByTitle(title));
 
-            if (recipe == null)
+            if (recipes == null)
             {
                 return NotFound();
             }
@@ -75,7 +75,7 @@ namespace ContosoRecipes.Controllers
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
 
-            return Ok(recipe);
+            return Ok(recipes);
         }
 
         [HttpGet("{id}/rating")]

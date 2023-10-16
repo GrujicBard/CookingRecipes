@@ -12,8 +12,8 @@ import { RecipeService } from 'src/app/services/recipe/recipe.service';
 })
 export class RecipesListUserComponent implements OnInit {
   recipes!: Recipe[];
+  search_value: string = "";
 
-  
   constructor(
     private _recipeService: RecipeService,
   ) { }
@@ -32,6 +32,23 @@ export class RecipesListUserComponent implements OnInit {
           console.log(response);
         },
       });
+  }
+
+  getRecipesByTitle(title: string) {
+    if (title == "") {
+      this.getRecipes();
+    }
+    else {
+      this._recipeService.getRecipesByTitle(title)
+        .subscribe({
+          next: (recipes) => {
+            this.recipes = recipes;
+          },
+          error: (response) => {
+            console.log(response);
+          },
+        });
+    }
   }
 
   public get DishType() {

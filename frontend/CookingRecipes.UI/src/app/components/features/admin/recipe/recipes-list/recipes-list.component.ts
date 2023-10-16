@@ -122,7 +122,6 @@ export class RecipesListComponent implements OnInit {
     this._recipeService.getRecipes()
       .subscribe({
         next: (recipes) => {
-          console.log(recipes);
           /* Manage data to display in recipes list */
           this.recipes = recipes;
           this.recipesDataSource = new MatTableDataSource(recipes);

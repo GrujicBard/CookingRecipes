@@ -1,4 +1,13 @@
-h1{
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import '../../../../../../theme.scss';
+
+
+$color-config: mat.get-color-config($cooking-app-theme);
+$primary-palette: map.get($color-config, 'primary');
+$accent-palette:  map.get($color-config, 'accent');
+
+h1 {
     font-size: 24px;
     padding-bottom: 10px;
 }
@@ -9,37 +18,38 @@ h1{
     border-radius: unset;
 }
 
-mat-icon{
+mat-icon {
     margin-right: 0px !important;
-    
+
 }
+
 mat-card {
     box-shadow: 0px 1px 10px 0 #1414142e !important;
     font-size: 16px;
 }
 
-mat-card:hover{
+mat-card:hover {
     box-shadow: 0px 1px 10px 0 #14141498 !important
 }
 
 .element-image {
-    cursor: pointer; 
+    cursor: pointer;
     width: 364px;
-  }
+}
 
 
-.mat-mdc-card-content:last-child{
+.mat-mdc-card-content:last-child {
     padding-bottom: 0px;
 }
 
-mat-card-content{
+mat-card-content {
     padding: 10px 10px 10px 10px;
     margin-bottom: 10px;
 }
 
 mat-card-content p {
     float: left;
-    padding: 4px 0px 0px 10px;    
+    padding: 4px 0px 0px 10px;
 }
 
 .rating {
@@ -56,7 +66,7 @@ mat-card-content p {
 }
 
 mat-card-title {
-    cursor: pointer; 
+    cursor: pointer;
     padding: 10px 10px 0px 10px;
     overflow: hidden;
     min-height: 75px;
@@ -66,4 +76,31 @@ mat-card-title {
 .recipe-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
+}
+
+.search-field {
+    width: 25vw;
+}
+
+.search-btn {
+    padding: 22px 0;
+    border: solid 1px mat.get-color-from-palette($primary-palette, 100);
+    border-radius: 6px;
+    box-shadow: unset;
+    margin-right: 1px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 1px solid #bdbdbd;
+}
+
+::ng-deep .mdc-text-field--outlined {
+    --mdc-outlined-text-field-container-shape: 6px !important;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .search-field {
+        width: 90vw;
+    }
+
 }

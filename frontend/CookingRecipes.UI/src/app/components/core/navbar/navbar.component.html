@@ -1,18 +1,32 @@
 <mat-toolbar color="primary" class="navbar">
   <span class="home" routerLink="recipes"> <mat-icon>free_breakfast</mat-icon> Cooking Recipes</span>
-  <mat-button-toggle-group>
-    <mat-button-toggle checked="true" routerLink="recipes">Recipes</mat-button-toggle>
-    <mat-button-toggle routerLink="recipes">Favorites</mat-button-toggle>
-    <mat-button-toggle routerLink="recipes">Reviews</mat-button-toggle>
+  <button mat-button class="small-nav auth-btn" [matMenuTriggerFor]="userMenu">
+    <mat-icon iconPositionEnd>menu</mat-icon>
+  </button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item routerLink="recipes">
+      <span>Recipes</span>
+    </button>
+    <button mat-menu-item>
+      <span>Favorites</span>
+    </button>
+    <button mat-menu-item>
+      <span>Reviews</span>
+    </button>
+  </mat-menu>
+  <mat-button-toggle-group class="big-nav">
+    <mat-button-toggle checked="true" routerLink="recipes" >Recipes</mat-button-toggle>
+    <mat-button-toggle routerLink="favorites">Favorites</mat-button-toggle>
+    <mat-button-toggle routerLink="reviews">Reviews</mat-button-toggle>
   </mat-button-toggle-group>
   <span class="spacer"></span>
   <button mat-button class="auth-btn">Login</button>
   <button mat-button class="auth-btn">Register</button>
-  <button mat-button class="auth-btn" [matMenuTriggerFor]="menu">
+  <button mat-button class="auth-btn" [matMenuTriggerFor]="adminMenu">
     <span>Admin</span>
     <mat-icon iconPositionEnd>menu</mat-icon>
   </button>
-  <mat-menu #menu="matMenu">
+  <mat-menu #adminMenu="matMenu">
     <button mat-menu-item routerLink="admin/recipes">
       <span>Recipes</span>
     </button>

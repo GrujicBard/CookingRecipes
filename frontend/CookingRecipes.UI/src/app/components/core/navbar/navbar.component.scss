@@ -54,8 +54,18 @@ button {
   padding-top: 3px;
 }
 
+.small-nav{
+  display:none;
+}
+
 @media only screen and (max-width: 1024px) {
   .navbar {
     padding: 0 5vw;
   }
+
+  .big-nav{
+    display: none;
+  }
+
+  .small-nav{display: inline-flex;}
 }
