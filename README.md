@@ -24,7 +24,7 @@ TODO:
 
 ## Screens (constantly updated)
 * Recipes page
-![image](https://github.com/GrujicBard/CookingRecipes/assets/33715866/131b96fe-a5a9-4964-8440-da48d45f13a8)
+![image](https://github.com/GrujicBard/CookingRecipes/assets/33715866/ab5d5d40-a3e9-47a8-9469-059ca472a1e5)
 
 * Recipe details
 ![image](https://github.com/GrujicBard/CookingRecipes/assets/33715866/8fec89eb-3750-4cdc-b316-10df007fbe04)
