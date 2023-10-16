@@ -15,7 +15,7 @@ TODO:
 * Authentication, Authorization
 
 ## Frontend 
-Frontend is currently being made using VS Code with Angular.
+Frontend is currently being made using VS Code with Angular and Material Design library.
 
 TODO:
 * Registration, Login
