@@ -45,6 +45,9 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <div mat-menu-item class="clear-btn" (click)="$event.stopPropagation()">
+      <button mat-raised-button color="accent" (click)="clearFilter()">Clear Filter</button>
+    </div>
   </mat-menu>
   <div class="flex-container">
     <p *ngIf="!recipes">No recipes found.</p>

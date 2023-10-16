@@ -83,11 +83,10 @@ mat-card-title {
 }
 
 .search-btn {
-    padding: 22px 0;
+    padding: 23px 0;
     border: solid 1px mat.get-color-from-palette($primary-palette, 100);
     border-radius: 6px;
     box-shadow: unset;
-    margin-right: 1px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-left: 1px solid #bdbdbd;
@@ -100,11 +99,18 @@ mat-card-title {
 
 .filter-btn {
     padding: 22px 10px;
-    margin-left: 10px;
+    margin-left: 9px;
 }
 
 .filter-field{
     margin-top: 15px;
+}
+::ng-deep .clear-btn .mat-mdc-menu-item-text{
+    width:100%;
+}
+
+.clear-btn button{
+    width:100%;
 }
 
 @media only screen and (max-width: 1024px) {

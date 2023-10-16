@@ -43,7 +43,6 @@ export class RecipesListUserComponent implements OnInit {
     this._recipeService.getRecipes()
       .subscribe({
         next: (recipes) => {
-          console.log(recipes);
           this.recipes = recipes;
           this.filterRecipes();
         },
@@ -78,7 +77,6 @@ export class RecipesListUserComponent implements OnInit {
   }
 
   filterRecipes() {
-
     // Filter Category
     if (this.recipeType) {
       this.recipes = this.recipes.filter(({ recipeCategories }) =>
@@ -98,6 +96,13 @@ export class RecipesListUserComponent implements OnInit {
         recipe.cuisineType === this.cuisineTypes.indexOf(this.cuisineType)
       );
     }
+  }
+
+  clearFilter() {
+    this.recipeType = "";
+    this.dishType = "";
+    this.cuisineType = "";
+    this.getRecipesByTitle();
   }
 
 
