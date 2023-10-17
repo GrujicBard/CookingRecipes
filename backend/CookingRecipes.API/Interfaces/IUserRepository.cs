@@ -1,4 +1,5 @@
-﻿using CookingRecipes.Dtos;
+﻿using CookingRecipes.API.Dtos;
+using CookingRecipes.Dtos;
 using CookingRecipes.Models;
 
 namespace CookingRecipes.Interfaces
@@ -7,6 +8,7 @@ namespace CookingRecipes.Interfaces
     {
         Task<ICollection<User>> GetUsers();
         Task<User> GetUser(int id);
+        Task<User> GetUserByEmail(string email);
         Task<ICollection<Review>> GetReviewsByUser(int userId);
         Task<ICollection<Recipe>> GetFavoriteRecipesByUser(int userId);
         Task<bool> AddFavoriteRecipe(int userId, int recipeId);
@@ -15,10 +17,13 @@ namespace CookingRecipes.Interfaces
         bool UserExists(int userId);
         bool UserNameExists(string username);
         bool EmailExists(string email);
-        Task<bool> CreateUser(User user);
+        bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+        Task<bool> Register(RegisterDto user);
+        Task<string> Login(LoginDto user);
         Task<bool> UpdateUser(User user);
         Task<bool> DeleteUser(User user);
         Task<bool> Save();
+
 
     }
 }

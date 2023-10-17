@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CookingRecipes.API.Dtos;
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
@@ -13,14 +14,12 @@ namespace CookingRecipes.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IRecipeRepository _recipeRepository;
-        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, IRecipeRepository recipeRepository, IRoleRepository roleRepository, IMapper mapper)
+        public UserController(IUserRepository userRepository, IRecipeRepository recipeRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _recipeRepository = recipeRepository;
-            _roleRepository = roleRepository;
             _mapper = mapper;
         }
 
@@ -100,42 +99,60 @@ namespace CookingRecipes.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateUser([FromQuery] int roleId, [FromBody] UserDto userCreate)
+        public async Task<IActionResult> Register(RegisterDto userRegister)
         {
-            if (userCreate == null)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (_userRepository.UserNameExists(userCreate.UserName))
+            if (_userRepository.UserNameExists(userRegister.UserName))
             {
                 ModelState.AddModelError("", "Username already exists.");
                 return StatusCode(422, ModelState);
             }
 
-            if (_userRepository.EmailExists(userCreate.Email))
+            if (_userRepository.EmailExists(userRegister.Email))
             {
                 ModelState.AddModelError("", "Email already exists.");
                 return StatusCode(422, ModelState);
             }
 
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            var userMap = _mapper.Map<User>(userCreate);
-
-            userMap.Role = await _roleRepository.GetRole(roleId);
-
-            if (!await _userRepository.CreateUser(userMap))
+            if (!await _userRepository.Register(userRegister))
             {
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfuly created.");
+            return Ok("User successfuly registered.");
         }
+
+        [HttpPost("login")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<string>> Login(LoginDto loginUser)
+        {
+            if (!_userRepository.EmailExists(loginUser.Email))
+            {
+                ModelState.AddModelError("", "Invalid login.");
+                return StatusCode(422, ModelState);
+            }
+            var user = await _userRepository.GetUserByEmail(loginUser.Email);
+
+            if (!_userRepository.VerifyPasswordHash(loginUser.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                ModelState.AddModelError("", "Invalid login.");
+                return StatusCode(422, ModelState);
+            }
+
+            var token = _userRepository.Login(loginUser);
+
+            return Ok(token);
+        }
+
 
         [HttpPost("recipes/{userId}")]
         [ProducesResponseType(204)]

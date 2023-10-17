@@ -100,105 +100,97 @@ namespace CookingRecipes.Data.Seed
             }
 
             // Users
-            if (!_dataContext.Users.Any())
-            {
-                var users = new List<User>()
-                {
-                    new User()
-                    {
-                        UserName = "Janez",
-                        Email = "janez@gmail.com",
-                        Role = new Role()
-                        {
-                            RoleType = RoleType.User,
-                        }
+            //if (!_dataContext.Users.Any())
+            //{
+            //    var users = new List<User>()
+            //    {
+            //        new User()
+            //        {
+            //            UserName = "Janez",
+            //            Email = "janez@gmail.com",
 
-                    },
-                    new User()
-                    {
-                        UserName = "Bard",
-                        Email = "bard@gmail.com",
-                        Role = new Role()
-                        {
-                            RoleType = RoleType.Admin,
-                        }
+            //        },
+            //        new User()
+            //        {
+            //            UserName = "Bard",
+            //            Email = "bard@gmail.com",
+            //            Role = RoleType.Admin,
+            //        }
+            //    };
+            //    _dataContext.Users.AddRange(users);
+            //    _dataContext.SaveChanges();
+            //}
 
-                    }
-                };
-                _dataContext.Users.AddRange(users);
-                _dataContext.SaveChanges();
-            }
-
-            if (!_dataContext.Reviews.Any())
-            {
-                // Reviews
-                var reviews = new List<Review>()
-                    {
-                        new Review()
-                        {
-                            UserId = 1,
-                            RecipeId = 1,
-                            Rating = 4,
-                            Comment = "Not Bad!",
-                        },
-                         new Review()
-                        {
-                            UserId = 1,
-                            RecipeId = 2,
-                            Rating = 5,
-                            Comment = "Excellent recipe!",
-                        },
-                        new Review()
-                        {
-                            UserId = 1,
-                            RecipeId = 3,
-                            Rating = 2,
-                            Comment = "I didn't really like the taste.",
-                        },
-                        new Review()
-                        {
-                            UserId = 2,
-                            RecipeId = 1,
-                            Rating = 3,
-                            Comment = "It was okay.",
-                        },
-                        new Review()
-                        {
-                            UserId = 2,
-                            RecipeId = 2,
-                            Rating = 4.5M,
-                            Comment = "It came out wonderfully!",
-                        },
-                        new Review()
-                        {
-                            UserId = 2,
-                            RecipeId = 3,
-                            Rating = 1,
-                            Comment = "I hated it.",
-                        },
-                    };
-                _dataContext.Reviews.AddRange(reviews);
-                _dataContext.SaveChanges();
-            }
+            //if (!_dataContext.Reviews.Any())
+            //{
+            //    // Reviews
+            //    var reviews = new List<Review>()
+            //        {
+            //            new Review()
+            //            {
+            //                UserId = 1,
+            //                RecipeId = 1,
+            //                Rating = 4,
+            //                Comment = "Not Bad!",
+            //            },
+            //             new Review()
+            //            {
+            //                UserId = 1,
+            //                RecipeId = 2,
+            //                Rating = 5,
+            //                Comment = "Excellent recipe!",
+            //            },
+            //            new Review()
+            //            {
+            //                UserId = 1,
+            //                RecipeId = 3,
+            //                Rating = 2,
+            //                Comment = "I didn't really like the taste.",
+            //            },
+            //            new Review()
+            //            {
+            //                UserId = 2,
+            //                RecipeId = 1,
+            //                Rating = 3,
+            //                Comment = "It was okay.",
+            //            },
+            //            new Review()
+            //            {
+            //                UserId = 2,
+            //                RecipeId = 2,
+            //                Rating = 4.5M,
+            //                Comment = "It came out wonderfully!",
+            //            },
+            //            new Review()
+            //            {
+            //                UserId = 2,
+            //                RecipeId = 3,
+            //                Rating = 1,
+            //                Comment = "I hated it.",
+            //            },
+            //        };
+            //    _dataContext.Reviews.AddRange(reviews);
+            //    _dataContext.SaveChanges();
+            //}
 
             // UserFavoriteRecipes
-            if (!_dataContext.UserFavoriteRecipes.Any())
-            {
-                var userFavoriteRecipes = new List<UserFavoriteRecipe>();
+            //if (!_dataContext.UserFavoriteRecipes.Any())
+            //{
+            //    var userFavoriteRecipes = new List<UserFavoriteRecipe>();
 
-                for (int i = 1; i < _numberOfRecipes/2 + 1; i++)
-                {
-                    userFavoriteRecipes.Add(
-                        new UserFavoriteRecipe()
-                        {
-                            RecipeId = i,
-                            UserId = rnd.Next(1, 3),
+            //    for (int i = 1; i < _numberOfRecipes/2 + 1; i++)
+            //    {
+            //        userFavoriteRecipes.Add(
+            //            new UserFavoriteRecipe()
+            //            {
+            //                RecipeId = i,
+            //                UserId = rnd.Next(1, 3),
 
-                        });
-                }
-                _dataContext.UserFavoriteRecipes.AddRange(userFavoriteRecipes);
-                _dataContext.SaveChanges();
-            }
+            //            });
+            //    }
+            //    _dataContext.UserFavoriteRecipes.AddRange(userFavoriteRecipes);
+            //    _dataContext.SaveChanges();
+            //}
         }
 
         public IEnumerable<RecipeSeed> ReadCsv(string csv_file_path)

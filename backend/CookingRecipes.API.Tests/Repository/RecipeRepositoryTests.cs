@@ -53,10 +53,6 @@ namespace CookingRecipes.Tests.Repository
                                     {
                                         UserName = "John",
                                         Email = "john@gmail.com",
-                                        Role = new Role()
-                                        {
-                                            RoleType = Data.Enums.RoleType.User
-                                        }
 
                                     }
                                 }
@@ -72,7 +68,7 @@ namespace CookingRecipes.Tests.Repository
         [InlineData("recipe1")]
         [InlineData("recipe2")]
         [InlineData("recipe3")]
-        public async void RecipeRepository_GetRecipeByTitle_ReturnsRecipe(string title)
+        public async void RecipeRepository_GetRecipeByTitle_ReturnsRecipes(string title)
         {
             #region Arrange
             var dbContext = await GetDataBaseContext();
@@ -80,12 +76,12 @@ namespace CookingRecipes.Tests.Repository
             #endregion
 
             #region Act
-            var result = await recipeRepository.GetRecipeByTitle(title);
+            var result = await recipeRepository.GetRecipesByTitle(title);
             #endregion
 
             #region Assert
             result.Should().NotBeNull();
-            result.Should().BeOfType<Recipe>();
+            result.Should().BeOfType<List<Recipe>>();
             #endregion
         }
 

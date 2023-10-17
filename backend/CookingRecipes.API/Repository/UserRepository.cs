@@ -1,17 +1,26 @@
-﻿using CookingRecipes.Data;
+﻿using CookingRecipes.API.Dtos;
+using CookingRecipes.Data;
+using CookingRecipes.Data.Enums;
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace CookingRecipes.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        private readonly IConfiguration _configuration;
+
+        public UserRepository(DataContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<bool> AddFavoriteRecipe(int userId, int recipeId)
@@ -27,12 +36,6 @@ namespace CookingRecipes.Repository
             };
 
             await _context.AddAsync(userFavoriteRecipe);
-            return await Save();
-        }
-
-        public async Task<bool> CreateUser(User user)
-        {
-            await _context.AddAsync(user);
             return await Save();
         }
 
@@ -99,5 +102,65 @@ namespace CookingRecipes.Repository
         {
             return _context.Users.Any(u => u.Email == email);
         }
+
+        public async Task<bool> Register(RegisterDto registerUser)
+        {
+            CreatePasswordHash(registerUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            User userCreate = new()
+            {
+                UserName = registerUser.UserName,
+                Email = registerUser.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+            };
+
+            await _context.AddAsync(userCreate);
+            return await Save();
+        }
+
+        public async Task<string> Login(LoginDto loginUser)
+        {
+            List<Claim> claims = new()
+            {
+                new Claim(ClaimTypes.Email, loginUser.Email)
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: cred);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computeHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computeHash.SequenceEqual(passwordHash);
+            }
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+        }
     }
 }
+

@@ -12,7 +12,6 @@ namespace CookingRecipes.Helper
             CreateMap<Recipe, RecipeDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<RecipeCategory, RecipeCategoryDto>().ReverseMap();
-            CreateMap<Role, RoleDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Review, ReviewDto>().ReverseMap();
             CreateMap<Review, ReviewPostDto>().ReverseMap();

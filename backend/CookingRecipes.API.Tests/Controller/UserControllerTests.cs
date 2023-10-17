@@ -20,7 +20,6 @@ namespace CookingRecipes.Tests.Controller
     {
         private IUserRepository _userRepository;
         private IRecipeRepository _recipeRepository;
-        private IRoleRepository _roleRepository;
         private IMapper _mapper;
         private UserController _userController;
 
@@ -28,9 +27,8 @@ namespace CookingRecipes.Tests.Controller
         {
             _userRepository = A.Fake<IUserRepository>();
             _recipeRepository = A.Fake<IRecipeRepository>();
-            _roleRepository = A.Fake<IRoleRepository>();
             _mapper = A.Fake<IMapper>();
-            _userController = new UserController(_userRepository, _recipeRepository, _roleRepository, _mapper);
+            _userController = new UserController(_userRepository, _recipeRepository, _mapper);
         }
 
         [Fact]
@@ -124,31 +122,30 @@ namespace CookingRecipes.Tests.Controller
             #endregion
         }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(12)]
-        [InlineData(300)]
-        public async void UserController_CreateUser_ReturnsOk(int roleId)
-        {
-            #region Arrange
-            var userMap = A.Fake<User>();
-            var userCreate = A.Fake<UserDto>();
-            A.CallTo(() => _userRepository.UserNameExists(userCreate.UserName)).Returns(false);
-            A.CallTo(() => _userRepository.EmailExists(userCreate.Email)).Returns(false);
-            A.CallTo(() => _mapper.Map<User>(userCreate)).Returns(userMap);
-            A.CallTo(() => _roleRepository.GetRole(roleId)).Returns(userMap.Role);
-            A.CallTo(() => _userRepository.CreateUser(userMap)).Returns(true);
-            #endregion
+        //[Theory]
+        //[InlineData(1)]
+        //[InlineData(12)]
+        //[InlineData(300)]
+        //public async void UserController_CreateUser_ReturnsOk(int roleId)
+        //{
+        //    #region Arrange
+        //    var userMap = A.Fake<User>();
+        //    var userCreate = A.Fake<UserDto>();
+        //    A.CallTo(() => _userRepository.UserNameExists(userCreate.UserName)).Returns(false);
+        //    A.CallTo(() => _userRepository.EmailExists(userCreate.Email)).Returns(false);
+        //    A.CallTo(() => _mapper.Map<User>(userCreate)).Returns(userMap);
+        //    A.CallTo(() => _userRepository.CreateUser(userMap)).Returns(true);
+        //    #endregion
 
-            #region Assert
-            var result = await _userController.CreateUser(roleId, userCreate);
-            #endregion
+        //    #region Assert
+        //    var result = await _userController.CreateUser(userCreate);
+        //    #endregion
 
-            #region Act
-            result.Should().NotBeNull();
-            result.Should().BeOfType(typeof(OkObjectResult));
-            #endregion
-        }
+        //    #region Act
+        //    result.Should().NotBeNull();
+        //    result.Should().BeOfType(typeof(OkObjectResult));
+        //    #endregion
+        //}
 
         [Theory]
         [InlineData(1,43)]

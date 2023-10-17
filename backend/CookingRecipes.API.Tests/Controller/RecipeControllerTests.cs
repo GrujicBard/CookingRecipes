@@ -77,17 +77,16 @@ namespace CookingRecipes.Tests.Controller
         [Theory]
         [InlineData("recipe")]
         [InlineData("pancakes")]
-        public async void RecipeController_GetRecipeByTitle_ReturnsOk(string title)
+        public async void RecipeController_GetRecipesByTitle_ReturnsOk(string title)
         {
             #region Arrange
             var recipe = A.Fake<Recipe>();
-            var recipeDto = A.Fake<RecipeDto>();
-            A.CallTo(() => _recipeRepository.GetRecipeByTitle(title)).Returns(recipe);
-            A.CallTo(() => _mapper.Map<RecipeDto>(recipe)).Returns(recipeDto);
+            var recipesDto = A.Fake<List<RecipeDto>>();
+            A.CallTo(() => _mapper.Map<List<RecipeDto>>(recipe)).Returns(recipesDto);
             #endregion
 
             #region Assert
-            var result = await _recipeController.GetRecipeByTitle(title);
+            var result = await _recipeController.GetRecipesByTitle(title);
             #endregion
 
             #region Act
