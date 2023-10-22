@@ -1,4 +1,5 @@
 ﻿using CookingRecipes.API.Dtos;
+using CookingRecipes.API.Models.Jwt;
 using CookingRecipes.Dtos;
 using CookingRecipes.Models;
 
@@ -19,7 +20,8 @@ namespace CookingRecipes.Interfaces
         bool EmailExists(string email);
         bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
         Task<bool> Register(RegisterDto user);
-        Task<string> Login(LoginDto user);
+        string CreateToken(User user);
+        RefreshToken GenerateRefreshToken();
         Task<bool> UpdateUser(User user);
         Task<bool> DeleteUser(User user);
         Task<bool> Save();

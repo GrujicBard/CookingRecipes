@@ -35,6 +35,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from './components/core/dialogs/confirm-dialog/confirm-dialog.component';
 import { RecipesListUserComponent } from './components/features/user/recipe/recipes-list-user/recipes-list-user.component';
 import { RecipeDetailsComponent } from './components/features/user/recipe/recipe-details/recipe-details.component';
+import { RegisterComponent } from './components/features/auth/register/register.component';
+import { LoginComponent } from './components/features/auth/login/login.component';
 
 
 
@@ -49,6 +51,8 @@ import { RecipeDetailsComponent } from './components/features/user/recipe/recipe
     ConfirmDialogComponent,
     RecipesListUserComponent,
     RecipeDetailsComponent,
+    RegisterComponent,
+    LoginComponent,
     
 
   ],

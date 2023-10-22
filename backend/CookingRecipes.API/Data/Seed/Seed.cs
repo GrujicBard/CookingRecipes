@@ -13,6 +13,9 @@ using System.Collections;
 using CookingRecipes.Dtos;
 using CookingRecipes.Data.Enums;
 using CookingRecipes.API.Data.Enums;
+using CookingRecipes.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Cryptography;
 
 namespace CookingRecipes.Data.Seed
 {
@@ -24,7 +27,8 @@ namespace CookingRecipes.Data.Seed
 
         public Seed(DataContext dataContext)
         {
-            this._dataContext = dataContext;
+            _dataContext = dataContext;
+
         }
 
         public void SeedDataContext()
@@ -99,98 +103,106 @@ namespace CookingRecipes.Data.Seed
                 _dataContext.SaveChanges();
             }
 
-            // Users
-            //if (!_dataContext.Users.Any())
-            //{
-            //    var users = new List<User>()
-            //    {
-            //        new User()
-            //        {
-            //            UserName = "Janez",
-            //            Email = "janez@gmail.com",
+            //Users
+            if (!_dataContext.Users.Any())
+            {
+                CreatePasswordHash("1234", out byte[] passwordHash1, out byte[] passwordSalt1);
+                CreatePasswordHash("admin1234", out byte[] passwordHash2, out byte[] passwordSalt2);
 
-            //        },
-            //        new User()
-            //        {
-            //            UserName = "Bard",
-            //            Email = "bard@gmail.com",
-            //            Role = RoleType.Admin,
-            //        }
-            //    };
-            //    _dataContext.Users.AddRange(users);
-            //    _dataContext.SaveChanges();
-            //}
 
-            //if (!_dataContext.Reviews.Any())
-            //{
-            //    // Reviews
-            //    var reviews = new List<Review>()
-            //        {
-            //            new Review()
-            //            {
-            //                UserId = 1,
-            //                RecipeId = 1,
-            //                Rating = 4,
-            //                Comment = "Not Bad!",
-            //            },
-            //             new Review()
-            //            {
-            //                UserId = 1,
-            //                RecipeId = 2,
-            //                Rating = 5,
-            //                Comment = "Excellent recipe!",
-            //            },
-            //            new Review()
-            //            {
-            //                UserId = 1,
-            //                RecipeId = 3,
-            //                Rating = 2,
-            //                Comment = "I didn't really like the taste.",
-            //            },
-            //            new Review()
-            //            {
-            //                UserId = 2,
-            //                RecipeId = 1,
-            //                Rating = 3,
-            //                Comment = "It was okay.",
-            //            },
-            //            new Review()
-            //            {
-            //                UserId = 2,
-            //                RecipeId = 2,
-            //                Rating = 4.5M,
-            //                Comment = "It came out wonderfully!",
-            //            },
-            //            new Review()
-            //            {
-            //                UserId = 2,
-            //                RecipeId = 3,
-            //                Rating = 1,
-            //                Comment = "I hated it.",
-            //            },
-            //        };
-            //    _dataContext.Reviews.AddRange(reviews);
-            //    _dataContext.SaveChanges();
-            //}
+                var users = new List<User>()
+                {
+                    new User()
+                    {
+                        UserName = "Janez",
+                        Email = "janez@gmail.com",
+                        PasswordHash = passwordHash1,
+                        PasswordSalt = passwordSalt1
 
-            // UserFavoriteRecipes
-            //if (!_dataContext.UserFavoriteRecipes.Any())
-            //{
-            //    var userFavoriteRecipes = new List<UserFavoriteRecipe>();
+                    },
+                    new User()
+                    {
+                        UserName = "Bard",
+                        Email = "bard@gmail.com",
+                        Role = RoleType.Admin,
+                        PasswordHash = passwordHash2,
+                        PasswordSalt = passwordSalt2
+                    }
+                };
+                _dataContext.Users.AddRange(users);
+                _dataContext.SaveChanges();
+            }
 
-            //    for (int i = 1; i < _numberOfRecipes/2 + 1; i++)
-            //    {
-            //        userFavoriteRecipes.Add(
-            //            new UserFavoriteRecipe()
-            //            {
-            //                RecipeId = i,
-            //                UserId = rnd.Next(1, 3),
+            // Reviews
+            if (!_dataContext.Reviews.Any())
+            {               
+                var reviews = new List<Review>()
+                    {
+                        new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 1,
+                            Rating = 4,
+                            Comment = "Not Bad!",
+                        },
+                         new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 2,
+                            Rating = 5,
+                            Comment = "Excellent recipe!",
+                        },
+                        new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 3,
+                            Rating = 2,
+                            Comment = "I didn't really like the taste.",
+                        },
+                        new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 1,
+                            Rating = 3,
+                            Comment = "It was okay.",
+                        },
+                        new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 2,
+                            Rating = 4.5M,
+                            Comment = "It came out wonderfully!",
+                        },
+                        new Review()
+                        {
+                            UserId = 1,
+                            RecipeId = 3,
+                            Rating = 1,
+                            Comment = "I hated it.",
+                        },
+                    };
+                _dataContext.Reviews.AddRange(reviews);
+                _dataContext.SaveChanges();
+            }
 
-            //            });
-            //    }
-            //    _dataContext.UserFavoriteRecipes.AddRange(userFavoriteRecipes);
-            //    _dataContext.SaveChanges();
-            //}
+            //UserFavoriteRecipes
+            if (!_dataContext.UserFavoriteRecipes.Any())
+            {
+                var userFavoriteRecipes = new List<UserFavoriteRecipe>();
+
+                for (int i = 1; i < _numberOfRecipes / 2 + 1; i++)
+                {
+                    userFavoriteRecipes.Add(
+                        new UserFavoriteRecipe()
+                        {
+                            RecipeId = i,
+                            UserId = 1,
+
+                        });
+                }
+                _dataContext.UserFavoriteRecipes.AddRange(userFavoriteRecipes);
+                _dataContext.SaveChanges();
+            }
         }
 
         public IEnumerable<RecipeSeed> ReadCsv(string csv_file_path)
@@ -206,6 +218,15 @@ namespace CookingRecipes.Data.Seed
                 {
                     return csvReader.GetRecords<RecipeSeed>().ToList();
                 }
+            }
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 

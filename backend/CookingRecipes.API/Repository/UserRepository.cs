@@ -1,4 +1,6 @@
-﻿using CookingRecipes.API.Dtos;
+﻿using Azure;
+using CookingRecipes.API.Dtos;
+using CookingRecipes.API.Models.Jwt;
 using CookingRecipes.Data;
 using CookingRecipes.Data.Enums;
 using CookingRecipes.Dtos;
@@ -119,11 +121,12 @@ namespace CookingRecipes.Repository
             return await Save();
         }
 
-        public async Task<string> Login(LoginDto loginUser)
+        public string CreateToken(User user)
         {
             List<Claim> claims = new()
             {
-                new Claim(ClaimTypes.Email, loginUser.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim (ClaimTypes.Role, Enum.GetName(typeof(RoleType), user.Role))
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
@@ -160,6 +163,17 @@ namespace CookingRecipes.Repository
         public async Task<User> GetUserByEmail(string email)
         {
             return await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+        }
+
+        public RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                ExpiresAt = DateTime.Now.AddDays(7),
+            };
+
+            return refreshToken;
         }
     }
 }

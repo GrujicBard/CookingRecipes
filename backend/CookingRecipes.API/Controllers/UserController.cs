@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using CookingRecipes.API.Dtos;
+using CookingRecipes.API.Models.Jwt;
+using CookingRecipes.Data.Enums;
 using CookingRecipes.Dtos;
 using CookingRecipes.Interfaces;
 using CookingRecipes.Models;
 using CookingRecipes.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CookingRecipes.Controllers
@@ -23,7 +26,7 @@ namespace CookingRecipes.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = nameof(RoleType.Admin))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
         public async Task<IActionResult> GetUsers()
         {
@@ -33,11 +36,10 @@ namespace CookingRecipes.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = nameof(RoleType.Admin))]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetUser(int id)
@@ -55,7 +57,7 @@ namespace CookingRecipes.Controllers
             return Ok(user);
         }
 
-        [HttpGet("recipes/{userId}")]
+        [HttpGet("recipes/{userId}"), Authorize(Roles = nameof(RoleType.User) + "," + nameof(RoleType.Admin))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Recipe>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetFavoriteRecipesByUser(int userId)
@@ -77,7 +79,7 @@ namespace CookingRecipes.Controllers
 
         }
 
-        [HttpGet("reviews/{userId}")]
+        [HttpGet("reviews/{userId}"), Authorize(Roles = nameof(RoleType.User) + "," + nameof(RoleType.Admin))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetReviewsByUser(int userId)
@@ -148,13 +150,21 @@ namespace CookingRecipes.Controllers
                 return StatusCode(422, ModelState);
             }
 
-            var token = _userRepository.Login(loginUser);
+            string token = _userRepository.CreateToken(user);
+            var refreshToken = _userRepository.GenerateRefreshToken();
+            User updatedUser = SetRefreshToken(user, refreshToken);
+
+            if (!await _userRepository.UpdateUser(updatedUser))
+            {
+                ModelState.AddModelError("", "Something went wrong updating user.");
+                return StatusCode(500, ModelState);
+            }
 
             return Ok(token);
         }
 
 
-        [HttpPost("recipes/{userId}")]
+        [HttpPost("recipes/{userId}"), Authorize(Roles = nameof(RoleType.User))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> AddFavoriteRecipe(int userId, [FromQuery] int recipeId)
@@ -178,7 +188,7 @@ namespace CookingRecipes.Controllers
             return Ok("Successfuly favorited recipe.");
         }
 
-        [HttpPut("{userId}")]
+        [HttpPut("{userId}"), Authorize(Roles = nameof(RoleType.Admin))]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -210,7 +220,7 @@ namespace CookingRecipes.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{userId}")]
+        [HttpDelete("{userId}"), Authorize(Roles = nameof(RoleType.Admin))]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -240,7 +250,7 @@ namespace CookingRecipes.Controllers
             return NoContent();
         }
 
-        [HttpDelete("recipes/{userId}")]
+        [HttpDelete("recipes/{userId}"), Authorize(Roles = nameof(RoleType.User))]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -262,6 +272,63 @@ namespace CookingRecipes.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("refresh-token/{userId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<string>> RefreshToken(int userId)
+        {
+            if (!_userRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+            var user = await _userRepository.GetUser(userId);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            if (!user.RefreshToken.Equals(refreshToken))
+            {
+                return Unauthorized("Invalid Refresh Token.");
+            }
+            else if (user.TokenExpires < DateTime.Now)
+            {
+                return Unauthorized("Token expired.");
+            }
+
+            string token = _userRepository.CreateToken(user);
+            var newRefreshToken = _userRepository.GenerateRefreshToken();
+            User updatedUser = SetRefreshToken(user, newRefreshToken);
+
+            if (!await _userRepository.UpdateUser(updatedUser))
+            {
+                ModelState.AddModelError("", "Something went wrong updating user.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok(token);
+        }
+
+        private User SetRefreshToken(User user, RefreshToken newRefreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = newRefreshToken.ExpiresAt
+            };
+            Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+
+            user.RefreshToken = newRefreshToken.Token;
+            user.TokenCreated = newRefreshToken.CreatedAt;
+            user.TokenExpires = newRefreshToken.ExpiresAt;
+
+            return user;
         }
     }
 }
