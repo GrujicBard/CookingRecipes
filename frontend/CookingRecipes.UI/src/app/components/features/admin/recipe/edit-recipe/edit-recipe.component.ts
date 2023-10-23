@@ -52,13 +52,13 @@ export class EditRecipeComponent implements OnInit {
     this.editRecipeSubscription?.unsubscribe();
   }
 
-  editRecipe() {
-    this.displayRecipe.recipeCategories = [];
+  editRecipe(recipe: Recipe) {
+    recipe.recipeCategories = [];
     this.tempCategories.forEach(category => {
-      this.displayRecipe.recipeCategories.push(new RecipeCategory(new Category(category)))
+      recipe.recipeCategories.push(new RecipeCategory(new Category(category)))
     });
 
-    this.editRecipeSubscription = this._recipeService.updateRecipe(this.displayRecipe)
+    this.editRecipeSubscription = this._recipeService.updateRecipe(recipe)
       .subscribe({
         next: () => {
           this._notificationService.openSnackBar("Recipe updated!", "Done");

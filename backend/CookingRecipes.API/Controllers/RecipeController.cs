@@ -143,7 +143,7 @@ namespace ContosoRecipes.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfuly created.");
+            return Ok("Recipe successfuly created.");
         }
 
         [HttpPut("{recipeId}")]

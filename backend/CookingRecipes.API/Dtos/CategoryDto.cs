@@ -4,7 +4,7 @@ namespace CookingRecipes.Dtos
 {
     public class CategoryDto
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public RecipeType RecipeType { get; set; }
     }
 }

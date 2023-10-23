@@ -33,7 +33,7 @@ $bright-beige-palette: (
 );
 
 $cooking-app-primary: mat-palette($bright-beige-palette, 100);
-$cooking-app-accent: mat-palette($mat-blue-gray, 200);
+$cooking-app-accent: mat-palette($mat-blue-gray, 400);
 $cooking-app-warn: mat-palette($mat-red);
 
 $cooking-app-theme: mat-light-theme((

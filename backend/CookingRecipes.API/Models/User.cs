@@ -7,7 +7,6 @@ namespace CookingRecipes.Models
     public class User
     {
         public int? Id { get; set; }
-        [RegularExpression(@"^[a-zA-Z0-9]*$")]
         public string UserName { get; set; } = string.Empty;
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

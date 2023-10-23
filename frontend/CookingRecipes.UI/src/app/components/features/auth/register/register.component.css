@@ -1,0 +1,32 @@
+.auth-div {
+    padding: 0 25vw;
+}
+
+.register-btn {
+    width: 50%;
+}
+
+.login-text {
+    color: rgb(0, 98, 255);
+    font-weight: bold;
+}
+
+.login-link {
+    padding-top: 15px;
+}
+
+.align-center {
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+}
+
+form .material-icons{
+    font-size: 22px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .auth-div {
+        padding: 0 5vw;
+    }
+}

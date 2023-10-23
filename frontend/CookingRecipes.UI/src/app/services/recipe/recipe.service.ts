@@ -27,8 +27,8 @@ export class RecipeService {
     return this.httpClient.get<Recipe[]>(`${this.baseApiUrl}/${this.url}/title/${title}`);
   };
 
-  public addRecipe(recipe: Recipe): Observable<void> {
-    return this.httpClient.post<void>(`${this.baseApiUrl}/${this.url}`, recipe, { responseType: 'text' as 'json' });
+  public addRecipe(recipe: Recipe): Observable<string> {
+    return this.httpClient.post<string>(`${this.baseApiUrl}/${this.url}`, recipe, { responseType: 'text' as 'json' });
   };
 
   public updateRecipe(recipe: RecipeDisplayDto): Observable<void> {

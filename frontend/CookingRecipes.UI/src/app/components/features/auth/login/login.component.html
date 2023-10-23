@@ -1,3 +1,36 @@
-<p>
-  login works!
-</p>
+<div class="main-body">
+  <div class="auth-div">
+    <h2 mat-dialog-title class="header">Login</h2>
+    <mat-divider></mat-divider>
+    <form #logForm="ngForm" [formGroup]="loginForm" (ngSubmit)="login(loginUser)" class="loginForm">
+      <div mat-dialog-content class="content">
+        <div class="row" style="padding-top: 20px;">
+          <mat-form-field appearance="outline">
+            <mat-label>E-Mail</mat-label>
+            <input matInput type="email" formControlName="email"  [(ngModel)]="loginUser.email" required>
+            <mat-error *ngIf="loginForm.controls.email.invalid">Email is required</mat-error>
+            <mat-icon matIconPrefix>email</mat-icon>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" [(ngModel)]="loginUser.password" required>
+            <mat-error *ngIf="loginForm.controls.password.invalid">Password is required</mat-error>
+            <mat-icon matIconPrefix>lock</mat-icon>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div mat-dialog-actions class="action">
+        <div class="align-center">
+          <button mat-raised-button class="login-btn" color="primary" type="submit">Login</button>
+        </div>
+        <div class="align-center reg-link">
+          <a mat-button color="accent" routerLink="/register">Dont have an account? <span class="reg-text">Register</span></a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

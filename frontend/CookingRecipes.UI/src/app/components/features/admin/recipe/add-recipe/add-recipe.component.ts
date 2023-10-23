@@ -59,15 +59,14 @@ export class AddRecipeComponent implements OnInit {
     this._addRecipeSubscription?.unsubscribe();
   }
 
-  addRecipe() {
+  addRecipe(recipe : Recipe) {
     this.tempCategories.forEach(category => {
-      this.createRecipe.recipeCategories.push(new RecipeCategory(new Category(category)))
+      recipe.recipeCategories.push(new RecipeCategory(new Category(category)))
     });
-
-    this._addRecipeSubscription = this._recipeService.addRecipe(this.createRecipe)
+    this._addRecipeSubscription = this._recipeService.addRecipe(recipe)
       .subscribe({
-        next: () => {
-          this._notificationService.openSnackBar("Recipe added!", "Done");
+        next: (res) => {
+          this._notificationService.openSnackBar(res, "Done");
           this._dialogRef.close(true);
         },
         error: (res) => {
