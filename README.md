@@ -11,9 +11,6 @@ Web application about cooking recipes where users can favorite, comment and rate
 ## Backend 
 Backend was made using ASP.NET in Visual Studio 2022. Database used is SQL Server.
 
-TODO:
-* Authentication, Authorization
-
 ## Frontend 
 Frontend is currently being made using VS Code with Angular and Material Design library.
 
