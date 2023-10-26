@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Edit Recipe</h2>
 <mat-divider></mat-divider>
-<form #form="ngForm" (ngSubmit)="editRecipe(displayRecipe)" class="recipeForm">
+<form #form="ngForm" (ngSubmit)="onEditRecipeSubmit(displayRecipe)" class="recipeForm">
   <div mat-dialog-content class="content">
     <div class="row" style="padding-top: 23px;">
       <mat-form-field appearance="outline">

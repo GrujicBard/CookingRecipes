@@ -59,7 +59,7 @@ export class AddRecipeComponent implements OnInit {
     this._addRecipeSubscription?.unsubscribe();
   }
 
-  addRecipe(recipe : Recipe) {
+  onAddRecipeSubmit(recipe : Recipe) {
     this.tempCategories.forEach(category => {
       recipe.recipeCategories.push(new RecipeCategory(new Category(category)))
     });

@@ -45,14 +45,14 @@ export class EditRecipeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadCategories();
+    this.loadCategoriesToEditRecipeForm();
   }
 
   ngOnDestroy() {
     this.editRecipeSubscription?.unsubscribe();
   }
 
-  editRecipe(recipe: Recipe) {
+  onEditRecipeSubmit(recipe: Recipe) {
     recipe.recipeCategories = [];
     this.tempCategories.forEach(category => {
       recipe.recipeCategories.push(new RecipeCategory(new Category(category)))
@@ -86,7 +86,7 @@ export class EditRecipeComponent implements OnInit {
     console.log(this.categoriesToDisplay);
   }
 
-  loadCategories(){
+  loadCategoriesToEditRecipeForm(){
     this.displayRecipe.recipeCategories.forEach(element => {
       if(element.category != null){
         this.tempCategories.push(element.category.recipeType);

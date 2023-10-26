@@ -139,7 +139,7 @@ export class RecipesListComponent implements OnInit {
       });
   }
 
-  deleteRecipe(recipe: Recipe) {
+  openDeleteRecipeDialog(recipe: Recipe) {
     this._dialogService.confirmDialog({
       title: "Delete recipe",
       message: "Are you use you want to delete recipe?",
