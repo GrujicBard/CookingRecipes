@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import User from 'src/app/models/user';
+import User from 'src/app/models/user.model';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { matchValidator } from 'src/helpers/matching.validator';

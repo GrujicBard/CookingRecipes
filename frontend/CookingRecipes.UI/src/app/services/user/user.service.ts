@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import LoginDto from 'src/app/dtos/loginDto';
-import User from 'src/app/models/user';
+import LoginDto from 'src/app/dtos/login.dto';
+import User from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

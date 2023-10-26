@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import Recipe from 'src/app/models/recipe';
+import Recipe from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { AddRecipeComponent } from '../add-recipe/add-recipe.component';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,7 +13,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { DishType } from 'src/app/models/enums/dishType';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
 import { RecipeType } from 'src/app/models/enums/recipeType';
-import RecipeDisplayDto from 'src/app/dtos/recipeDisplayDto';
+import RecipeDisplayDto from 'src/app/dtos/recipe-display.dto';
 
 @Component({
   selector: 'app-recipes-list',
@@ -108,7 +108,7 @@ export class RecipesListComponent implements OnInit {
     });
   }
 
-  applyFilter(filterValue: string) {
+  applyFilterToRecipes(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.recipesDataSource.filter = filterValue;

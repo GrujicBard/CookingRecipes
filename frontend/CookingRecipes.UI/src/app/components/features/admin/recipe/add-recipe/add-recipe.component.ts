@@ -1,14 +1,14 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
-import Recipe from 'src/app/models/recipe';
+import Recipe from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 import { DishType } from 'src/app/models/enums/dishType';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
 import { RecipeType } from 'src/app/models/enums/recipeType';
-import RecipeCategory from 'src/app/models/recipeCategory';
-import Category from 'src/app/models/category';
+import RecipeCategory from 'src/app/models/recipe-category.model';
+import Category from 'src/app/models/category.model';
 
 
 @Component({

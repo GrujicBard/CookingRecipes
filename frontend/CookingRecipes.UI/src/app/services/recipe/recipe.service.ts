@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import Recipe from '../../models/recipe';
+import Recipe from '../../models/recipe.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import RecipeDisplayDto from 'src/app/dtos/recipeDisplayDto';
+import RecipeDisplayDto from 'src/app/dtos/recipe-display.dto';
 
 @Injectable({
   providedIn: 'root'

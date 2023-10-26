@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
 import { DishType } from 'src/app/models/enums/dishType';
 import { RecipeType } from 'src/app/models/enums/recipeType';
-import Recipe from 'src/app/models/recipe';
+import Recipe from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 
 @Component({

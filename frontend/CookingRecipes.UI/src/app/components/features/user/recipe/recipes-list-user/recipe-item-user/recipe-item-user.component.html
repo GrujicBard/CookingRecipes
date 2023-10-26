@@ -1,0 +1,12 @@
+<mat-card class="recipe-card">
+  <img mat-card-image class="element-image" src="../../../../../assets/recipe-images/{{recipe.imageName}}.jpg"
+    [routerLink]="['details',recipe.id]">
+  <mat-card-title [routerLink]="['details',recipe.id]">{{recipe.title}}</mat-card-title>
+  <mat-card-content>
+    <div class="rating">
+      <mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star_border</mat-icon><mat-icon>star_border</mat-icon>
+    </div>
+    <p>4.4</p>
+    <!-- <button mat-button class="right-button"><mat-icon>favorite_border</mat-icon></button> -->
+  </mat-card-content>
+</mat-card>

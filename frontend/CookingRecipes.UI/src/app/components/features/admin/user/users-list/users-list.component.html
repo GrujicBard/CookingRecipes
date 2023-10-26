@@ -1,0 +1,6 @@
+<button mat-raised-button color="primary" (click)="onToggleDetails()">Display Detials</button>
+<p *ngIf="isDisplayed">Secret Password = tuna</p>
+<p *ngFor="let element of buttonClicks; let i = index" [ngClass]="{whiteText : i > 5}"
+  [ngStyle]="{backgroundColor: i > 5 ? 'blue':'transparent'}">
+  {{element}}
+</p>

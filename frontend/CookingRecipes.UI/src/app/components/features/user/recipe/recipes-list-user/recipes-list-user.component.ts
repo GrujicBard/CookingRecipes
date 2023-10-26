@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import Category from 'src/app/models/category';
+import Category from 'src/app/models/category.model';
 import { CuisineType } from 'src/app/models/enums/cuisineType';
 import { DishType } from 'src/app/models/enums/dishType';
 import { RecipeType } from 'src/app/models/enums/recipeType';
-import Recipe from 'src/app/models/recipe';
-import RecipeCategory from 'src/app/models/recipeCategory';
+import Recipe from 'src/app/models/recipe.model';
+import RecipeCategory from 'src/app/models/recipe-category.model';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 
 @Component({
@@ -23,8 +23,7 @@ export class RecipesListUserComponent implements OnInit {
     return isNaN(Number(item));
   });
 
-
-  recipes!: Recipe[];
+  recipes: Recipe[] = [];
   searchValue: string = "";
   recipeType: string = "";
   dishType: string = "";
@@ -52,7 +51,7 @@ export class RecipesListUserComponent implements OnInit {
       });
   }
 
-  onSelect() {
+  onSelectFilter() {
     this.getRecipesByTitle();
   }
 

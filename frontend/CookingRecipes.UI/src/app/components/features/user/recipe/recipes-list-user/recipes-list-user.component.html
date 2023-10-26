@@ -15,7 +15,7 @@
     <div mat-menu-item (click)="$event.stopPropagation()">
       <mat-form-field class="filter-field" appearance="outline">
         <mat-label>Category</mat-label>
-        <mat-select [(ngModel)]="recipeType" (selectionChange)="onSelect()">
+        <mat-select [(ngModel)]="recipeType" (selectionChange)="onSelectFilter()">
           <mat-option>- Any -</mat-option>
           <mat-option *ngFor="let recipeType of recipeTypes" [value]="recipeType">
             {{recipeType}}
@@ -26,7 +26,7 @@
     <div mat-menu-item (click)="$event.stopPropagation()">
       <mat-form-field class="filter-field" appearance="outline">
         <mat-label>Dish Type</mat-label>
-        <mat-select [(ngModel)]="dishType" (selectionChange)="onSelect()">
+        <mat-select [(ngModel)]="dishType" (selectionChange)="onSelectFilter()">
           <mat-option>- Any -</mat-option>
           <mat-option *ngFor="let dishType of dishTypes" [value]="dishType">
             {{dishType}}
@@ -37,7 +37,7 @@
     <div mat-menu-item (click)="$event.stopPropagation()">
       <mat-form-field class="filter-field" appearance="outline">
         <mat-label>Cuisine</mat-label>
-        <mat-select [(ngModel)]="cuisineType" (selectionChange)="onSelect()">
+        <mat-select [(ngModel)]="cuisineType" (selectionChange)="onSelectFilter()">
           <mat-option>- Any -</mat-option>
           <mat-option *ngFor="let cuisineType of cuisineTypes" [value]="cuisineType">
             {{cuisineType}}

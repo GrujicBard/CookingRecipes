@@ -8,6 +8,9 @@
       <span>Recipes</span>
     </button>
     <button mat-menu-item>
+      <span>Shopping List</span>
+    </button>
+    <button mat-menu-item>
       <span>Favorites</span>
     </button>
     <button mat-menu-item>
@@ -17,6 +20,7 @@
   <mat-button-toggle-group class="big-nav">
     <mat-button-toggle checked="true" routerLink="recipes" >Recipes</mat-button-toggle>
     <mat-button-toggle routerLink="favorites">Favorites</mat-button-toggle>
+    <mat-button-toggle >Shopping List</mat-button-toggle>
     <mat-button-toggle routerLink="reviews">Reviews</mat-button-toggle>
   </mat-button-toggle-group>
   <span class="spacer"></span>
@@ -33,7 +37,7 @@
     <button mat-menu-item>
       <span>Reviews</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item routerLink="admin/users">
       <span>Users</span>
     </button>
   </mat-menu>

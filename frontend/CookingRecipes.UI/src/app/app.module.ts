@@ -36,6 +36,8 @@ import { RecipesListUserComponent } from './components/features/user/recipe/reci
 import { RecipeDetailsComponent } from './components/features/user/recipe/recipe-details/recipe-details.component';
 import { RegisterComponent } from './components/features/auth/register/register.component';
 import { LoginComponent } from './components/features/auth/login/login.component';
+import { UsersListComponent } from './components/features/admin/user/users-list/users-list.component';
+import { RecipeItemUserComponent } from './components/features/user/recipe/recipes-list-user/recipe-item-user/recipe-item-user.component';
 
 
 
@@ -52,6 +54,8 @@ import { LoginComponent } from './components/features/auth/login/login.component
     RecipeDetailsComponent,
     RegisterComponent,
     LoginComponent,
+    UsersListComponent,
+    RecipeItemUserComponent,
 
 
   ],

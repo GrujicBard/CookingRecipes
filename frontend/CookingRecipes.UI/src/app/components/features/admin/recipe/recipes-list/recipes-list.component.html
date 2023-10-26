@@ -4,10 +4,9 @@
     <div>
       <mat-form-field class="searchField" appearance="outline">
         <mat-label>Search...</mat-label>
-        <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Ex. Chicken" #input>
+        <input matInput (keyup)="applyFilterToRecipes($any($event.target).value)" placeholder="Ex. Chicken" #input>
       </mat-form-field>
     </div>
-
     <div class="btn-container">
       <button mat-mini-fab color="primary" (click)="openAddRecipeDialog()"><mat-icon>add</mat-icon></button>
     </div>

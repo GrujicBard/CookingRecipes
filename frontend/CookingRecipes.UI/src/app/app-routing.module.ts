@@ -6,6 +6,7 @@ import { RecipesListUserComponent } from './components/features/user/recipe/reci
 import { RecipeDetailsComponent } from './components/features/user/recipe/recipe-details/recipe-details.component';
 import { RegisterComponent } from './components/features/auth/register/register.component';
 import { LoginComponent } from './components/features/auth/login/login.component';
+import { UsersListComponent } from './components/features/admin/user/users-list/users-list.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: "admin/recipes/add",
     component: AddRecipeComponent
+  },
+  {
+    path: "admin/users",
+    component: UsersListComponent
   },
   {
     path: "register",

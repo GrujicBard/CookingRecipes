@@ -1,6 +1,6 @@
 import { CuisineType } from "./enums/cuisineType"
 import { DishType } from "./enums/dishType"
-import RecipeCategory from "./recipeCategory"
+import RecipeCategory from "./recipe-category.model"
 
 export default class Recipe {
     id?: number
