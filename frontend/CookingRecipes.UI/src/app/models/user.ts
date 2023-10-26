@@ -1,8 +1,8 @@
 export default class User {
-    id?: number
-    userName: string
-    email: string
-    password: string
+    id?: number;
+    userName: string | null;
+    email: string | null;
+    password: string | null;
 
     constructor(
         id: number,

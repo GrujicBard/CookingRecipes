@@ -2,37 +2,40 @@
   <div class="auth-div">
     <h2 mat-dialog-title class="header">Register</h2>
     <mat-divider></mat-divider>
-    <form #regForm="ngForm" [formGroup]="registerForm" (ngSubmit)="register(registerUser)" class="registerForm">
+    <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.getRawValue())" class="registerForm">
       <div mat-dialog-content class="content">
         <div class="row" style="padding-top: 20px;">
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
-            <input matInput type="text" id="username" name="username" formControlName="username" [(ngModel)]="registerUser.userName"  required>
-            <mat-error *ngIf="registerForm.controls.username.invalid">{{getUsernameErrorMessage()}}</mat-error>
-            <mat-icon matIconPrefix>account_circle</mat-icon>
+            <input matInput type="text" id="username" name="username" formControlName="userName" required>
+            <mat-error *ngIf="registerForm.controls.userName.invalid">{{getUsernameErrorMessage()}}</mat-error>
+            <mat-icon matIconPrefix color="accent">account_circle</mat-icon>
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>E-Mail</mat-label>
-            <input matInput placeholder="pat@example.com" type="email" formControlName="email" [(ngModel)]="registerUser.email" required>
+            <input matInput placeholder="pat@example.com" type="email" formControlName="email" required>
             <mat-error *ngIf="registerForm.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
-            <mat-icon matIconPrefix>email</mat-icon>
+            <mat-icon matIconPrefix color="accent">email</mat-icon>
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" id="password" name="password" formControlName="password" [(ngModel)]="registerUser.password" required>
+            <input matInput [type]="hide ? 'password' : 'text'" id="password" name="password" formControlName="password" required>
             <mat-error *ngIf="registerForm.controls.password.invalid">{{getPassErrorMessage()}}</mat-error>
-            <mat-icon matIconPrefix>lock</mat-icon>
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-icon matIconPrefix color="accent">lock</mat-icon>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon color="accent">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Password Confirmation</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" id="confirmPass" name="confirmPass" formControlName="confirmPass" required>
+            <input matInput [type]="hide ? 'password' : 'text'" id="confirmPass" name="confirmPass"
+              formControlName="confirmPass" required>
             <mat-error *ngIf="registerForm.controls.confirmPass.invalid">{{getPassConfirmErrorMessage()}}</mat-error>
-            <mat-icon matIconPrefix>lock</mat-icon>
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-icon matIconPrefix color="accent">lock</mat-icon>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon color="accent">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
         </div>
@@ -42,7 +45,8 @@
           <button mat-raised-button class="register-btn" color="primary" type="submit">Register</button>
         </div>
         <div class="align-center login-link">
-          <a mat-button color="accent" routerLink="/login">Already have an account? <span class="login-text">Login</span></a>
+          <a mat-button color="accent" routerLink="/login">Already have an account? <span
+              class="login-text">Login</span></a>
         </div>
       </div>
     </form>

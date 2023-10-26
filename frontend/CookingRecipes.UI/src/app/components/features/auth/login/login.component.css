@@ -3,6 +3,7 @@
 }
 
 .login-btn {
+    margin-top: 10px;
     width: 50%;
 }
 
@@ -21,7 +22,7 @@
     align-items: center;
 }
 
-form .material-icons{
+form .material-icons {
     font-size: 22px;
 }
 

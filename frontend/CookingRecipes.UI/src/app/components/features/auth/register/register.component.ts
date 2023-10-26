@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   }
   hide = true;
   registerForm = new FormGroup({
-    username: new FormControl("",
+    userName: new FormControl("",
       [
         Validators.required,
         Validators.minLength(4),
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
   }
 
   getUsernameErrorMessage() {
-    var username = this.registerForm.controls.username;
+    var username = this.registerForm.controls.userName;
     if (username.hasError("required")) {
       return "Username is required";
     }

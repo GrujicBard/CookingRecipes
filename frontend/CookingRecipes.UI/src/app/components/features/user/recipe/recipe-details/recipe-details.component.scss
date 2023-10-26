@@ -87,7 +87,7 @@ h2 {
 }
 
 .instructions-list mat-list-item span:first-child {
-    color: mat.get-color-from-palette($primary-palette, 700);
+    color: mat.get-color-from-palette($accent-palette);
     font-weight: 500;
 }
 

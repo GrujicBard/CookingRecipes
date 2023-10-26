@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import LoginDto from 'src/app/dtos/loginDto';
-import User from 'src/app/models/user';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
