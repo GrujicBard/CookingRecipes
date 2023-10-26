@@ -1,4 +1,4 @@
-import { RecipeType } from "./enums/recipeType"
+import { RecipeType } from "./enums/recipe.enum"
 
 export default class Category {
     id?: number

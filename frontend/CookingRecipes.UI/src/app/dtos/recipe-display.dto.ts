@@ -1,5 +1,5 @@
-import { CuisineType } from "../models/enums/cuisineType"
-import { DishType } from "../models/enums/dishType"
+import { CuisineType } from "../models/enums/cuisine.enum"
+import { DishType } from "../models/enums/dish.enum"
 
 export default interface RecipeDisplayDto{
     id?: number

@@ -1,5 +1,5 @@
-import { CuisineType } from "./enums/cuisineType"
-import { DishType } from "./enums/dishType"
+import { CuisineType } from "./enums/cuisine.enum"
+import { DishType } from "./enums/dish.enum"
 import RecipeCategory from "./recipe-category.model"
 
 export default class Recipe {

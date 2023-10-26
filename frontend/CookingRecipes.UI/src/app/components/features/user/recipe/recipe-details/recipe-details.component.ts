@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CuisineType } from 'src/app/models/enums/cuisineType';
-import { DishType } from 'src/app/models/enums/dishType';
-import { RecipeType } from 'src/app/models/enums/recipeType';
+import { CuisineType } from 'src/app/models/enums/cuisine.enum';
+import { DishType } from 'src/app/models/enums/dish.enum';
+import { RecipeType } from 'src/app/models/enums/recipe.enum';
 import Recipe from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 

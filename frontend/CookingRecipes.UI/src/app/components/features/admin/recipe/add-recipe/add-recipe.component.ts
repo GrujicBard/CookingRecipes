@@ -4,9 +4,9 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import Recipe from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
-import { DishType } from 'src/app/models/enums/dishType';
-import { CuisineType } from 'src/app/models/enums/cuisineType';
-import { RecipeType } from 'src/app/models/enums/recipeType';
+import { DishType } from 'src/app/models/enums/dish.enum';
+import { CuisineType } from 'src/app/models/enums/cuisine.enum';
+import { RecipeType } from 'src/app/models/enums/recipe.enum';
 import RecipeCategory from 'src/app/models/recipe-category.model';
 import Category from 'src/app/models/category.model';
 

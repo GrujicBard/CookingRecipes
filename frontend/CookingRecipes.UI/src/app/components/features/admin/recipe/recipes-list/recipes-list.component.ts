@@ -10,9 +10,9 @@ import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { NotificationService } from 'src/app/services/core/notifications/notification.service';
 import { DialogService } from 'src/app/services/core/dialogs/dialog.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { DishType } from 'src/app/models/enums/dishType';
-import { CuisineType } from 'src/app/models/enums/cuisineType';
-import { RecipeType } from 'src/app/models/enums/recipeType';
+import { DishType } from 'src/app/models/enums/dish.enum';
+import { CuisineType } from 'src/app/models/enums/cuisine.enum';
+import { RecipeType } from 'src/app/models/enums/recipe.enum';
 import RecipeDisplayDto from 'src/app/dtos/recipe-display.dto';
 
 @Component({
